@@ -6,6 +6,7 @@ public class DagNode {
     private String task;
     private int weight;
     private int startTime;
+    private int proccesorNum;
 
     public DagNode(String task, int weight) {
         this.task = task;
@@ -32,6 +33,14 @@ public class DagNode {
 
     public int getStartTime() {
         return startTime;
+    }
+
+    public int getProccesorNum() {
+        return proccesorNum;
+    }
+
+    public void setProccesorNum(int proccesorNum) {
+        this.proccesorNum = proccesorNum;
     }
 
     public void setStartTime(int startTime) {
