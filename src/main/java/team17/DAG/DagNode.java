@@ -1,57 +1,55 @@
 package team17.DAG;
 
-import java.util.Objects;
-
 public class DagNode {
-    private String task;
-    private int weight;
-    private int startTime;
-    private int proccesorNum;
+    private String _task;
+    private int _weight;
+    private int _startTime;
+    private int _processorNum;
 
     public DagNode(String task, int weight) {
-        this.task = task;
-        this.weight = weight;
+        _task = task;
+        _weight = weight;
     }
 
     @Override
     public boolean equals(Object node) {
-        return this.task.equals(((DagNode)node).getTask());
+        return this._task.equals(((DagNode)node).get_task());
     }
 
     @Override
     public int hashCode() {
-        return task.hashCode();
+        return _task.hashCode();
     }
 
-    public String getTask() {
-        return task;
+    public String get_task() {
+        return _task;
     }
 
-    public int getWeight() {
-        return weight;
+    public int get_weight() {
+        return _weight;
     }
 
-    public int getStartTime() {
-        return startTime;
+    public int get_startTime() {
+        return _startTime;
     }
 
-    public int getProccesorNum() {
-        return proccesorNum;
+    public int get_processorNum() {
+        return _processorNum;
     }
 
-    public void setProccesorNum(int proccesorNum) {
-        this.proccesorNum = proccesorNum;
+    public void set_processorNum(int _processorNum) {
+        this._processorNum = _processorNum;
     }
 
-    public void setStartTime(int startTime) {
-        this.startTime = startTime;
+    public void set_startTime(int _startTime) {
+        this._startTime = _startTime;
     }
 
     @Override
     public String toString() {
         return "{" +
-                "task='" + task + '\'' +
-                ", weight=" + weight +
+                "task='" + _task + '\'' +
+                ", weight=" + _weight +
                 '}';
     }
 }

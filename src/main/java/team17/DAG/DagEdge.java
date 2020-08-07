@@ -1,44 +1,40 @@
 package team17.DAG;
 
 public class DagEdge {
-    DagNode startNode;
-    DagNode endNode;
-    int edgeWeight;
-
-
+    private DagNode _startNode;
+    private DagNode _endNode;
+    private int _edgeWeight;
 
     public DagEdge(DagNode startNode, DagNode endNode, int edgeWeight) {
-        this.startNode = startNode;
-        this.endNode = endNode;
-        this.edgeWeight = edgeWeight;
+        _startNode = startNode;
+        _endNode = endNode;
+        _edgeWeight = edgeWeight;
     }
 
     public DagNode getStartNode() {
-        return startNode;
+        return _startNode;
     }
-    public DagNode getEndNode() {
-        return endNode;
-    }
+    public DagNode getEndNode() { return _endNode; }
 
     public int getEdgeWeight() {
-        return edgeWeight;
+        return _edgeWeight;
     }
 
     @Override
     public boolean equals(Object o) {
-        return startNode.equals(o);
+        return _startNode.equals(o);
     }
 
     @Override
     public int hashCode() {
-        return startNode.hashCode();
+        return _startNode.hashCode();
     }
 
     @Override
     public String toString() {
         return "{" +
-                "endNode='" + endNode + '\'' +
-                ", edgeWeight=" + edgeWeight +
+                "endNode='" + _endNode + '\'' +
+                ", edgeWeight=" + _edgeWeight +
                 '}';
     }
 }
