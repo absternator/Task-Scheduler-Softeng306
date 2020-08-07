@@ -14,7 +14,7 @@ public class Main {
         //This reads the graph from the dot file
         DagGraph graph = new DagGraph();
         HashMap<String,Integer> nodeCounter = new HashMap<>(); //stores nodes passed into graph
-        File file = new File("src/com/company/graph.dot");
+        File file = new File("src/main/java/com/company/graph.dot");
         BufferedReader br = new BufferedReader(new FileReader(file));
         br.readLine();
         String s;

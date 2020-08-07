@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/InputGraph.iml" filepath="$PROJECT_DIR$/InputGraph.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/project-1-peaches.iml" filepath="$PROJECT_DIR$/.idea/modules/project-1-peaches.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/project-1-peaches.main.iml" filepath="$PROJECT_DIR$/.idea/modules/project-1-peaches.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/project-1-peaches.test.iml" filepath="$PROJECT_DIR$/.idea/modules/project-1-peaches.test.iml" />
     </modules>
   </component>
 </project>
