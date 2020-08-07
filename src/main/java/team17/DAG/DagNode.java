@@ -13,7 +13,7 @@ public class DagNode {
 
     @Override
     public boolean equals(Object node) {
-        return this._task.equals(((DagNode)node).get_task());
+        return this._task.equals(((DagNode)node).getTask());
     }
 
     @Override
@@ -21,27 +21,27 @@ public class DagNode {
         return _task.hashCode();
     }
 
-    public String get_task() {
+    public String getTask() {
         return _task;
     }
 
-    public int get_weight() {
+    public int getWeight() {
         return _weight;
     }
 
-    public int get_startTime() {
+    public int getStartTime() {
         return _startTime;
     }
 
-    public int get_processorNum() {
+    public int getProcessorNum() {
         return _processorNum;
     }
 
-    public void set_processorNum(int _processorNum) {
+    public void setProcessorNum(int _processorNum) {
         this._processorNum = _processorNum;
     }
 
-    public void set_startTime(int _startTime) {
+    public void setStartTime(int _startTime) {
         this._startTime = _startTime;
     }
 
