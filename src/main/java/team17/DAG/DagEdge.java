@@ -1,6 +1,4 @@
-package com.company.DAG;
-
-import java.util.Objects;
+package team17.DAG;
 
 public class DagEdge {
     DagNode startNode;

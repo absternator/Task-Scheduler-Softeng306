@@ -1,9 +1,12 @@
-package com.company;
-
-import com.company.DAG.DagGraph;
+package team17;
 
 
-import java.io.*;
+import team17.DAG.DagGraph;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 
 
@@ -14,7 +17,7 @@ public class Main {
         //This reads the graph from the dot file
         DagGraph graph = new DagGraph();
         HashMap<String,Integer> nodeCounter = new HashMap<>(); //stores nodes passed into graph
-        File file = new File("src/main/java/com/company/graph.dot");
+        File file = new File("src/main/resources/graph.dot");
         BufferedReader br = new BufferedReader(new FileReader(file));
         br.readLine();
         String s;
