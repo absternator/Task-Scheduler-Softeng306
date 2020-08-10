@@ -25,14 +25,14 @@ The code must be compatible with java 1.8
 
 ## Algorithm:
 Use A* because it seems easier to implement.
-Data structures:
-Partial solutions:
-Parent node
-Children nodes <>
-Cost up to this point
-Bottom level
-Scheduled tasks
-TODO tasks
-isComplete?
+### Data structures:
+#### Partial solutions:
+* Parent node
+* Children nodes <>
+* Cost up to this point
+* Bottom level
+* Scheduled tasks
+* TODO tasks
+* isComplete?
 
-Java priority queue - OPEN, CLOSED
+* Java priority queue - OPEN, CLOSED
