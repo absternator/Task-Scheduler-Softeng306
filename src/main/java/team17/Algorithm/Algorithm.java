@@ -1,6 +1,7 @@
 package team17.Algorithm;
 
 import java.util.List;
+import java.util.PriorityQueue;
 
 public class Algorithm {
     private int _numProcessors;
@@ -10,6 +11,7 @@ public class Algorithm {
     }
 
     public PartialSolution aStar(){
+        PriorityQueue priorityQueue = new PriorityQueue();
         return null;
     }
 
