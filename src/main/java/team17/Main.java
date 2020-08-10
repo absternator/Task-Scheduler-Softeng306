@@ -1,7 +1,6 @@
 package team17;
 
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
+import org.apache.commons.cli.*;
 import team17.DAG.DagGraph;
 
 import java.io.BufferedReader;
@@ -15,16 +14,19 @@ public class Main {
     public static void main(String[] args){
         String input = "";
         int nProcessors;
+        boolean visualise;
+        int nCores;
+        String output;
 
         Options options = new Options();
 
-        Option parallelCores = new Option("p", true, "use N cores for execution in parallel (default is sequential)");
-        Option visualise = new Option("v", false, "visualise the search");
-        Option output = new Option("o", true, "output file is named OUTPUT (default is INPUT−output.dot)");
+        Option parallelCoresOpt = new Option("p", true, "use N cores for execution in parallel (default is sequential)");
+        Option visualiseOpt = new Option("v", false, "visualise the search");
+        Option outputOpt = new Option("o", true, "output file is named OUTPUT (default is INPUT−output.dot)");
 
-        options.addOption(parallelCores);
-        options.addOption(visualise);
-        options.addOption(output);
+        options.addOption(parallelCoresOpt);
+        options.addOption(visualiseOpt);
+        options.addOption(outputOpt);
 
         //Check first two args, then options
         if(args.length>=2) {
@@ -33,6 +35,26 @@ public class Main {
             }
             nProcessors = Integer.parseInt(args[1]);
             System.out.println("Number of processors: " + nProcessors + " File name: " + input);
+        }
+
+        CommandLineParser parser = new DefaultParser();
+        CommandLine cmd;
+        try {
+            cmd = parser.parse(options, args);
+            visualise = cmd.hasOption("v");
+            String s = "V: " + visualise;
+            // getOptionValue returns null if no argument
+            if(cmd.getOptionValue("p")!=null){
+                nCores = Integer.parseInt(cmd.getOptionValue("p"));
+                s += " P:" + nCores;
+            }
+            output = cmd.getOptionValue("o");
+            if(output!=null){
+                s += " O: " + output;
+            }
+            System.out.println(s);
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
 
         try {
