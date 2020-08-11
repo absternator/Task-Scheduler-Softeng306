@@ -4,16 +4,28 @@ import team17.DAG.Node;
 
 public class ScheduledTask {
     private int _processorNum;
-    private Node _node;
-    private int _startTime;
+    private final Node _node;
+    private final int _startTime;
 
     public ScheduledTask(int processorNum, Node node, int startTime){
-        _processorNum=processorNum;
-        _node=node;
-        _startTime=startTime;
+        _processorNum = processorNum;
+        _node= node;
+        _startTime= startTime;
     }
 
-    public Node getNode() {
+    public int get_startTime() {
+        return _startTime;
+    }
+
+    public int get_processorNum() {
+        return _processorNum;
+    }
+
+    public Node get_node() {
         return _node;
+    }
+
+    public int getFinishTime(){
+        return _startTime + _node.get_weight();
     }
 }

@@ -5,10 +5,12 @@ public class Node {
     private final String _id;
     private final int _weight;
     private int _bottomLevel;
-    private Map<Node,Integer> _incomingEdges = new HashMap<>();
-    private Map<Node,Integer> _outgoingEdges = new HashMap<>();
-    private Set<Node> _dependendicies = new HashSet<>();
-    private Set<Node> _dependants = new HashSet<>();
+    private Map<Node,Integer> _incomingEdges;
+    private Map<Node,Integer> _outgoingEdges;
+    private Set<Node> _dependendicies;
+    private Set<Node> _dependants;
+
+
 
     /**
      * This is a Node constructor which adds weight and id.
@@ -18,6 +20,10 @@ public class Node {
     public Node(String id, int weight){
         _id=id;
         _weight=weight;
+        _incomingEdges = new HashMap<>();
+        _outgoingEdges = new HashMap<>();
+        _dependants = new HashSet<>();
+        _dependendicies = new HashSet<>();
     }
 
     public String get_id() {

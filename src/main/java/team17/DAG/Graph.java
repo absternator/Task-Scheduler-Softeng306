@@ -4,8 +4,13 @@ import java.util.*;
 
 public class Graph {
     private int _numOfProcessors;
-    private List<Node> _nodeList = new ArrayList<>();
-    private Map<String,Node> _nodeLookup = new HashMap<>();
+    private List<Node> _nodeList;
+    private Map<String,Node> _nodeLookup;
+
+    public Graph() {
+        _nodeList = new ArrayList<>();
+        _nodeLookup = new HashMap<>();
+    }
 
     public Node getNode(String id){
         return _nodeLookup.get(id);

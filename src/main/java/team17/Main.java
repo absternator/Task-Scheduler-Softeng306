@@ -17,12 +17,13 @@ public class Main {
         }
     }
 
-    /*
-       This reads the graph from the dot file
+    /**
+     * This reads dot file
+     * @throws IOException Throw IO exception if file does not exist.
      */
     public static void readDotFile() throws IOException {
         Graph graph = new Graph();
-        File file = new File("src/main/resources/graph.dot");
+        File file = new File("src/main/resources/graph2.dot");
         BufferedReader br = new BufferedReader(new FileReader(file));
         br.readLine();
         String line;
@@ -31,6 +32,7 @@ public class Main {
         }
         graph.addFinishNode();
         graph.setBottomLevel();
+        graph.set_numOfProcessors(2); // Test : number of processors to run on
         System.out.println(graph);
     }
 
