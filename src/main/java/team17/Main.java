@@ -1,5 +1,6 @@
 package team17;
 
+import team17.Algorithm.AlgorithmAStar;
 import team17.DAG.Graph;
 
 import java.io.BufferedReader;
@@ -32,8 +33,10 @@ public class Main {
         }
         graph.addFinishNode();
         graph.setBottomLevel();
-        graph.set_numOfProcessors(2); // Test : number of processors to run on
+        graph.set_numOfProcessors(2);// Test : number of processors to run on
         System.out.println(graph);
+        AlgorithmAStar aStar = new AlgorithmAStar(graph);
+        aStar.getOptimalSchedule();
     }
 
 }

@@ -35,20 +35,17 @@ public class PartialSolution  implements Iterable<ScheduledTask> {
         return _scheduledTask;
     }
 
-    public static PartialSolution setRoot(Graph graph){
-        return new PartialSolution(null,graph,null);
-    }
-
     /**
      * This method returns the underestimate cost to finish schedule from a partial schedule
      * @return The underestimate cost to finish the schedule
      */
     public int getCostUnderestimate(){
-        AtomicInteger costUnderestimate = new AtomicInteger();
-        this.forEach(scheduledTask -> {
-            costUnderestimate.set(Math.max(costUnderestimate.get(), scheduledTask.get_startTime() + scheduledTask.get_node().get_bottomLevel()));
-        });
-        return costUnderestimate.get();
+        int cosUnderestimate = 0;
+        for (ScheduledTask scheduledTask: this) {
+            cosUnderestimate = Math.max(cosUnderestimate, scheduledTask.get_startTime() + scheduledTask.get_node().get_bottomLevel());
+
+        }
+        return cosUnderestimate;
     }
 
     /**
@@ -103,14 +100,17 @@ public class PartialSolution  implements Iterable<ScheduledTask> {
      * @return Returns true if full schedule, else false
      */
     public boolean isCompleteSchedule(){
-        return this.get_scheduledTask().get_node().get_id().equals("end");
+        if(this.get_scheduledTask() != null) {
+            return this.get_scheduledTask().get_node().get_id().equals("end");
+        }
+        else return false;
     }
 
     /**
      * This constructs the full schedule
      * @return Returns the full schedule
      */
-    public List<ScheduledTask> scheduledTaskList(){
+    public List<ScheduledTask> fullSchedule(){
         List<ScheduledTask> scheduledTaskList = new LinkedList<>();
         this.forEach(scheduledTaskList::add);
         return scheduledTaskList;
