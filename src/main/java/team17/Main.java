@@ -34,7 +34,6 @@ public class Main {
                 input = args[0];
             }
             nProcessors = Integer.parseInt(args[1]);
-            System.out.println("Number of processors: " + nProcessors + " File name: " + input);
         }
 
         CommandLineParser parser = new DefaultParser();
@@ -42,17 +41,13 @@ public class Main {
         try {
             cmd = parser.parse(options, args);
             visualise = cmd.hasOption("v");
-            String s = "V: " + visualise;
             // getOptionValue returns null if no argument
             if(cmd.getOptionValue("p")!=null){
                 nCores = Integer.parseInt(cmd.getOptionValue("p"));
-                s += " P:" + nCores;
             }
             output = cmd.getOptionValue("o");
             if(output!=null){
-                s += " O: " + output;
             }
-            System.out.println(s);
         } catch (ParseException e) {
             e.printStackTrace();
         }
