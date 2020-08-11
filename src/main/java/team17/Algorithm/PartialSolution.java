@@ -4,18 +4,16 @@ import team17.DAG.Graph;
 import team17.DAG.Node;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
-public class PartialSolution  implements Iterable<ScheduledTask> {
-    private PartialSolution _parent;
-    private Graph _graph;
-    private ScheduledTask _scheduledTask;
+public class PartialSolution  implements Iterable<ScheduledTask>,Comparable<PartialSolution> {
+    private final PartialSolution _parent;
+    private final Graph _graph;
+    private final ScheduledTask _scheduledTask;
 
     public PartialSolution(PartialSolution parent, Graph graph, ScheduledTask scheduledTask) {
-        _parent = _parent;
+        _parent = parent;
         _graph = graph;
         _scheduledTask = scheduledTask;
-
 
     }
 
@@ -43,7 +41,6 @@ public class PartialSolution  implements Iterable<ScheduledTask> {
         int cosUnderestimate = 0;
         for (ScheduledTask scheduledTask: this) {
             cosUnderestimate = Math.max(cosUnderestimate, scheduledTask.get_startTime() + scheduledTask.get_node().get_bottomLevel());
-
         }
         return cosUnderestimate;
     }
@@ -55,15 +52,25 @@ public class PartialSolution  implements Iterable<ScheduledTask> {
     public Set<PartialSolution> expandSearch(){
         Set<PartialSolution> children = new HashSet<>();
 
+        Set<Node> nodesInSchedule = new HashSet<>();
+        for(ScheduledTask scheduledTask : this) {
+            nodesInSchedule.add(scheduledTask.get_node());
+        }
+
         AddNode: for (Node node : _graph.get_NodeList()) {
-            // This is if node is already in schedule or all dependencies have not been added
-            for (ScheduledTask task : this) {
-                if (task.get_node().equals(node) || !node.get_dependendicies().contains(task.get_node())) {
+            // If node is already in schedule
+           if(nodesInSchedule.contains(node)){
+               continue;
+           }
+           //if dependency not in schedule
+            for (Node dependency : node.get_dependendicies()) {
+                if(!nodesInSchedule.contains(dependency)){
                     continue AddNode;
                 }
             }
+
             //Node can be placed on Processor now
-            for (int i = 0; i < _graph.get_numOfProcessors(); i++) {
+            for (int i = 1; i < _graph.get_numOfProcessors() + 1; i++) {
                 int eligibleStartime = 0;
                 // Start time based on  last task on this processor
                 for (ScheduledTask scheduledTask: this) {
@@ -84,7 +91,7 @@ public class PartialSolution  implements Iterable<ScheduledTask> {
                             }
                         }
                         if (!dependantFound){
-                            break ;
+                            continue ;
                         }
                         eligibleStartime = Math.max(eligibleStartime,scheduledTask.getFinishTime() + communicationTime);
                     }
@@ -112,18 +119,21 @@ public class PartialSolution  implements Iterable<ScheduledTask> {
      */
     public List<ScheduledTask> fullSchedule(){
         List<ScheduledTask> scheduledTaskList = new LinkedList<>();
-        this.forEach(scheduledTaskList::add);
+        for (ScheduledTask task: this) {
+            if(!task.get_node().get_id().equals("end")){
+                scheduledTaskList.add(task);
+            }
+        }
         return scheduledTaskList;
     }
-
     /**
      * This iterator iterates from the current partial solution to the root partial solution to get all tasks
      * @return This returns new Iterator instance.
      */
     @Override
     public Iterator<ScheduledTask> iterator() {
-        Iterator<ScheduledTask> it = new Iterator<>() {
-            PartialSolution current = PartialSolution.this;
+        return new Iterator<>() {
+            private PartialSolution current = PartialSolution.this;
 
             @Override
             public boolean hasNext() {
@@ -133,11 +143,33 @@ public class PartialSolution  implements Iterable<ScheduledTask> {
             @Override
             public ScheduledTask next() {
                 ScheduledTask thisTask = current.get_scheduledTask();
-                current = current.get_parent();
+                if(current.get_parent() != null) {
+                    current = current.get_parent();
+                }
                 return thisTask;
             }
         };
-        return it;
     }
 
+    @Override
+    public int compareTo(PartialSolution other) {
+        return this.getCostUnderestimate() - other.getCostUnderestimate();
+    }
+// TODO: 12/08/20 come back and do equals method & hashcode !!!! how?
+
+//    @Override
+//    public boolean equals(Object other) {
+//        for (ScheduledTask scheduledTask : this) {
+//            if(!scheduledTask.equals(other)){
+//                return false;
+//            }
+//        }
+//
+//        return true;
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(_parent, _graph, _scheduledTask);
+//    }
 }

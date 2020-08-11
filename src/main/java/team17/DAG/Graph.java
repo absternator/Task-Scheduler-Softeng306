@@ -44,7 +44,7 @@ public class Graph {
         Node fromNode = _nodeLookup.get(from);
         Node toNode = _nodeLookup.get(to);
 
-        fromNode.set_outgoingEdges(toNode,edgeWeight);
+
         fromNode.set_dependants(toNode);
 
         toNode.set_incomingEdges(fromNode,edgeWeight);
@@ -55,8 +55,7 @@ public class Graph {
         _nodeList.add(finish);
         _nodeLookup.put("end",finish);
         for (Node node: _nodeList) {
-            if(node.get_outgoingEdges().size() == 0 && !node.equals(finish)){
-               node.set_outgoingEdges(finish,0);
+            if(node.get_dependants().size() == 0 && !node.equals(finish)){
                node.set_dependants(finish);
                finish.set_incomingEdges(node,0);
                finish.set_dependendicies(node);

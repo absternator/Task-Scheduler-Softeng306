@@ -13,25 +13,28 @@ public class AlgorithmAStar {
         _root = new PartialSolution(null,graph,null);
     }
 
+    /**
+     * This is the actual A* Algorithm that returns the optimal schedule
+     * @return The full Schedule which is the optimal solution
+     */
     public List<ScheduledTask> getOptimalSchedule(){
-
-        Queue<PartialSolution> OPEN = new PriorityQueue<>(Comparator.comparingInt(PartialSolution::getCostUnderestimate));
+        Queue<PartialSolution> OPEN = new PriorityQueue<>();
         List<PartialSolution> CLOSED = new ArrayList<>();
         OPEN.add(_root);
-        if(!OPEN.isEmpty()){
+        while(!OPEN.isEmpty()){
             PartialSolution partialSolution = OPEN.poll();
             CLOSED.add(partialSolution);
             if(partialSolution.isCompleteSchedule()){
-                System.out.println(partialSolution.isCompleteSchedule());
                 return partialSolution.fullSchedule();
-
             }
             Set<PartialSolution> children = partialSolution.expandSearch();
-            for (PartialSolution child: children) {
-                if (!CLOSED.contains(child)){
-                    OPEN.offer(child);
-                }
-            }
+            OPEN.addAll(children);
+            // TODO: 12/08/20 Need to implement partial solution equal to use 
+//            for (PartialSolution child : children) {
+//                if (!CLOSED.contains(child)){
+//                    OPEN.offer(child);
+//                }
+//            }
         }
 
         return null;

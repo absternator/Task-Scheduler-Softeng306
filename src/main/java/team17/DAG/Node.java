@@ -6,7 +6,6 @@ public class Node {
     private final int _weight;
     private int _bottomLevel;
     private Map<Node,Integer> _incomingEdges;
-    private Map<Node,Integer> _outgoingEdges;
     private Set<Node> _dependendicies;
     private Set<Node> _dependants;
 
@@ -21,7 +20,6 @@ public class Node {
         _id=id;
         _weight=weight;
         _incomingEdges = new HashMap<>();
-        _outgoingEdges = new HashMap<>();
         _dependants = new HashSet<>();
         _dependendicies = new HashSet<>();
     }
@@ -42,9 +40,7 @@ public class Node {
         return _incomingEdges;
     }
 
-    public Map<Node, Integer> get_outgoingEdges() {
-        return _outgoingEdges;
-    }
+
 
     public Set<Node> get_dependendicies() {
         return _dependendicies;
@@ -62,9 +58,6 @@ public class Node {
         _incomingEdges.put(edge,edgeWeight);
     }
 
-    public void set_outgoingEdges(Node edge, int edgeWeight) {
-        _outgoingEdges.put(edge,edgeWeight);
-    }
 
     public void set_dependendicies(Node dependency) {
         _dependendicies.add(dependency);
@@ -88,7 +81,7 @@ public class Node {
     public String toString() {
         return "Node{" +
                 "_id='" + _id + '\'' +
-                "," + _bottomLevel ;
+                ","  ;
     }
 
 }
