@@ -3,7 +3,7 @@ digraph "example" {
     b         [Weight=3];
     a -> c    [Weight=2];
     c         [Weight=1];
-    b -> e    [Weight=2];
     d         [Weight=3];
     e         [Weight=1];
+    b -> e    [Weight=2];
 }
