@@ -28,7 +28,7 @@ public class Main {
      */
     public static void readDotFile() throws IOException {
         Graph graph = new Graph();
-        File file = new File("src/main/resources/graph.dot");
+        File file = new File("src/main/resources/graph2.dot");
         BufferedReader br = new BufferedReader(new FileReader(file));
         br.readLine();
         String line;
