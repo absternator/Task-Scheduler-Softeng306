@@ -6,7 +6,7 @@ public class Node {
     private final int _weight;
     private int _bottomLevel;
     private Map<Node,Integer> _incomingEdges;
-    private Set<Node> _dependendicies;
+    private Set<Node> _dependencies;
     private Set<Node> _dependants;
 
 
@@ -21,55 +21,55 @@ public class Node {
         _weight=weight;
         _incomingEdges = new HashMap<>();
         _dependants = new HashSet<>();
-        _dependendicies = new HashSet<>();
+        _dependencies = new HashSet<>();
     }
 
-    public String get_id() {
+    public String getId() {
         return _id;
     }
 
-    public int get_weight() {
+    public int getWeight() {
         return _weight;
     }
 
-    public int get_bottomLevel() {
+    public int getBottomLevel() {
         return _bottomLevel;
     }
 
-    public Map<Node, Integer> get_incomingEdges() {
+    public Map<Node, Integer> getIncomingEdges() {
         return _incomingEdges;
     }
 
 
 
-    public Set<Node> get_dependendicies() {
-        return _dependendicies;
+    public Set<Node> getDependencies() {
+        return _dependencies;
     }
 
-    public Set<Node> get_dependants() {
+    public Set<Node> getDependants() {
         return _dependants;
     }
 
-    public void set_bottomLevel(int _bottomLevel) {
+    public void setBottomLevel(int _bottomLevel) {
         this._bottomLevel = _bottomLevel;
     }
 
-    public void set_incomingEdges(Node edge, int edgeWeight) {
+    public void setIncomingEdges(Node edge, int edgeWeight) {
         _incomingEdges.put(edge,edgeWeight);
     }
 
 
-    public void set_dependendicies(Node dependency) {
-        _dependendicies.add(dependency);
+    public void setDependencies(Node dependency) {
+        _dependencies.add(dependency);
     }
 
-    public void set_dependants(Node dependant) {
+    public void setDependants(Node dependant) {
         _dependants.add(dependant);
     }
 
     @Override
     public boolean equals(Object other) {
-        return _id.equals(((Node) other).get_id());
+        return _id.equals(((Node) other).getId());
     }
 
     @Override

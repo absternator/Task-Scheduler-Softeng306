@@ -1,7 +1,6 @@
 package team17;
 
 import team17.Algorithm.AlgorithmAStar;
-import team17.Algorithm.PartialSolution;
 import team17.Algorithm.ScheduledTask;
 import team17.DAG.Graph;
 
@@ -10,7 +9,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 
 public class Main {
 
@@ -37,7 +35,7 @@ public class Main {
         }
         graph.addFinishNode();
         graph.setBottomLevel();
-        graph.set_numOfProcessors(2);// Test : number of processors to run on
+        graph.setNumOfProcessors(2);// Test : number of processors to run on
         System.out.println(graph);
         AlgorithmAStar aStar = new AlgorithmAStar(graph);
         List<ScheduledTask> schedule = aStar.getOptimalSchedule(); // Returns list of Schedule including "end"

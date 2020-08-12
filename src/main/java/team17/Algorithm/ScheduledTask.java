@@ -15,20 +15,20 @@ public class ScheduledTask {
         _startTime= startTime;
     }
 
-    public int get_startTime() {
+    public int getStartTime() {
         return _startTime;
     }
 
-    public int get_processorNum() {
+    public int getProcessorNum() {
         return _processorNum;
     }
 
-    public Node get_node() {
+    public Node getNode() {
         return _node;
     }
 
     public int getFinishTime(){
-        return _startTime + _node.get_weight();
+        return _startTime + _node.getWeight();
     }
 
     @Override
@@ -50,7 +50,7 @@ public class ScheduledTask {
     public String toString() {
         return "{" +
                 "_processorNum=" + _processorNum +
-                ", _node=" + _node.get_id() +
+                ", _node=" + _node.getId() +
                 ", _startTime=" + _startTime +
                 '}';
     }

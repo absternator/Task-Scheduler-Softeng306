@@ -21,15 +21,15 @@ public class PartialSolution  implements Iterable<ScheduledTask>,Comparable<Part
      * This method gets this instances parent
      * @return  Parent partial Solution
      */
-    public PartialSolution get_parent() {
+    public PartialSolution getParent() {
         return _parent;
     }
 
-    public Graph get_graph() {
+    public Graph getGraph() {
         return _graph;
     }
 
-    public ScheduledTask get_scheduledTask() {
+    public ScheduledTask getScheduledTask() {
         return _scheduledTask;
     }
 
@@ -38,11 +38,11 @@ public class PartialSolution  implements Iterable<ScheduledTask>,Comparable<Part
      * @return The underestimate cost to finish the schedule
      */
     public int getCostUnderestimate(){
-        int cosUnderestimate = 0;
+        int costUnderestimate = 0;
         for (ScheduledTask scheduledTask: this) {
-            cosUnderestimate = Math.max(cosUnderestimate, scheduledTask.get_startTime() + scheduledTask.get_node().get_bottomLevel());
+            costUnderestimate = Math.max(costUnderestimate, scheduledTask.getStartTime() + scheduledTask.getNode().getBottomLevel());
         }
-        return cosUnderestimate;
+        return costUnderestimate;
     }
 
     /**
@@ -54,49 +54,49 @@ public class PartialSolution  implements Iterable<ScheduledTask>,Comparable<Part
 
         Set<Node> nodesInSchedule = new HashSet<>();
         for(ScheduledTask scheduledTask : this) {
-            nodesInSchedule.add(scheduledTask.get_node());
+            nodesInSchedule.add(scheduledTask.getNode());
         }
 
-        AddNode: for (Node node : _graph.get_NodeList()) {
+        AddNode: for (Node node : _graph.getNodeList()) {
             // If node is already in schedule
            if(nodesInSchedule.contains(node)){
                continue;
            }
            //if dependency not in schedule
-            for (Node dependency : node.get_dependendicies()) {
+            for (Node dependency : node.getDependencies()) {
                 if(!nodesInSchedule.contains(dependency)){
                     continue AddNode;
                 }
             }
 
             //Node can be placed on Processor now
-            for (int i = 1; i < _graph.get_numOfProcessors() + 1; i++) {
-                int eligibleStartime = 0;
+            for (int i = 1; i < _graph.getNumOfProcessors() + 1; i++) {
+                int eligibleStartTime = 0;
                 // Start time based on  last task on this processor
                 for (ScheduledTask scheduledTask: this) {
-                    if(scheduledTask.get_processorNum() == i){
-                        eligibleStartime = scheduledTask.getFinishTime();
+                    if(scheduledTask.getProcessorNum() == i){
+                        eligibleStartTime = scheduledTask.getFinishTime();
                         break;
                     }
                 }
                 //Start time based on dependencies on  OtherProcessors
                 for (ScheduledTask scheduledTask : this) {
-                    if(scheduledTask.get_processorNum() != i){
+                    if(scheduledTask.getProcessorNum() != i){
                         boolean dependantFound = false;
                         int communicationTime = 0;
-                        for (Node edge: node.get_incomingEdges().keySet()) {
-                            if(edge.equals(scheduledTask.get_node())){
+                        for (Node edge: node.getIncomingEdges().keySet()) {
+                            if(edge.equals(scheduledTask.getNode())){
                                 dependantFound = true;
-                                communicationTime = node.get_incomingEdges().get(edge);
+                                communicationTime = node.getIncomingEdges().get(edge);
                             }
                         }
                         if (!dependantFound){
                             continue ;
                         }
-                        eligibleStartime = Math.max(eligibleStartime,scheduledTask.getFinishTime() + communicationTime);
+                        eligibleStartTime = Math.max(eligibleStartTime,scheduledTask.getFinishTime() + communicationTime);
                     }
                 }
-                children.add(new PartialSolution(this,_graph,new ScheduledTask(i,node, eligibleStartime)));
+                children.add(new PartialSolution(this,_graph,new ScheduledTask(i,node, eligibleStartTime)));
             }
         }
         return children;
@@ -107,8 +107,8 @@ public class PartialSolution  implements Iterable<ScheduledTask>,Comparable<Part
      * @return Returns true if full schedule, else false
      */
     public boolean isCompleteSchedule(){
-        if(this.get_scheduledTask() != null) {
-            return this.get_scheduledTask().get_node().get_id().equals("end");
+        if(this.getScheduledTask() != null) {
+            return this.getScheduledTask().getNode().getId().equals("end");
         }
         else return false;
     }
@@ -120,7 +120,7 @@ public class PartialSolution  implements Iterable<ScheduledTask>,Comparable<Part
     public List<ScheduledTask> fullSchedule(){
         List<ScheduledTask> scheduledTaskList = new LinkedList<>();
         for (ScheduledTask task: this) {
-            if(!task.get_node().get_id().equals("end")){
+            if(!task.getNode().getId().equals("end")){
                 scheduledTaskList.add(task);
             }
         }
@@ -137,14 +137,14 @@ public class PartialSolution  implements Iterable<ScheduledTask>,Comparable<Part
 
             @Override
             public boolean hasNext() {
-                return current.get_scheduledTask() != null;
+                return current.getScheduledTask() != null;
             }
 
             @Override
             public ScheduledTask next() {
-                ScheduledTask thisTask = current.get_scheduledTask();
-                if(current.get_parent() != null) {
-                    current = current.get_parent();
+                ScheduledTask thisTask = current.getScheduledTask();
+                if(current.getParent() != null) {
+                    current = current.getParent();
                 }
                 return thisTask;
             }

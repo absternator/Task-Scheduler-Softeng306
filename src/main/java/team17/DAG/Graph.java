@@ -16,11 +16,11 @@ public class Graph {
         return _nodeLookup.get(id);
     }
 
-    public int get_numOfProcessors() {
+    public int getNumOfProcessors() {
         return _numOfProcessors;
     }
 
-    public List<Node> get_NodeList() {
+    public List<Node> getNodeList() {
         return _nodeList;
     }
 
@@ -28,7 +28,7 @@ public class Graph {
         return _nodeLookup;
     }
 
-    public void set_numOfProcessors(int numOfProcessors) {
+    public void setNumOfProcessors(int numOfProcessors) {
         _numOfProcessors = numOfProcessors;
     }
     public void addNode(String id,int weight){
@@ -45,20 +45,20 @@ public class Graph {
         Node toNode = _nodeLookup.get(to);
 
 
-        fromNode.set_dependants(toNode);
+        fromNode.setDependants(toNode);
 
-        toNode.set_incomingEdges(fromNode,edgeWeight);
-        toNode.set_dependendicies(fromNode);
+        toNode.setIncomingEdges(fromNode,edgeWeight);
+        toNode.setDependencies(fromNode);
     }
     public void addFinishNode(){
         Node finish = new Node("end",0);
         _nodeList.add(finish);
         _nodeLookup.put("end",finish);
         for (Node node: _nodeList) {
-            if(node.get_dependants().size() == 0 && !node.equals(finish)){
-               node.set_dependants(finish);
-               finish.set_incomingEdges(node,0);
-               finish.set_dependendicies(node);
+            if(node.getDependants().size() == 0 && !node.equals(finish)){
+               node.setDependants(finish);
+               finish.setIncomingEdges(node,0);
+               finish.setDependencies(node);
             }
         }
     }
@@ -97,14 +97,14 @@ public class Graph {
         while (!remaining.isEmpty()){
             for (Iterator<Node> it = remaining.descendingIterator(); it.hasNext();){
                 Node node = it.next();
-                if(completed.containsAll(node.get_dependants())){
+                if(completed.containsAll(node.getDependants())){
                     int bottomLevel = 0;
-                    for (Node task : node.get_dependants()) {
-                        if(task.get_bottomLevel() > bottomLevel){
-                            bottomLevel = task.get_bottomLevel();
+                    for (Node task : node.getDependants()) {
+                        if(task.getBottomLevel() > bottomLevel){
+                            bottomLevel = task.getBottomLevel();
                         }
                     }
-                    node.set_bottomLevel(bottomLevel + node.get_weight());
+                    node.setBottomLevel(bottomLevel + node.getWeight());
                     completed.add(node);
                     it.remove();
                     progress = true;
