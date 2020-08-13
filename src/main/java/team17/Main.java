@@ -1,7 +1,7 @@
 package team17;
 
 import team17.Algorithm.AlgorithmAStar;
-import team17.Algorithm.PartialSolution;
+
 import team17.Algorithm.ScheduledTask;
 import team17.DAG.Graph;
 
@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
+
 
 public class Main {
 
