@@ -4,8 +4,11 @@ import team17.DAG.Node;
 
 import java.util.Objects;
 
+/**
+ * This Represents each task scheduled on a processor.
+ */
 public class ScheduledTask {
-    private int _processorNum;
+    private final int _processorNum;
     private final Node _node;
     private final int _startTime;
 
@@ -15,26 +18,30 @@ public class ScheduledTask {
         _startTime= startTime;
     }
 
-    public int get_startTime() {
+    public int getStartTime() {
         return _startTime;
     }
 
-    public int get_processorNum() {
+    public int getProcessorNum() {
         return _processorNum;
     }
 
-    public Node get_node() {
+    public Node getNode() {
         return _node;
     }
 
     public int getFinishTime(){
-        return _startTime + _node.get_weight();
+        return _startTime + _node.getWeight();
     }
 
     @Override
     public boolean equals(Object other) {
-        if (this == other) return true;
-        if (other == null || getClass() != other.getClass()) return false;
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
         ScheduledTask that = (ScheduledTask) other;
         return _processorNum == that._processorNum &&
                 _startTime == that._startTime &&
@@ -50,7 +57,7 @@ public class ScheduledTask {
     public String toString() {
         return "{" +
                 "_processorNum=" + _processorNum +
-                ", _node=" + _node.get_id() +
+                ", _node=" + _node.getId() +
                 ", _startTime=" + _startTime +
                 '}';
     }

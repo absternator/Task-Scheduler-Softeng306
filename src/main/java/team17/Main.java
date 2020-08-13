@@ -40,7 +40,7 @@ public class Main {
         graph.set_numOfProcessors(2);// Test : number of processors to run on
         System.out.println(graph);
         AlgorithmAStar aStar = new AlgorithmAStar(graph);
-        List<ScheduledTask> schedule = aStar.getOptimalSchedule(); // Returns list of Schedule including "end"
+        List<ScheduledTask> schedule = aStar.getOptimalSchedule(); // Returns list of Schedule
         System.out.println(schedule);
     }
 

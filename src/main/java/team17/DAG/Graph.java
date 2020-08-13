@@ -2,8 +2,11 @@ package team17.DAG;
 
 import java.util.*;
 
+/**
+ * This represents the input dot file in a graph to be used to schedule.
+ */
 public class Graph {
-    private int _numOfProcessors;
+    private int _numOfProcessors; // TODO: 12/08/20 relocate if needed
     private List<Node> _nodeList;
     private Map<String,Node> _nodeLookup;
 
@@ -16,11 +19,11 @@ public class Graph {
         return _nodeLookup.get(id);
     }
 
-    public int get_numOfProcessors() {
+    public int getNumOfProcessors() {
         return _numOfProcessors;
     }
 
-    public List<Node> get_NodeList() {
+    public List<Node> getNodeList() {
         return _nodeList;
     }
 
@@ -31,12 +34,26 @@ public class Graph {
     public void set_numOfProcessors(int numOfProcessors) {
         _numOfProcessors = numOfProcessors;
     }
+
+    /**
+     * This just adds node to graph
+     * @param id the id of node to be added
+     * @param weight weight of node to be added
+     */
     public void addNode(String id,int weight){
         Node node = new Node(id,weight);
         _nodeList.add(node);
         _nodeLookup.put(id, node);
 
     }
+
+    /**
+     * This adds adges from one task to another, whilst setting up dependencies.
+     * @param from Task from in string format
+     * @param to Task to task in string format
+     * @param edgeWeight Communication time from 2 tasks
+     * @throws Exception Thrown if task not in graph already and edge is tried to be added.
+     */
     public void addEdge(String from,String to, int edgeWeight) throws Exception {
         if(!_nodeLookup.containsKey(from) || !_nodeLookup.containsKey(to)){
             throw new Exception("ERROR: Node has to be instantiated before adding edge!");
@@ -45,20 +62,20 @@ public class Graph {
         Node toNode = _nodeLookup.get(to);
 
 
-        fromNode.set_dependants(toNode);
+        fromNode.setDependants(toNode);
 
-        toNode.set_incomingEdges(fromNode,edgeWeight);
-        toNode.set_dependendicies(fromNode);
+        toNode.setIncomingEdges(fromNode,edgeWeight);
+        toNode.setDependencies(fromNode);
     }
     public void addFinishNode(){
         Node finish = new Node("end",0);
         _nodeList.add(finish);
         _nodeLookup.put("end",finish);
         for (Node node: _nodeList) {
-            if(node.get_dependants().size() == 0 && !node.equals(finish)){
-               node.set_dependants(finish);
-               finish.set_incomingEdges(node,0);
-               finish.set_dependendicies(node);
+            if(node.getDependants().size() == 0 && !node.equals(finish)){
+               node.setDependants(finish);
+               finish.setIncomingEdges(node,0);
+               finish.setDependencies(node);
             }
         }
     }
@@ -70,6 +87,11 @@ public class Graph {
                 ", _nodeList=" + _nodeList +
                 '}';
     }
+
+    /**
+     * This parses the input dot file and adds tasks to graph.
+     * @param line Each line of the dot file is passed in.
+     */
     public void addGraph(String line){
         line = line.replace("Weight", "").replaceAll("[^A-Za-z0-9]", "");
         String[] array = line.split("");
@@ -90,6 +112,10 @@ public class Graph {
             }
         }
     }
+
+    /**
+     * This sets the bottoom level for each task. Will be used as hueristic for algorithm.
+     */
     public void setBottomLevel(){
         boolean progress = false;
         HashSet<Node> completed = new HashSet<>();
@@ -97,14 +123,14 @@ public class Graph {
         while (!remaining.isEmpty()){
             for (Iterator<Node> it = remaining.descendingIterator(); it.hasNext();){
                 Node node = it.next();
-                if(completed.containsAll(node.get_dependants())){
+                if(completed.containsAll(node.getDependants())){
                     int bottomLevel = 0;
-                    for (Node task : node.get_dependants()) {
-                        if(task.get_bottomLevel() > bottomLevel){
-                            bottomLevel = task.get_bottomLevel();
+                    for (Node task : node.getDependants()) {
+                        if(task.getBottomLevel() > bottomLevel){
+                            bottomLevel = task.getBottomLevel();
                         }
                     }
-                    node.set_bottomLevel(bottomLevel + node.get_weight());
+                    node.setBottomLevel(bottomLevel + node.getWeight());
                     completed.add(node);
                     it.remove();
                     progress = true;

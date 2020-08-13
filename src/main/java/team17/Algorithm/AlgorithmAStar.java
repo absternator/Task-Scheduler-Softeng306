@@ -6,10 +6,8 @@ import java.util.*;
 
 public class AlgorithmAStar {
     private final PartialSolution _root;
-    private Graph _graph;
 
     public AlgorithmAStar(Graph graph) {
-        _graph = graph;
         _root = new PartialSolution(null,graph,null);
     }
 

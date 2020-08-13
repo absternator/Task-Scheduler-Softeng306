@@ -5,9 +5,12 @@ import team17.DAG.Node;
 
 import java.util.*;
 
+/**
+ * This represents each partial solution created for the state space search.
+ */
 public class PartialSolution  implements Iterable<ScheduledTask>,Comparable<PartialSolution> {
     private final PartialSolution _parent;
-    private final Graph _graph;
+    private final Graph _graph; // TODO: 12/08/20 not sure if we need can we move? 
     private final ScheduledTask _scheduledTask;
 
     public PartialSolution(PartialSolution parent, Graph graph, ScheduledTask scheduledTask) {
@@ -21,15 +24,14 @@ public class PartialSolution  implements Iterable<ScheduledTask>,Comparable<Part
      * This method gets this instances parent
      * @return  Parent partial Solution
      */
-    public PartialSolution get_parent() {
+    public PartialSolution getParent() {
         return _parent;
     }
 
-    public Graph get_graph() {
+    public Graph getGraph() {
         return _graph;
     }
-
-    public ScheduledTask get_scheduledTask() {
+    public ScheduledTask getScheduledTask() {
         return _scheduledTask;
     }
 
@@ -38,11 +40,11 @@ public class PartialSolution  implements Iterable<ScheduledTask>,Comparable<Part
      * @return The underestimate cost to finish the schedule
      */
     public int getCostUnderestimate(){
-        int cosUnderestimate = 0;
+        int costUnderestimate = 0;
         for (ScheduledTask scheduledTask: this) {
-            cosUnderestimate = Math.max(cosUnderestimate, scheduledTask.get_startTime() + scheduledTask.get_node().get_bottomLevel());
+            costUnderestimate = Math.max(costUnderestimate, scheduledTask.getStartTime() + scheduledTask.getNode().getBottomLevel());
         }
-        return cosUnderestimate;
+        return costUnderestimate;
     }
 
     /**
@@ -54,40 +56,40 @@ public class PartialSolution  implements Iterable<ScheduledTask>,Comparable<Part
 
         Set<Node> nodesInSchedule = new HashSet<>();
         for(ScheduledTask scheduledTask : this) {
-            nodesInSchedule.add(scheduledTask.get_node());
+            nodesInSchedule.add(scheduledTask.getNode());
         }
 
-        AddNode: for (Node node : _graph.get_NodeList()) {
-            // If node is already in schedule
+        AddNode: for (Node node : _graph.getNodeList()) {
+            // If node is already in schedule cant add
            if(nodesInSchedule.contains(node)){
                continue;
            }
            //if dependency not in schedule
-            for (Node dependency : node.get_dependendicies()) {
+            for (Node dependency : node.getDependencies()) {
                 if(!nodesInSchedule.contains(dependency)){
                     continue AddNode;
                 }
             }
 
             //Node can be placed on Processor now
-            for (int i = 1; i < _graph.get_numOfProcessors() + 1; i++) {
+            for (int i = 1; i < _graph.getNumOfProcessors() + 1; i++) {
                 int eligibleStartime = 0;
                 // Start time based on  last task on this processor
                 for (ScheduledTask scheduledTask: this) {
-                    if(scheduledTask.get_processorNum() == i){
+                    if(scheduledTask.getProcessorNum() == i){
                         eligibleStartime = scheduledTask.getFinishTime();
                         break;
                     }
                 }
                 //Start time based on dependencies on  OtherProcessors
                 for (ScheduledTask scheduledTask : this) {
-                    if(scheduledTask.get_processorNum() != i){
+                    if(scheduledTask.getProcessorNum() != i){
                         boolean dependantFound = false;
                         int communicationTime = 0;
-                        for (Node edge: node.get_incomingEdges().keySet()) {
-                            if(edge.equals(scheduledTask.get_node())){
+                        for (Node edge: node.getIncomingEdges().keySet()) {
+                            if(edge.equals(scheduledTask.getNode())){
                                 dependantFound = true;
-                                communicationTime = node.get_incomingEdges().get(edge);
+                                communicationTime = node.getIncomingEdges().get(edge);
                             }
                         }
                         if (!dependantFound){
@@ -107,8 +109,8 @@ public class PartialSolution  implements Iterable<ScheduledTask>,Comparable<Part
      * @return Returns true if full schedule, else false
      */
     public boolean isCompleteSchedule(){
-        if(this.get_scheduledTask() != null) {
-            return this.get_scheduledTask().get_node().get_id().equals("end");
+        if(this.getScheduledTask() != null) {
+            return this.getScheduledTask().getNode().getId().equals("end");
         }
         else return false;
     }
@@ -120,7 +122,7 @@ public class PartialSolution  implements Iterable<ScheduledTask>,Comparable<Part
     public List<ScheduledTask> fullSchedule(){
         List<ScheduledTask> scheduledTaskList = new LinkedList<>();
         for (ScheduledTask task: this) {
-            if(!task.get_node().get_id().equals("end")){
+            if(!task.getNode().getId().equals("end")){
                 scheduledTaskList.add(task);
             }
         }
@@ -132,25 +134,30 @@ public class PartialSolution  implements Iterable<ScheduledTask>,Comparable<Part
      */
     @Override
     public Iterator<ScheduledTask> iterator() {
-        return new Iterator<>() {
+        return new Iterator<ScheduledTask>() {
             private PartialSolution current = PartialSolution.this;
 
             @Override
             public boolean hasNext() {
-                return current.get_scheduledTask() != null;
+                return current.getScheduledTask() != null;
             }
 
             @Override
             public ScheduledTask next() {
-                ScheduledTask thisTask = current.get_scheduledTask();
-                if(current.get_parent() != null) {
-                    current = current.get_parent();
+                ScheduledTask thisTask = current.getScheduledTask();
+                if(current.getParent() != null) {
+                    current = current.getParent();
                 }
                 return thisTask;
             }
         };
     }
 
+    /**
+     * This metod compares partial solutions dependant on cost underestimate.This is used to order the priority queue in the A* Algorithm.
+     * @param other Partial solution being compared to.
+     * @return Int value to indicate which partial solution has has a lower cost underestimate.
+     */
     @Override
     public int compareTo(PartialSolution other) {
         return this.getCostUnderestimate() - other.getCostUnderestimate();
