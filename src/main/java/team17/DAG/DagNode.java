@@ -1,28 +1,28 @@
 package team17.DAG;
 
 public class DagNode {
-    private String _task;
+    private String _id;
     private int _weight;
     private int _startTime;
     private int _processorNum;
 
     public DagNode(String task, int weight) {
-        _task = task;
+        _id = task;
         _weight = weight;
     }
 
     @Override
     public boolean equals(Object node) {
-        return this._task.equals(((DagNode)node).getTask());
+        return this._id.equals(((DagNode)node).getTask());
     }
 
     @Override
     public int hashCode() {
-        return _task.hashCode();
+        return _id.hashCode();
     }
 
     public String getTask() {
-        return _task;
+        return _id;
     }
 
     public int getWeight() {
@@ -48,7 +48,7 @@ public class DagNode {
     @Override
     public String toString() {
         return "{" +
-                "task='" + _task + '\'' +
+                "task='" + _id + '\'' +
                 ", weight=" + _weight +
                 '}';
     }

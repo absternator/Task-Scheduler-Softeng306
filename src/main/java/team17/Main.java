@@ -1,13 +1,17 @@
 package team17;
 
 import org.apache.commons.cli.*;
-import team17.DAG.DagGraph;
+import team17.Algorithm.AlgorithmAStar;
+import team17.Algorithm.ScheduledTask;
+import team17.DAG.Graph;
+
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.List;
+
 
 public class Main {
 
@@ -60,20 +64,26 @@ public class Main {
         }
     }
 
-    /*
-       This reads the graph from the dot file
+    /**
+     * This reads dot file
+     * @throws IOException Throw IO exception if file does not exist.
      */
-    public static void readDotFile (String fileName) throws IOException {
-        DagGraph graph = new DagGraph();
-        HashMap<String,Integer> nodeCounter = new HashMap<>(); //stores nodes passed into graph
+    public static void readDotFile(String fileName) throws IOException {
+        Graph graph = new Graph();
         File file = new File(fileName);
         BufferedReader br = new BufferedReader(new FileReader(file));
         br.readLine();
         String line;
         while (!(line = br.readLine()).equals("}")) {
-            graph.addGraph(line,nodeCounter);
+            graph.addGraph(line);
         }
+        graph.addFinishNode();
+        graph.setBottomLevel();
+        graph.set_numOfProcessors(2);// Test : number of processors to run on
         System.out.println(graph);
+        AlgorithmAStar aStar = new AlgorithmAStar(graph);
+        List<ScheduledTask> schedule = aStar.getOptimalSchedule(); // Returns list of Schedule
+        System.out.println(schedule);
     }
 
 }
