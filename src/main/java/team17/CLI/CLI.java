@@ -20,12 +20,25 @@ public class CLI {
         options.addOption(visualiseOpt);
         options.addOption(outputOpt);
 
+        HelpFormatter formatter = new HelpFormatter();
+
+        String header = "Parameters:\n INPUT.dot  a task graph with integer weights in dot format\n" +
+                " P          number of processors to schedule the INPUT graph on\nOptional:";
+
+        String footer = "Please enter the appropriate parameters to start the scheduler";
+
         // Check first two args, then optional arguments
         if(args.length>=2) {
             if(args[0].endsWith(".dot")) {
                 _input = args[0];
+            } else {
+                formatter.printHelp("scheduler", header, options, footer);
+                System.exit(1);
             }
             _nProcessors = Integer.parseInt(args[1]);
+        } else {
+            formatter.printHelp("scheduler", header, options, footer);
+            System.exit(1);
         }
 
         CommandLineParser parser = new DefaultParser();
@@ -40,6 +53,8 @@ public class CLI {
             _output = cmd.getOptionValue("o");
         } catch (ParseException e) {
             e.printStackTrace();
+            formatter.printHelp("scheduler", header, options, footer);
+            System.exit(1);
         }
     }
 
