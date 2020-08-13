@@ -132,7 +132,7 @@ public class PartialSolution  implements Iterable<ScheduledTask>,Comparable<Part
      */
     @Override
     public Iterator<ScheduledTask> iterator() {
-        return new Iterator<>() {
+        return new Iterator<ScheduledTask>() {
             private PartialSolution current = PartialSolution.this;
 
             @Override
