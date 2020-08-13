@@ -4,23 +4,20 @@ import org.apache.commons.cli.*;
 import team17.Algorithm.AlgorithmAStar;
 import team17.Algorithm.ScheduledTask;
 import team17.DAG.Graph;
+import team17.DAG.Node;
 
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
-
 
 public class Main {
 
+    private static String _outputFileName;
+    private static String _inputFileName = "";
+
     public static void main(String[] args){
-        String input = "";
         int nProcessors;
         boolean visualise;
         int nCores;
-        String output;
 
         Options options = new Options();
 
@@ -35,7 +32,7 @@ public class Main {
         //Check first two args, then options
         if(args.length>=2) {
             if(args[0].endsWith(".dot")) {
-                input = args[0];
+                _inputFileName = args[0];
             }
             nProcessors = Integer.parseInt(args[1]);
         }
@@ -49,8 +46,8 @@ public class Main {
             if(cmd.getOptionValue("p")!=null){
                 nCores = Integer.parseInt(cmd.getOptionValue("p"));
             }
-            output = cmd.getOptionValue("o");
-            if(output!=null){
+            _outputFileName = cmd.getOptionValue("o");
+            if(_outputFileName!=null){
             }
         } catch (ParseException e) {
             e.printStackTrace();
@@ -58,7 +55,7 @@ public class Main {
 
         try {
             // "src/main/resources/graph.dot"
-            readDotFile(input);
+            readDotFile(_inputFileName);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -84,6 +81,23 @@ public class Main {
         AlgorithmAStar aStar = new AlgorithmAStar(graph);
         List<ScheduledTask> schedule = aStar.getOptimalSchedule(); // Returns list of Schedule
         System.out.println(schedule);
+    }
+
+    /**
+     * This function writes the graph to the dot file
+     */
+    private static void writeOutput(List<ScheduledTask> solution) throws IOException {
+        String outputFileName = _outputFileName != null && !_outputFileName.isEmpty() ? _outputFileName : _inputFileName + "-output";
+
+        File file = new File( outputFileName + ".dot");
+        PrintWriter pw = new PrintWriter(new FileWriter(file));
+
+        pw.println("digraph \"" + outputFileName + "\" {");
+        for (ScheduledTask task : solution) {
+            Node node = task.getNode();
+            pw.printf("%-10s[Weight=%d,Start=%d,Processor=%d]\n;",node.getId(),node.getWeight(),task.getStartTime(),task.getProcessorNum());
+        }
+        pw.close();
     }
 
 }
