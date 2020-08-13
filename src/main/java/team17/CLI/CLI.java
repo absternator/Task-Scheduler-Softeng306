@@ -51,4 +51,36 @@ public class CLI {
         return _input;
     }
 
+    /**
+     * This method is a get method for the output name specified
+     * @return a string of the output file name, null if default
+     */
+    public String getOutput() {
+        return _output;
+    }
+
+    /**
+     * This method is a get method for the number of processors
+     * @return an integer of the number of processors
+     */
+    public int getProcessors() {
+        return _nProcessors;
+    }
+
+    /**
+     * This method is a get method for whether or not the algorithm is visualised
+     * @return a boolean value true if it should be visualised and false otherwise
+     */
+    public boolean getVisualise() {
+        return _visualise;
+    }
+
+    /**
+     * This method is a get method for the number of cores to execute in parallel
+     * @return an integer of the number of cores, null if sequential
+     */
+    public int getCores() {
+        return _nCores;
+    }
+
 }
