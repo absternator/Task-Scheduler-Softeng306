@@ -1,6 +1,6 @@
 package team17;
 
-import org.apache.commons.cli.*;
+import team17.CLI.CLI;
 import team17.Algorithm.AlgorithmAStar;
 import team17.Algorithm.ScheduledTask;
 import team17.DAG.Graph;
@@ -16,49 +16,15 @@ public class Main {
     private static String _inputFileName = "";
 
     public static void main(String[] args) {
-        int nProcessors;
-        boolean visualise;
-        int nCores;
-
         //Run from command line
         //args = new String[]{"../../src/main/resources/graph.dot", "2"};
 
         //Run in IDE
         args = new String[]{"src/main/resources/graph.dot", "2"};
-
-        Options options = new Options();
-
-        Option parallelCoresOpt = new Option("p", true, "use N cores for execution in parallel (default is sequential)");
-        Option visualiseOpt = new Option("v", false, "visualise the search");
-        Option outputOpt = new Option("o", true, "output file is named OUTPUT (default is INPUT−output.dot)");
-
-        options.addOption(parallelCoresOpt);
-        options.addOption(visualiseOpt);
-        options.addOption(outputOpt);
-
-        //Check first two args, then options
-        if (args.length >= 2) {
-            if (args[0].endsWith(".dot")) {
-                _inputFileName = args[0];
-            }
-            nProcessors = Integer.parseInt(args[1]);
-        }
-
-        CommandLineParser parser = new DefaultParser();
-        CommandLine cmd;
-        try {
-            cmd = parser.parse(options, args);
-            visualise = cmd.hasOption("v");
-            // getOptionValue returns null if no argument
-            if (cmd.getOptionValue("p") != null) {
-                nCores = Integer.parseInt(cmd.getOptionValue("p"));
-            }
-            _outputFileName = cmd.getOptionValue("o");
-            if (_outputFileName != null) {
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+      
+        CLI cli = new CLI(args);
+        _inputFileName = cli.getInput();
+        _outputFileName = cli.getOutput();
 
         try {
             // "src/main/resources/graph.dot"
