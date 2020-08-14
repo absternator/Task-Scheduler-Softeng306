@@ -27,7 +27,7 @@ public class Graph {
         return _nodeList;
     }
 
-    public Map<String, Node> get_nodeLookup() {
+    public Map<String, Node> getNodeLookup() {
         return _nodeLookup;
     }
 
