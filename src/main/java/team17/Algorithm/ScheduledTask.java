@@ -4,8 +4,11 @@ import team17.DAG.Node;
 
 import java.util.Objects;
 
-public class ScheduledTask {
-    private int _processorNum;
+/**
+ * This Represents each task scheduled on a processor.
+ */
+public class ScheduledTask implements Comparable<ScheduledTask> {
+    private final int _processorNum;
     private final Node _node;
     private final int _startTime;
 
@@ -33,8 +36,12 @@ public class ScheduledTask {
 
     @Override
     public boolean equals(Object other) {
-        if (this == other) return true;
-        if (other == null || getClass() != other.getClass()) return false;
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
         ScheduledTask that = (ScheduledTask) other;
         return _processorNum == that._processorNum &&
                 _startTime == that._startTime &&
@@ -53,5 +60,10 @@ public class ScheduledTask {
                 ", _node=" + _node.getId() +
                 ", _startTime=" + _startTime +
                 '}';
+    }
+
+    @Override
+    public int compareTo(ScheduledTask other) {
+        return _node.getId().compareTo(other._node.getId());
     }
 }

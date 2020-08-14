@@ -8,9 +8,6 @@ public class Node {
     private Map<Node,Integer> _incomingEdges;
     private Set<Node> _dependencies;
     private Set<Node> _dependants;
-
-
-
     /**
      * This is a Node constructor which adds weight and id.
      * @param id This is the id of the task
@@ -50,8 +47,8 @@ public class Node {
         return _dependants;
     }
 
-    public void setBottomLevel(int _bottomLevel) {
-        this._bottomLevel = _bottomLevel;
+    public void setBottomLevel(int bottomLevel) {
+        this._bottomLevel = bottomLevel;
     }
 
     public void setIncomingEdges(Node edge, int edgeWeight) {

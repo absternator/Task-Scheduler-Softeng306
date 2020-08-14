@@ -9,14 +9,27 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    extraLibs
+}
+
 dependencies {
+    // https://mvnrepository.com/artifact/commons-cli/commons-cli
+    extraLibs group: 'commons-cli', name: 'commons-cli', version: '1.4'
+
+    configurations.compile.extendsFrom(configurations.extraLibs)
+
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
+
 jar {
     manifest {
         attributes(
                 'Main-Class': 'team17.Main'
         )
+    }
+    from {
+        configurations.extraLibs.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
 
