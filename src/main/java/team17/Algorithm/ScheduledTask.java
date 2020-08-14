@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * This Represents each task scheduled on a processor.
  */
-public class ScheduledTask {
+public class ScheduledTask implements Comparable<ScheduledTask> {
     private final int _processorNum;
     private final Node _node;
     private final int _startTime;
@@ -60,5 +60,10 @@ public class ScheduledTask {
                 ", _node=" + _node.getId() +
                 ", _startTime=" + _startTime +
                 '}';
+    }
+
+    @Override
+    public int compareTo(ScheduledTask other) {
+        return _node.getId().compareTo(other._node.getId());
     }
 }
