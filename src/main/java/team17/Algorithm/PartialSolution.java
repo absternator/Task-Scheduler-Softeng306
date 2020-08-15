@@ -171,21 +171,28 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
     public int compareTo(PartialSolution other) {
         return this.getCostUnderestimate() - other.getCostUnderestimate();
     }
-// TODO: 12/08/20 come back and do equals method & hashcode !!!! how?
+//test if works
 
-//    @Override
-//    public boolean equals(Object other) {
-//        for (ScheduledTask scheduledTask : this) {
-//            if(!scheduledTask.equals(other)){
-//                return false;
-//            }
-//        }
-//
-//        return true;
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(_parent, _graph, _scheduledTask);
-//    }
+    /**
+     * This method checks if two partial solutions are equal
+     * @param other The other partial solution being checked
+     * @return Boolean to indicate if both partial solutions are equal
+     */
+    @Override
+    public boolean equals(Object other) {
+       Set<ScheduledTask> thisSolution = new HashSet<>();
+       Set<ScheduledTask> otherSolution = new HashSet<>();
+        for (ScheduledTask scheduledTask: this) {
+            thisSolution.add(scheduledTask);
+        }
+        for (ScheduledTask scheduledTask: (PartialSolution)other) {
+            otherSolution.add(scheduledTask);
+        }
+        return thisSolution.equals(otherSolution);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_parent, _graph, _scheduledTask);
+    }
 }

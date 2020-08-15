@@ -45,7 +45,7 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
         ScheduledTask that = (ScheduledTask) other;
         return _processorNum == that._processorNum &&
                 _startTime == that._startTime &&
-                Objects.equals(_node, that._node);
+                _node.equals(that._node);
     }
 
     @Override

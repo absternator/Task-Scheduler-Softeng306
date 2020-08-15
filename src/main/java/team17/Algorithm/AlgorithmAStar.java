@@ -27,12 +27,12 @@ public class AlgorithmAStar {
             }
             Set<PartialSolution> children = partialSolution.expandSearch();
             open.addAll(children);
-            // TODO: 12/08/20 Need to implement partial solution equal to use 
-//            for (PartialSolution child : children) {
-//                if (!closed.contains(child)){
-//                    open.offer(child);
-//                }
-//            }
+            // Test if works(equals)
+            for (PartialSolution child : children) {
+                if (!closed.contains(child)){
+                    open.offer(child);
+                }
+            }
         }
 
         return null;
