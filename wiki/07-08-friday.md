@@ -20,7 +20,7 @@ Gradle is a build tool, more suited for Java than Maven is.
 * Use gradle to manage dependencies etc
 * Create a gradle project  
 
-Other:  
+## Other:  
 * Write unit tests for your own code
 * The code must be compatible with java 1.8
 
