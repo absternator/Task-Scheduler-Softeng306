@@ -57,6 +57,15 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
      */
     public Set<PartialSolution> expandSearch() {
         Set<PartialSolution> children = new HashSet<>();
+        //For first allocation
+        if(this.getScheduledTask() == null){
+            for (Node node:_graph.getNodeList()) {
+                if(node.getDependencies().size() == 0){
+                    children.add(new PartialSolution(this,_graph,new ScheduledTask(1,node,0)));
+                    return children;
+                }
+            }
+        }
 
         Set<Node> nodesInSchedule = new HashSet<>();
         for (ScheduledTask scheduledTask : this) {

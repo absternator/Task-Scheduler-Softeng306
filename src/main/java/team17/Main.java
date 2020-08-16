@@ -20,7 +20,7 @@ public class Main {
         //args = new String[]{"../../src/main/resources/graph.dot", "2"};
 
         //Run in IDE
-        args = new String[]{"src/main/resources/graph2.dot", "2"};
+        args = new String[]{"src/main/resources/graph.dot", "2"};
       
         CLI cli = new CLI(args);
         _inputFileName = cli.getInput();
