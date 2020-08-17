@@ -89,31 +89,6 @@ public class Graph {
     }
 
     /**
-     * This parses the input dot file and adds tasks to graph.
-     * @param line Each line of the dot file is passed in.
-     */
-    public void addGraph(String line){
-        line = line.replace("Weight", "").replaceAll("[^A-Za-z0-9]", "");
-        String[] array = line.split("");
-        if (array.length == 2) { // this is adding a node
-            String task = array[0];
-            int weight = Integer.parseInt(array[1]);
-            addNode(task,weight);
-            //Assume node has been added in graph before adding edge
-        } else {
-            String from = array[0];
-            String to = array[1];
-            int edgeWeight = Integer.parseInt(array[2]);
-            try {
-                addEdge(from,to,edgeWeight);
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println(e.getMessage());
-            }
-        }
-    }
-
-    /**
      * This sets the bottoom level for each task. Will be used as hueristic for algorithm.
      */
     public void setBottomLevel(){
