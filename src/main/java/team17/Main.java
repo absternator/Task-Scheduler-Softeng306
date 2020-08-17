@@ -1,5 +1,6 @@
 package team17;
 
+import team17.Algorithm.ListScheduling;
 import team17.CLI.CLI;
 import team17.Algorithm.AlgorithmAStar;
 import team17.Algorithm.ScheduledTask;
@@ -20,8 +21,8 @@ public class Main {
         //args = new String[]{"../../src/main/resources/graph.dot", "2"};
 
         //Run in IDE
-        args = new String[]{"src/main/resources/graph.dot", "2"};
-      
+        args = new String[]{"src/main/resources/testBandaid.dot", "2"};
+
         CLI cli = new CLI(args);
         _inputFileName = cli.getInput();
         _outputFileName = cli.getOutput();
@@ -29,9 +30,17 @@ public class Main {
         try {
             // "src/main/resources/graph.dot"
             Graph graph = readDotFile(_inputFileName);
+            List<ScheduledTask> schedule;
+            if (graph.getNodeList().size() < 10) {
+                // for small graphs, use the A* algorithm
+                AlgorithmAStar aStar = new AlgorithmAStar(graph);
+                schedule = aStar.getOptimalSchedule(); // Returns list of Schedule
 
-            AlgorithmAStar aStar = new AlgorithmAStar(graph);
-            List<ScheduledTask> schedule = aStar.getOptimalSchedule(); // Returns list of Schedule
+            } else {
+                // for large graphs, use a band-aid solution (List scheduling)
+                ListScheduling bandaid = new ListScheduling(graph);
+                schedule = bandaid.getSchedule();
+            }
 
             writeOutput(schedule);
 
@@ -56,7 +65,7 @@ public class Main {
         }
         graph.addFinishNode();
         graph.setBottomLevel();
-        graph.setNumOfProcessors(2);// Test : number of processors to run on
+        graph.setNumOfProcessors(3);// Test : number of processors to run on
 
         return graph;
     }
