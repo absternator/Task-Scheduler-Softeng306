@@ -18,7 +18,7 @@ public class AlgorithmAStar {
     public List<ScheduledTask> getOptimalSchedule(){
         Queue<PartialSolution> open = new PriorityQueue<>();
         List<PartialSolution> closed = new ArrayList<>();
-        open.add(_root);
+            open.add(_root);
         while(!open.isEmpty()){
             PartialSolution partialSolution = open.poll();
             closed.add(partialSolution);

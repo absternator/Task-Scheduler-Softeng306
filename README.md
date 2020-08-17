@@ -4,6 +4,7 @@ To build the project:
  - Go to build folder and double click the build command
 
 To run the project
+ - Make sure to initially build the project first 
  - Go to the gradle tab
  - Go to the application folder and double click the run command
  
