@@ -34,7 +34,7 @@ public class FileReadWriter {
         }
         graph.addFinishNode();
         graph.setBottomLevel();
-        graph.set_numOfProcessors(_cli.getProcessors());// Test : number of processors to run on
+        graph.setNumOfProcessors(_cli.getProcessors());// Test : number of processors to run on
 
         return graph;
     }
