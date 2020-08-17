@@ -16,14 +16,17 @@ public class CLI {
         Option visualiseOpt = new Option("v", false, "visualise the search");
         Option outputOpt = new Option("o", true, "output file is named OUTPUT (default is INPUT−output.dot)");
 
+        parallelCoresOpt.setArgName("N");
+        outputOpt.setArgName("OUTPUT");
+
         options.addOption(parallelCoresOpt);
         options.addOption(visualiseOpt);
         options.addOption(outputOpt);
 
         HelpFormatter formatter = new HelpFormatter();
 
-        String header = "Parameters:\n INPUT.dot  a task graph with integer weights in dot format\n" +
-                " P          number of processors to schedule the INPUT graph on\nOptional:";
+        String header = "Parameters:\n <INPUT.dot>   a task graph with integer weights in dot format\n" +
+                " <P>           number of processors to schedule the INPUT graph on\nOptional:";
 
         String footer = "Please enter the appropriate parameters to start the scheduler";
 
