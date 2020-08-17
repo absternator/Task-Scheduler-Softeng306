@@ -8,21 +8,22 @@ public class AlgorithmAStar {
     private final PartialSolution _root;
 
     public AlgorithmAStar(Graph graph) {
-        _root = new PartialSolution(null,graph,null);
+        _root = new PartialSolution(null, graph, null);
     }
 
     /**
      * This is the actual A* Algorithm that returns the optimal schedule
+     *
      * @return The full Schedule which is the optimal solution
      */
-    public List<ScheduledTask> getOptimalSchedule(){
+    public List<ScheduledTask> getOptimalSchedule() {
         Queue<PartialSolution> open = new PriorityQueue<>();
         List<PartialSolution> closed = new ArrayList<>();
         open.add(_root);
-        while(!open.isEmpty()){
+        while (!open.isEmpty()) {
             PartialSolution partialSolution = open.poll();
             closed.add(partialSolution);
-            if(partialSolution.isCompleteSchedule()){
+            if (partialSolution.isCompleteSchedule()) {
                 return partialSolution.fullSchedule();
             }
             Set<PartialSolution> children = partialSolution.expandSearch();
@@ -37,7 +38,6 @@ public class AlgorithmAStar {
 
         return null;
     }
-
 
 
 }
