@@ -27,11 +27,11 @@ public class Graph {
         return _nodeList;
     }
 
-    public Map<String, Node> get_nodeLookup() {
+    public Map<String, Node> getNodeLookup() {
         return _nodeLookup;
     }
 
-    public void set_numOfProcessors(int numOfProcessors) {
+    public void setNumOfProcessors(int numOfProcessors) {
         _numOfProcessors = numOfProcessors;
     }
 

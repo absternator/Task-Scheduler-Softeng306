@@ -56,7 +56,7 @@ public class Main {
         }
         graph.addFinishNode();
         graph.setBottomLevel();
-        graph.set_numOfProcessors(2);// Test : number of processors to run on
+        graph.setNumOfProcessors(2);// Test : number of processors to run on
 
         return graph;
     }
