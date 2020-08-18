@@ -19,7 +19,7 @@ In Intellij:
  - Open up the gradle tab on the right hand side
  - Go to build folder and double click the build command
 
-On command line: run `.gradlew build`
+On command line: run `.\gradlew build`
 
 ## To run the project
  
@@ -30,7 +30,7 @@ On command line: run `.gradlew build`
  - Go to the application folder and double click the run command, 
  with the temp args code uncommented
  
- On command line: run `.gradlew run --args "<input.dot> <num of processors> <options>"`
+ On command line: run `.\gradlew run --args "<input.dot> <num of processors> <options>"`
  
  ## Running the jar file
  
