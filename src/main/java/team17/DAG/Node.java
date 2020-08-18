@@ -21,6 +21,15 @@ public class Node {
         _dependencies = new HashSet<>();
     }
 
+    public Node(Node node){
+        _id = node._id;
+        _weight = node._weight;
+        _dependencies=new HashSet<>(node._dependencies);
+        _dependants=new HashSet<>(node._dependants);
+        _bottomLevel=node._bottomLevel;
+        _incomingEdges=new HashMap<>(node._incomingEdges);
+    }
+
     public String getId() {
         return _id;
     }
