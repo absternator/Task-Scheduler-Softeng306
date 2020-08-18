@@ -25,30 +25,30 @@ public class TestPartialSolution {
         _ps = new PartialSolution(null, _graph, _st);
     }
 
-    @Test
-    public void testEquals() {
-        PartialSolution ps2 = new PartialSolution(null, _graph, _st);
+//    @Test
+//    public void testEquals() {
+//        PartialSolution ps2 = new PartialSolution(null, _graph, _st);
+//
+//        if (!_ps.equals(ps2)) {
+//            fail();
+//        }
+//    }
 
-        if (!_ps.equals(ps2)) {
-            fail();
-        }
-    }
-
-    @Test
-    public void testEqualsContent() throws Exception {
-        Graph compare = new Graph();
-        compare.addNode("A", 3);
-        compare.addNode("B", 2);
-        compare.addNode("C", 4);
-        compare.addEdge("A", "B", 1);
-        compare.addEdge("A", "C", 5);
-        ScheduledTask st2 = new ScheduledTask(1, compare.getNode("A"), 0);
-        PartialSolution ps2 = new PartialSolution(null, compare, st2);
-
-        if (!_ps.equals(ps2)) {
-            fail();
-        }
-    }
+//    @Test
+//    public void testEqualsContent() throws Exception {
+//        Graph compare = new Graph();
+//        compare.addNode("A", 3);
+//        compare.addNode("B", 2);
+//        compare.addNode("C", 4);
+//        compare.addEdge("A", "B", 1);
+//        compare.addEdge("A", "C", 5);
+//        ScheduledTask st2 = new ScheduledTask(1, compare.getNode("A"), 0);
+//        PartialSolution ps2 = new PartialSolution(null, compare, st2);
+//
+//        if (!_ps.equals(ps2)) {
+//            fail();
+//        }
+//    }
 
     @Test
     public void testNotEquals() throws Exception {

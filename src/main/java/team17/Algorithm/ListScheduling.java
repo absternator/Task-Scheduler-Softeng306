@@ -6,6 +6,9 @@ import team17.DAG.Node;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that contains methods associated with the list scheduling algorithm
+ */
 public class ListScheduling {
     private Graph _graph;
 
@@ -66,6 +69,10 @@ public class ListScheduling {
         return nodes;
     }
 
+    /**
+     * Generates a valid solution for a graph input
+     * @return a valid schedule
+     */
     public List<ScheduledTask> getSchedule() {
         int numProcessors = _graph.getNumOfProcessors();
         ScheduledTask[] processors = new ScheduledTask[numProcessors]; // latest task of each processor

@@ -1,4 +1,4 @@
-package team17.CLI;
+package team17.IO;
 
 import org.apache.commons.lang3.StringUtils;
 import team17.Algorithm.ScheduledTask;
@@ -9,6 +9,9 @@ import java.io.*;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * This class handles the reading in, parsing and writing to dot files
+ */
 public class FileReadWriter {
 
     private CLI _cli;
@@ -19,7 +22,7 @@ public class FileReadWriter {
     }
 
     /**
-     * This reads dot file
+     * This method reads in the dot file to set up the graph object
      *
      * @throws IOException Throw IO exception if file does not exist.
      */
@@ -62,7 +65,7 @@ public class FileReadWriter {
     }
 
     /**
-     * This function writes the graph to the dot file
+     * This function writes the optimal schedule to the output dot file
      * @param solution the set of scheduled tasks in the final optimal solution
      */
     public void writeOutput(List<ScheduledTask> solution) throws IOException {

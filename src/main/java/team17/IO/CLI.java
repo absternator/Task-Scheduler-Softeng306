@@ -1,7 +1,10 @@
-package team17.CLI;
+package team17.IO;
 
 import org.apache.commons.cli.*;
 
+/**
+ * This class contains the command line configuration parsing logic
+ */
 public class CLI {
     String _input = "";
     int _nProcessors;
@@ -10,6 +13,7 @@ public class CLI {
     String _output;
 
     public CLI(String[] args) {
+
         Options options = new Options();
 
         Option parallelCoresOpt = new Option("p", true, "use N cores for execution in parallel (default is sequential)");

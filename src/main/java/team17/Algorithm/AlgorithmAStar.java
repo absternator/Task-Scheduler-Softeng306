@@ -4,6 +4,9 @@ import team17.DAG.Graph;
 
 import java.util.*;
 
+/**
+ * Class that contains the main skeleton of the A* algorithm
+ */
 public class AlgorithmAStar {
     private final PartialSolution _root;
 
