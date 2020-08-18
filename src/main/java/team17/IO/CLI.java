@@ -18,7 +18,7 @@ public class CLI {
 
         Option parallelCoresOpt = new Option("p", true, "use N cores for execution in parallel (default is sequential)");
         Option visualiseOpt = new Option("v", false, "visualise the search");
-        Option outputOpt = new Option("o", true, "output file is named OUTPUT (default is INPUT−output.dot)");
+        Option outputOpt = new Option("o", true, "output file is named OUTPUT (default is INPUT-output.dot)");
 
         parallelCoresOpt.setArgName("N");
         outputOpt.setArgName("OUTPUT");
