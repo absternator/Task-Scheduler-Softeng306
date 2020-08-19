@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class PartialSolution implements Iterable<ScheduledTask>, Comparable<PartialSolution> {
     private final PartialSolution _parent;
-    private final Graph _graph; // TODO: 12/08/20 not sure if we need can we move? 
+    private final Graph _graph; // TODO: 12/08/20 not sure if we need can we move?(Refactoring)
     private final ScheduledTask _scheduledTask;
 
     public PartialSolution(PartialSolution parent, Graph graph, ScheduledTask scheduledTask) {
@@ -49,7 +49,15 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
         }
         return costUnderestimate;
     }
-
+    public Set<PartialSolution> expandRoot(){
+        Set<PartialSolution> children = new HashSet<>();
+        for (Node node:_graph.getNodeList()) {
+            if(node.getDependencies().size() == 0){
+                children.add(new PartialSolution(this,_graph,new ScheduledTask(1,node,0)));
+            }
+        }
+        return children;
+    }
     /**
      * This method expands the state space tree getting children. It adds tasks to processors.
      *
@@ -171,21 +179,29 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
     public int compareTo(PartialSolution other) {
         return this.getCostUnderestimate() - other.getCostUnderestimate();
     }
-// TODO: 12/08/20 come back and do equals method & hashcode !!!! how?
 
-//    @Override
-//    public boolean equals(Object other) {
-//        for (ScheduledTask scheduledTask : this) {
-//            if(!scheduledTask.equals(other)){
-//                return false;
-//            }
-//        }
-//
-//        return true;
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(_parent, _graph, _scheduledTask);
-//    }
+// TODO: 12/08/20 come back and do equals method & hashcode !!!! how?
+//test if work
+    /**
+     * This method checks if two partial solutions are equal
+     * @param other The other partial solution being checked
+     * @return Boolean to indicate if both partial solutions are equal
+     */
+    @Override
+    public boolean equals(Object other) {
+        Set<ScheduledTask> thisSolution = new HashSet<>();
+        Set<ScheduledTask> otherSolution = new HashSet<>();
+        for (ScheduledTask scheduledTask: this) {
+            thisSolution.add(scheduledTask);
+        }
+        for (ScheduledTask scheduledTask: (PartialSolution)other) {
+            otherSolution.add(scheduledTask);
+        }
+        return thisSolution.equals(otherSolution);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_parent, _graph, _scheduledTask);
+    }
 }
