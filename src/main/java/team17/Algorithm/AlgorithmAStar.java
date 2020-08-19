@@ -13,34 +13,31 @@ public class AlgorithmAStar {
     public AlgorithmAStar(Graph graph) {
         _root = new PartialSolution(null, graph, null);
     }
-    public Set<PartialSolution> setRoot(){
-        return _root.expandRoot();
-    }
+
     /**
      * This is the actual A* Algorithm that returns the optimal schedule
      *
      * @return The full Schedule which is the optimal solution
      */
     public List<ScheduledTask> getOptimalSchedule() {
-        List<PartialSolution> closed = new ArrayList<>();
+        Set<PartialSolution> closed = new HashSet<>();
         Queue<PartialSolution> open = new PriorityQueue<>(_root.expandRoot());
         while (!open.isEmpty()) {
             PartialSolution partialSolution = open.poll();
             closed.add(partialSolution);
             if (partialSolution.isCompleteSchedule()) {
+                System.out.println(open.size());
                 return partialSolution.fullSchedule();
             }
             Set<PartialSolution> children = partialSolution.expandSearch();
             open.addAll(children);
-
-            // TODO: 12/08/20 Need to implement partial solution equal to use 
+            // TODO: 12/08/20 implement partial solution equal FASSSTTTTT!!!(To sLow currently)
 //            for (PartialSolution child : children) {
 //                if (!closed.contains(child)){
 //                    open.offer(child);
 //                }
 //            }
         }
-
         return null;
     }
 

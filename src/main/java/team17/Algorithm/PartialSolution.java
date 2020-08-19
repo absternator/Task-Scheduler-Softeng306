@@ -49,6 +49,11 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
         }
         return costUnderestimate;
     }
+
+    /**
+     * This expands the root and assigns the first task to the first processor
+     * @return Set of Partial solutions where first node is placed on first processor
+     */
     public Set<PartialSolution> expandRoot(){
         Set<PartialSolution> children = new HashSet<>();
         for (Node node:_graph.getNodeList()) {
@@ -180,20 +185,21 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
         return this.getCostUnderestimate() - other.getCostUnderestimate();
     }
 
-// TODO: 12/08/20 come back and do equals method & hashcode !!!! how?
+// TODO: 12/08/20 come back and do equals method & hashcode again because still slow?
 //test if work
     /**
      * This method checks if two partial solutions are equal
      * @param other The other partial solution being checked
      * @return Boolean to indicate if both partial solutions are equal
      */
+    // go through each one and check
     @Override
     public boolean equals(Object other) {
         Set<ScheduledTask> thisSolution = new HashSet<>();
         Set<ScheduledTask> otherSolution = new HashSet<>();
-        for (ScheduledTask scheduledTask: this) {
-            thisSolution.add(scheduledTask);
-        }
+        this.forEach(thisSolution::add);
+        //while building other solution if if adding task is in THIS sol,return false if not else keep adding.
+
         for (ScheduledTask scheduledTask: (PartialSolution)other) {
             otherSolution.add(scheduledTask);
         }
@@ -202,6 +208,6 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
 
     @Override
     public int hashCode() {
-        return Objects.hash(_parent, _graph, _scheduledTask);
+        return _scheduledTask.hashCode();
     }
 }
