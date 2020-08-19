@@ -196,14 +196,14 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
     @Override
     public boolean equals(Object other) {
         Set<ScheduledTask> thisSolution = new HashSet<>();
-        Set<ScheduledTask> otherSolution = new HashSet<>();
         this.forEach(thisSolution::add);
         //while building other solution if if adding task is in THIS sol,return false if not else keep adding.
-
         for (ScheduledTask scheduledTask: (PartialSolution)other) {
-            otherSolution.add(scheduledTask);
+            if (!thisSolution.contains(scheduledTask)){
+                return false;
+            }
         }
-        return thisSolution.equals(otherSolution);
+        return true;
     }
 
     @Override
