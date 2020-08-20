@@ -7,19 +7,15 @@ import java.util.*;
 /**
  * Class that contains the main skeleton of the A* algorithm
  */
-public class AlgorithmAStar {
+public class AStar extends Algorithm {
     private final PartialSolution _root;
 
-    public AlgorithmAStar(Graph graph) {
-        _root = new PartialSolution(null, graph, null);
+    public AStar(Graph graph) {
+        _root = new PartialSolution(null, null);
     }
 
-    /**
-     * This is the actual A* Algorithm that returns the optimal schedule
-     *
-     * @return The full Schedule which is the optimal solution
-     */
-    public List<ScheduledTask> getOptimalSchedule() {
+    @Override
+    public PartialSolution getOptimalSchedule(Graph graph) {
         Queue<PartialSolution> open = new PriorityQueue<>();
         List<PartialSolution> closed = new ArrayList<>();
         open.add(_root);
@@ -27,9 +23,9 @@ public class AlgorithmAStar {
             PartialSolution partialSolution = open.poll();
             closed.add(partialSolution);
             if (partialSolution.isCompleteSchedule()) {
-                return partialSolution.fullSchedule();
+                return partialSolution;
             }
-            Set<PartialSolution> children = partialSolution.expandSearch();
+            Set<PartialSolution> children = expandSearch(partialSolution,graph);
             open.addAll(children);
             // TODO: 12/08/20 Need to implement partial solution equal to use 
 //            for (PartialSolution child : children) {
@@ -41,6 +37,5 @@ public class AlgorithmAStar {
 
         return null;
     }
-
 
 }

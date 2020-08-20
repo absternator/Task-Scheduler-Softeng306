@@ -73,11 +73,11 @@ public class ListScheduling {
      * Generates a valid solution for a graph input
      * @return a valid schedule
      */
-    public List<ScheduledTask> getSchedule() {
+    public PartialSolution getSchedule() {
         int numProcessors = _graph.getNumOfProcessors();
         ScheduledTask[] processors = new ScheduledTask[numProcessors]; // latest task of each processor
         List<Node> nodes = getTopologicalOrder();
-        List<ScheduledTask> schedule = new ArrayList<>();
+        PartialSolution schedule = new PartialSolution(null,null);
 
         int earliestStart; // the earliest start time for a node
         int processor; // the processor to add the next node to
@@ -148,7 +148,7 @@ public class ListScheduling {
 
             }
             scheduledTask = new ScheduledTask(processor + 1, node, earliestStart);
-            schedule.add(scheduledTask);
+            schedule = new PartialSolution(schedule,scheduledTask);
             processors[processor] = scheduledTask;
         }
 
