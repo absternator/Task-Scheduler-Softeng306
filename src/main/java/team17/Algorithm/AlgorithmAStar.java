@@ -26,7 +26,7 @@ public class AlgorithmAStar {
             PartialSolution partialSolution = open.poll();
             closed.add(partialSolution);
             if (partialSolution.isCompleteSchedule()) {
-                System.out.println(open.size());
+//                System.out.println(open.size()); // Just for testing: shows open queue after testing
                 return partialSolution.fullSchedule();
             }
             Set<PartialSolution> children = partialSolution.expandSearch();
