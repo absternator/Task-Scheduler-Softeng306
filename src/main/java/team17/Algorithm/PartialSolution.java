@@ -1,23 +1,19 @@
 package team17.Algorithm;
 
-import team17.DAG.Graph;
-import team17.DAG.Node;
-
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * This represents each partial solution created for the state space search.
  */
 public class PartialSolution implements Iterable<ScheduledTask>, Comparable<PartialSolution> {
     private final PartialSolution _parent;
-    private final Graph _graph; // TODO: 12/08/20 not sure if we need can we move? 
     private final ScheduledTask _scheduledTask;
 
-    public PartialSolution(PartialSolution parent, Graph graph, ScheduledTask scheduledTask) {
+    public PartialSolution(PartialSolution parent, ScheduledTask scheduledTask) {
         _parent = parent;
-        _graph = graph;
         _scheduledTask = scheduledTask;
-
     }
 
     /**
@@ -27,10 +23,6 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
      */
     public PartialSolution getParent() {
         return _parent;
-    }
-
-    public Graph getGraph() {
-        return _graph;
     }
 
     public ScheduledTask getScheduledTask() {
@@ -48,65 +40,6 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
             costUnderestimate = Math.max(costUnderestimate, scheduledTask.getStartTime() + scheduledTask.getNode().getBottomLevel());
         }
         return costUnderestimate;
-    }
-
-    /**
-     * This method expands the state space tree getting children. It adds tasks to processors.
-     *
-     * @return A set of partial solutions are returns. These are the children of the current solution.
-     */
-    public Set<PartialSolution> expandSearch() {
-        Set<PartialSolution> children = new HashSet<>();
-
-        Set<Node> nodesInSchedule = new HashSet<>();
-        for (ScheduledTask scheduledTask : this) {
-            nodesInSchedule.add(scheduledTask.getNode());
-        }
-
-        AddNode:
-        for (Node node : _graph.getNodeList()) {
-            // If node is already in schedule cant add
-            if (nodesInSchedule.contains(node)) {
-                continue;
-            }
-            //if dependency not in schedule
-            for (Node dependency : node.getDependencies()) {
-                if (!nodesInSchedule.contains(dependency)) {
-                    continue AddNode;
-                }
-            }
-
-            //Node can be placed on Processor now
-            for (int i = 1; i < _graph.getNumOfProcessors() + 1; i++) {
-                int eligibleStartime = 0;
-                // Start time based on  last task on this processor
-                for (ScheduledTask scheduledTask : this) {
-                    if (scheduledTask.getProcessorNum() == i) {
-                        eligibleStartime = scheduledTask.getFinishTime();
-                        break;
-                    }
-                }
-                //Start time based on dependencies on  OtherProcessors
-                for (ScheduledTask scheduledTask : this) {
-                    if (scheduledTask.getProcessorNum() != i) {
-                        boolean dependantFound = false;
-                        int communicationTime = 0;
-                        for (Node edge : node.getIncomingEdges().keySet()) {
-                            if (edge.equals(scheduledTask.getNode())) {
-                                dependantFound = true;
-                                communicationTime = node.getIncomingEdges().get(edge);
-                            }
-                        }
-                        if (!dependantFound) {
-                            continue;
-                        }
-                        eligibleStartime = Math.max(eligibleStartime, scheduledTask.getFinishTime() + communicationTime);
-                    }
-                }
-                children.add(new PartialSolution(this, _graph, new ScheduledTask(i, node, eligibleStartime)));
-            }
-        }
-        return children;
     }
 
     /**
