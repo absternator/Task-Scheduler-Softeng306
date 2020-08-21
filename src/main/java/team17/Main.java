@@ -1,5 +1,6 @@
 package team17;
 
+import org.apache.commons.lang3.StringUtils;
 import team17.Algorithm.ListScheduling;
 import team17.Algorithm.AlgorithmAStar;
 import team17.Algorithm.ScheduledTask;
@@ -17,7 +18,7 @@ public class Main {
         //args = new String[]{"../../src/main/resources/graph.dot", "2"};
 
         //Run in IDE
-        //args = new String[]{"src/main/resources/graph2.dot", "2"};
+//        args = new String[]{"src/main/resources/graph2.dot", "2", "-o", "2cores", "-p", "2"};
 
         CLI cli = new CLI(args);
         FileReadWriter frw = new FileReadWriter(cli);
@@ -36,7 +37,11 @@ public class Main {
             } else {
                 // for small graphs, use the A* algorithm
                 AlgorithmAStar aStar = new AlgorithmAStar(graph);
-                schedule = aStar.getOptimalSchedule(); // Returns list of Schedule
+                if(cli.getCores()==0) {
+                    schedule = aStar.getOptimalSchedule(); // Returns list of Schedule
+                } else {
+                    schedule = aStar.getOptimalScheduleParallel(cli.getCores());
+                }
             }
 
             frw.writeOutput(schedule);
