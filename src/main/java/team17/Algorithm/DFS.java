@@ -22,8 +22,9 @@ public class DFS extends Algorithm {
         open.push(_root);
         while (!open.isEmpty()) {
             PartialSolution partialSolution = open.pop();
-            if (partialSolution.isCompleteSchedule()) { //TODO && !bestSchedule.equals(partialSolution)
-                upperBound = partialSolution.getCostUnderestimate();
+            int costSoFar = partialSolution.getCostUnderestimate();
+            if (partialSolution.isCompleteSchedule() && costSoFar < upperBound) { //TODO && !bestSchedule.equals(partialSolution)
+                upperBound = costSoFar;
                 bestSchedule = partialSolution;
             } else {
                 children = expandSearch(partialSolution,graph);
