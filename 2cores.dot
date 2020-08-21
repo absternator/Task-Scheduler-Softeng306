@@ -1,0 +1,18 @@
+digraph "outputExample" {
+	a         [Weight=2,Start=0,Processor=2];
+	b         [Weight=2,Start=4,Processor=2];
+	a -> b    [Weight=1];
+	c         [Weight=2,Start=2,Processor=2];
+	a -> c    [Weight=3];
+	d         [Weight=3,Start=3,Processor=1];
+	a -> d    [Weight=1];
+	e         [Weight=2,Start=6,Processor=2];
+	b -> e    [Weight=2];
+	f         [Weight=3,Start=6,Processor=1];
+	c -> f    [Weight=2];
+	d -> f    [Weight=1];
+	g         [Weight=2,Start=9,Processor=1];
+	b -> g    [Weight=1];
+	e -> g    [Weight=1];
+	f -> g    [Weight=1];
+}

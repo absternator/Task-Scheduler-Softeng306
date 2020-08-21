@@ -73,7 +73,7 @@ public class AlgorithmAStar {
 
     public synchronized PartialSolution getNextPartialSolution(){
         PartialSolution partialSolution = _open.poll();
-        if(!(partialSolution==null)){
+        if(partialSolution!=null){
             _closed.add(partialSolution);
         }
         return partialSolution;

@@ -19,10 +19,10 @@ public class NThreads extends Thread{
     @Override
     public void run() {
         while(true) {
-            if(_aStar.getNextPartialSolution()==null) {
+            PartialSolution partialSolution = _aStar.getNextPartialSolution();
+            if(partialSolution==null) {
                 break;
             } else {
-                PartialSolution partialSolution = _aStar.getNextPartialSolution();
                 if (partialSolution.isCompleteSchedule()) {
                     _fullSchedule = partialSolution.fullSchedule();
                     break;
