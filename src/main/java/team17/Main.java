@@ -1,14 +1,25 @@
 package team17;
 
-import team17.Algorithm.*;
+import team17.Algorithm.Algorithm;
+import team17.Algorithm.AStar;
+import team17.Algorithm.DFS;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+import team17.Algorithm.ScheduledTask;
 import team17.DAG.Graph;
 import team17.IO.CLI;
 import team17.IO.FileReadWriter;
 
 import java.io.IOException;
 import java.util.List;
+import team17.GUI.visualiser;
 
-public class Main {
+public class Main extends Application {
 
     public static void main(String[] args) {
         //Run from command line
@@ -22,6 +33,7 @@ public class Main {
         CLI cli = new CLI(args);
         FileReadWriter frw = new FileReadWriter(cli);
         Algorithm algorithm;
+        launch();
 
         try {
             Graph graph = frw.readDotFile();
@@ -52,6 +64,25 @@ public class Main {
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+    }
+
+    public static void startVisualisation(String[] args) {
+        new visualiser().startVisualisation(args);
+    }
+
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        try {
+            FXMLLoader loader =new FXMLLoader();
+            loader.setLocation(getClass().getResource("view.fxml"));
+            Parent root=loader.load();
+            primaryStage.setScene(new Scene(root, 1000, 800));
+            primaryStage.show();
+        }catch (Exception e){
+
         }
     }
 }

@@ -6,9 +6,9 @@ import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
-public class visualizer extends Application {
+public class visualiser extends Application {
 
-    public visualizer() {
+    public visualiser() {
         super();
     }
 
