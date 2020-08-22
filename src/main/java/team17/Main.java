@@ -5,16 +5,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import team17.Algorithm.ListScheduling;
 import team17.Algorithm.AlgorithmAStar;
+import team17.Algorithm.ListScheduling;
 import team17.Algorithm.ScheduledTask;
+import team17.DAG.Graph;
+import team17.GUI.visualiser;
 import team17.IO.CLI;
 import team17.IO.FileReadWriter;
-import team17.DAG.Graph;
 
 import java.io.IOException;
 import java.util.List;
-import team17.GUI.visualiser;
 
 public class Main extends Application {
 
