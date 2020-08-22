@@ -13,7 +13,7 @@ public class NThreads extends Thread{
         _graph = graph;
     }
 
-    public PartialSolution getFullSchedule() {
+    public PartialSolution getCompletePartialSolution() {
         return _completePartialSolution;
     }
 

@@ -61,8 +61,8 @@ public class AStar extends Algorithm {
         for(NThreads thr : nThreads){
             try {
                 thr.join();
-                if(thr.getFullSchedule()!=null){
-                    return thr.getFullSchedule();
+                if(thr.getCompletePartialSolution()!=null){
+                    return thr.getCompletePartialSolution();
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
