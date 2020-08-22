@@ -12,6 +12,7 @@ public class AStar extends Algorithm {
     Queue<PartialSolution> _open;
     List<PartialSolution> _closed;
     PartialSolution _completePartialSolution;
+    boolean _foundComplete = false;
 
     public AStar(Graph graph) {
         _root = new PartialSolution(null, null);
@@ -74,8 +75,12 @@ public class AStar extends Algorithm {
 
     public synchronized PartialSolution getNextPartialSolution(){
         PartialSolution partialSolution = _open.poll();
+        if(_foundComplete) {
+            return null;
+        }
         if(partialSolution!=null){
             if (partialSolution.isCompleteSchedule()) {
+                _foundComplete = true;
                 _completePartialSolution = partialSolution;
                 return null;
             }
