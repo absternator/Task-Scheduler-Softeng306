@@ -8,9 +8,10 @@ import java.util.*;
  * Class that contains the main skeleton of the A* algorithm
  */
 public class AStar extends Algorithm {
-    private final PartialSolution _root;
+    final PartialSolution _root;
     Queue<PartialSolution> _open;
     List<PartialSolution> _closed;
+    PartialSolution _completePartialSolution;
 
     public AStar(Graph graph) {
         _root = new PartialSolution(null, null);
@@ -39,7 +40,7 @@ public class AStar extends Algorithm {
 //                }
 //            }
         }
-        return null;
+        return _completePartialSolution;
     }
 
     /**
@@ -68,12 +69,16 @@ public class AStar extends Algorithm {
                 e.printStackTrace();
             }
         }
-        return null;
+        return _completePartialSolution;
     }
 
     public synchronized PartialSolution getNextPartialSolution(){
         PartialSolution partialSolution = _open.poll();
         if(partialSolution!=null){
+            if (partialSolution.isCompleteSchedule()) {
+                _completePartialSolution = partialSolution;
+                return null;
+            }
             _closed.add(partialSolution);
         }
         return partialSolution;
