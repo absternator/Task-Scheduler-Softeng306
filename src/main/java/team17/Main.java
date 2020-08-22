@@ -1,5 +1,10 @@
 package team17;
 
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import team17.Algorithm.ListScheduling;
 import team17.Algorithm.AlgorithmAStar;
 import team17.Algorithm.ScheduledTask;
@@ -9,18 +14,21 @@ import team17.DAG.Graph;
 
 import java.io.IOException;
 import java.util.List;
+import team17.GUI.visualiser;
 
-public class Main {
+public class Main extends Application {
 
     public static void main(String[] args) {
         //Run from command line
-        //args = new String[]{"../../src/main/resources/graph.dot", "2"};
+        args = new String[]{"../../src/main/resources/graph.dot", "2"};
 
         //Run in IDE
-        //args = new String[]{"src/main/resources/graph2.dot", "2"};
+        //args = new String[]{"src/main/resources/graph.dot", "2"};
 
         CLI cli = new CLI(args);
         FileReadWriter frw = new FileReadWriter(cli);
+        //startVisualisation(args);
+        launch();
 
         try {
             Graph graph = frw.readDotFile();
@@ -43,6 +51,25 @@ public class Main {
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+    }
+
+    public static void startVisualisation(String[] args) {
+        new visualiser().startVisualisation(args);
+    }
+
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        try {
+            FXMLLoader loader =new FXMLLoader();
+            loader.setLocation(getClass().getResource("view.fxml"));
+            Parent root=loader.load();
+            primaryStage.setScene(new Scene(root, 1000, 800));
+            primaryStage.show();
+        }catch (Exception e){
+
         }
     }
 }
