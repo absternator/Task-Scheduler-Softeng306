@@ -7,51 +7,38 @@ import java.util.*;
 /**
  * Class that contains the main skeleton of the A* algorithm
  */
-public class AlgorithmAStar {
+public class AStar extends Algorithm {
+    private final PartialSolution _root;
     Queue<PartialSolution> _open;
     List<PartialSolution> _closed;
-    private final PartialSolution _root;
 
-    public AlgorithmAStar(Graph graph) {
-        _root = new PartialSolution(null, graph, null);
+    public AStar(Graph graph) {
+        _root = new PartialSolution(null, null);
         _open = new PriorityQueue<>();
         _closed = new ArrayList<>();
         _open.add(_root);
     }
 
-    /**
-     * This is the actual A* Algorithm that returns the optimal schedule
-     *
-     * @return The full Schedule which is the optimal solution
-     */
-    public List<ScheduledTask> getOptimalSchedule() {
-        while(true) {
+    @Override
+    public PartialSolution getOptimalSchedule(Graph graph) {
+        while (true) {
             PartialSolution partialSolution = this.getNextPartialSolution();
-            if(partialSolution==null) {
+            if (partialSolution == null) {
                 break;
             } else {
                 if (partialSolution.isCompleteSchedule()) {
-                    return partialSolution.fullSchedule();
+                    return partialSolution;
                 }
-                Set<PartialSolution> children = partialSolution.expandSearch();
+                Set<PartialSolution> children = expandSearch(partialSolution, graph);
                 this.openAddChildren(children);
             }
-        }
-//        while (!_open.isEmpty()) {
-//            PartialSolution partialSolution = _open.poll();
-//            _closed.add(partialSolution);
-//            if (partialSolution.isCompleteSchedule()) {
-//                return partialSolution.fullSchedule();
+            // TODO: 12/08/20 Need to implement partial solution equal to use 
+//            for (PartialSolution child : children) {
+//                if (!closed.contains(child)){
+//                    open.offer(child);
+//                }
 //            }
-//            Set<PartialSolution> children = partialSolution.expandSearch();
-//            _open.addAll(children);
-//            // TODO: 12/08/20 Need to implement partial solution equal to use
-////            for (PartialSolution child : children) {
-////                if (!closed.contains(child)){
-////                    open.offer(child);
-////                }
-////            }
-//        }
+        }
         return null;
     }
 
@@ -60,14 +47,14 @@ public class AlgorithmAStar {
      *
      * @return The full Schedule which is the optimal solution
      */
-    public List<ScheduledTask> getOptimalScheduleParallel(int nCores) {
+    public PartialSolution getOptimalScheduleParallel(Graph graph, int nCores) {
         List<NThreads> nThreads = new ArrayList<>();
         for(int i=0; i<nCores; i++){
-            NThreads thread = new NThreads(this);
+            NThreads thread = new NThreads(this, graph);
             thread.start();
             nThreads.add(thread);
         }
-        List<ScheduledTask> schedule = this.getOptimalSchedule();
+        PartialSolution schedule = this.getOptimalSchedule(graph);
         if(schedule!=null) {
             return schedule;
         }

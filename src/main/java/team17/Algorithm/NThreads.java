@@ -1,18 +1,20 @@
 package team17.Algorithm;
 
-import java.util.List;
 import java.util.Set;
+import team17.DAG.Graph;
 
 public class NThreads extends Thread{
-    AlgorithmAStar _aStar;
-    List<ScheduledTask> _fullSchedule;
+    AStar _aStar;
+    Graph _graph;
+    PartialSolution _completePartialSolution;
 
-    public NThreads(AlgorithmAStar aStar) {
+    public NThreads(AStar aStar, Graph graph) {
         _aStar = aStar;
+        _graph = graph;
     }
 
-    public List<ScheduledTask> getFullSchedule() {
-        return _fullSchedule;
+    public PartialSolution getFullSchedule() {
+        return _completePartialSolution;
     }
 
     @Override
@@ -23,10 +25,10 @@ public class NThreads extends Thread{
                 break;
             } else {
                 if (partialSolution.isCompleteSchedule()) {
-                    _fullSchedule = partialSolution.fullSchedule();
+                    _completePartialSolution = partialSolution;
                     break;
                 }
-                Set<PartialSolution> children = partialSolution.expandSearch();
+                Set<PartialSolution> children = _aStar.expandSearch(partialSolution, _graph);
                 _aStar.openAddChildren(children);
             }
         }

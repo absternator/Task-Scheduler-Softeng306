@@ -22,7 +22,7 @@ public class TestPartialSolution {
 
         _st = new ScheduledTask(1, _graph.getNode("A"), 0);
 
-        _ps = new PartialSolution(null, _graph, _st);
+        _ps = new PartialSolution(null, _st);
     }
 
 //    @Test
@@ -61,7 +61,7 @@ public class TestPartialSolution {
         graph2.addEdge("A", "C", 1);
 
         ScheduledTask st2 = new ScheduledTask(1, graph2.getNode("A"), 0);
-        PartialSolution ps2 = new PartialSolution(null, graph2, st2);
+        PartialSolution ps2 = new PartialSolution(null, st2);
 
         if (_ps.equals(ps2)) {
             fail();

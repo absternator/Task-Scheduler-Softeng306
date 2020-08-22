@@ -1,12 +1,12 @@
 package team17;
 
-import org.apache.commons.lang3.StringUtils;
-import team17.Algorithm.ListScheduling;
-import team17.Algorithm.AlgorithmAStar;
+import team17.Algorithm.Algorithm;
+import team17.Algorithm.AStar;
+import team17.Algorithm.DFS;
 import team17.Algorithm.ScheduledTask;
+import team17.DAG.Graph;
 import team17.IO.CLI;
 import team17.IO.FileReadWriter;
-import team17.DAG.Graph;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,25 +22,26 @@ public class Main {
 
         CLI cli = new CLI(args);
         FileReadWriter frw = new FileReadWriter(cli);
+        Algorithm algorithm;
 
         try {
             Graph graph = frw.readDotFile();
             List<ScheduledTask> schedule;
 
-            if (graph.getNodeList().size() > 11
-                    || (graph.getNodeList().size() >10 && graph.getNumOfProcessors() > 3)
-                    || (graph.getNodeList().size() >9 && graph.getNumOfProcessors() > 6)) {
-                // for large graphs, use a band-aid solution (List scheduling)
-                ListScheduling bandaid = new ListScheduling(graph);
-                schedule = bandaid.getSchedule();
-
+            // Temp Conditions
+            //graph.getNodeList().size() > 11
+            //                    || (graph.getNodeList().size() >10 && graph.getNumOfProcessors() > 3)
+            //                    || (graph.getNodeList().size() >9 && graph.getNumOfProcessors() > 6)
+            if (false) {
+                algorithm = new DFS(graph); //TODO remove graph parameter
+                schedule = algorithm.getOptimalSchedule(graph).fullSchedule();// Returns list of Schedule
             } else {
                 // for small graphs, use the A* algorithm
-                AlgorithmAStar aStar = new AlgorithmAStar(graph);
+                algorithm = new AStar(graph); //TODO remove graph parameter
                 if(cli.getCores()<2) {
-                    schedule = aStar.getOptimalSchedule(); // Returns list of Schedule
+                    schedule = algorithm.getOptimalSchedule(graph).fullSchedule(); // Returns list of Schedule
                 } else {
-                    schedule = aStar.getOptimalScheduleParallel(cli.getCores()-1);
+                    schedule = algorithm.getOptimalScheduleParallel(graph, cli.getCores()-1).fullSchedule();
                 }
             }
 
