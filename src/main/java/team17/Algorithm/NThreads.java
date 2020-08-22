@@ -2,7 +2,6 @@ package team17.Algorithm;
 
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.Semaphore;
 
 public class NThreads extends Thread{
     AlgorithmAStar _aStar;

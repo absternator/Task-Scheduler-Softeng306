@@ -18,7 +18,7 @@ public class Main {
         //args = new String[]{"../../src/main/resources/graph.dot", "2"};
 
         //Run in IDE
-        args = new String[]{"src/main/resources/graph2.dot", "2", "-o", "2cores", "-p", "2"};
+        args = new String[]{"src/main/resources/graph.dot", "2", "-o", "src/main/resources/4cores", "-p", "4"};
 
         CLI cli = new CLI(args);
         FileReadWriter frw = new FileReadWriter(cli);
@@ -37,10 +37,10 @@ public class Main {
             } else {
                 // for small graphs, use the A* algorithm
                 AlgorithmAStar aStar = new AlgorithmAStar(graph);
-                if(cli.getCores()==0) {
+                if(cli.getCores()<2) {
                     schedule = aStar.getOptimalSchedule(); // Returns list of Schedule
                 } else {
-                    schedule = aStar.getOptimalScheduleParallel(cli.getCores());
+                    schedule = aStar.getOptimalScheduleParallel(cli.getCores()-1);
                 }
             }
 
