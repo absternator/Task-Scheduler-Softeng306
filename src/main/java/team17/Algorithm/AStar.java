@@ -16,9 +16,8 @@ public class AStar extends Algorithm {
 
     public AStar(Graph graph) {
         _root = new PartialSolution(null, null);
-        _open = new PriorityQueue<>();
+        _open = new PriorityQueue<>(expandRoot(_root, graph));
         _closed = new ArrayList<>();
-        _open.add(_root);
     }
 
     @Override
@@ -51,19 +50,19 @@ public class AStar extends Algorithm {
      */
     public PartialSolution getOptimalScheduleParallel(Graph graph, int nCores) {
         List<NThreads> nThreads = new ArrayList<>();
-        for(int i=0; i< nCores; i++){
+        for (int i = 0; i < nCores; i++) {
             NThreads thread = new NThreads(this, graph);
             thread.start();
             nThreads.add(thread);
         }
         PartialSolution schedule = this.getOptimalSchedule(graph);
-        if(schedule!=null) {
+        if (schedule != null) {
             return schedule;
         }
-        for(NThreads thr : nThreads){
+        for (NThreads thr : nThreads) {
             try {
                 thr.join();
-                if(thr.getCompletePartialSolution()!=null){
+                if (thr.getCompletePartialSolution() != null) {
                     return thr.getCompletePartialSolution();
                 }
             } catch (InterruptedException e) {
@@ -73,12 +72,12 @@ public class AStar extends Algorithm {
         return _completePartialSolution;
     }
 
-    public synchronized PartialSolution getNextPartialSolution(){
+    public synchronized PartialSolution getNextPartialSolution() {
         PartialSolution partialSolution = _open.poll();
-        if(_foundComplete) {
+        if (_foundComplete) {
             return null;
         }
-        if(partialSolution!=null){
+        if (partialSolution != null) {
             if (partialSolution.isCompleteSchedule()) {
                 _foundComplete = true;
                 _completePartialSolution = partialSolution;
@@ -89,7 +88,17 @@ public class AStar extends Algorithm {
         return partialSolution;
     }
 
-    public synchronized void openAddChildren(Set<PartialSolution> children){
-        _open.addAll(children);
+    /**
+     * This adds children to open if partial solution not already present in closed.
+     * @param children Set of partial solution children not in closed
+     */
+    public synchronized void openAddChildren(Set<PartialSolution> children) {
+//        _open.addAll(children);   This is to add all children at once(not preferred)
+        for (PartialSolution child : children) {
+            if (!_closed.contains(child)) {
+                _open.offer(child);
+            }
+        }
     }
+
 }

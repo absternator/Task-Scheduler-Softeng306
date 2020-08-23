@@ -1,8 +1,6 @@
 package team17.Algorithm;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * This represents each partial solution created for the state space search.
@@ -106,19 +104,27 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
     }
 // TODO: 12/08/20 come back and do equals method & hashcode !!!! how?
 
-//    @Override
-//    public boolean equals(Object other) {
-//        for (ScheduledTask scheduledTask : this) {
-//            if(!scheduledTask.equals(other)){
-//                return false;
-//            }
-//        }
-//
-//        return true;
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(_parent, _graph, _scheduledTask);
-//    }
+    /**
+     * This method checks if two partial solutions are equal
+     * @param other The other partial solution being checked
+     * @return Boolean to indicate if both partial solutions are equal
+     */
+    // go through each one and check
+    @Override
+    public boolean equals(Object other) {
+        Set<ScheduledTask> thisSolution = new HashSet<>();
+        this.forEach(thisSolution::add);
+        //while building other solution if if adding task is in THIS solution,return false if not else keep adding.
+        for (ScheduledTask scheduledTask: (PartialSolution)other) {
+            if (!thisSolution.contains(scheduledTask)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return _scheduledTask.hashCode();
+    }
 }

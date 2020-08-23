@@ -19,7 +19,9 @@ public class DFS extends Algorithm {
         Set<PartialSolution> children;
         int upperBound = bestSchedule.getCostUnderestimate();
         Stack<PartialSolution> open = new Stack<>();
-        open.push(_root);
+        // Place first task on first processor and add to stack.
+        children = expandRoot(_root,graph);
+        children.forEach(open::push);
         while (!open.isEmpty()) {
             PartialSolution partialSolution = open.pop();
             int costSoFar = partialSolution.getCostUnderestimate();
