@@ -39,5 +39,10 @@ public class DFS extends Algorithm {
         return bestSchedule;
     }
 
+    @Override
+    public PartialSolution getOptimalScheduleParallel(Graph graph, int nCores) {
+        return null;
+    }
+
 
 }

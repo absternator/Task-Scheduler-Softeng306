@@ -21,6 +21,14 @@ public abstract class Algorithm {
     public abstract PartialSolution getOptimalSchedule(Graph graph);
 
     /**
+     * Method to return the optimal solution for a given graph input for multiple cores
+     * @param graph
+     * @param nCores
+     * @return
+     */
+    public abstract PartialSolution getOptimalScheduleParallel(Graph graph, int nCores);
+
+    /**
      * This method expands the state space tree getting children. It adds tasks to processors.
      *
      * @return A set of partial solutions are returns. These are the children of the current solution.
