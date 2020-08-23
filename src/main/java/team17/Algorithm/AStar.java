@@ -8,11 +8,11 @@ import java.util.*;
  * Class that contains the main skeleton of the A* algorithm
  */
 public class AStar extends Algorithm {
-    final PartialSolution _root;
-    Queue<PartialSolution> _open;
-    List<PartialSolution> _closed;
-    PartialSolution _completePartialSolution;
-    boolean _foundComplete = false;
+    private final PartialSolution _root;
+    private Queue<PartialSolution> _open;
+    private List<PartialSolution> _closed;
+    private PartialSolution _completePartialSolution;
+    private boolean _foundComplete = false;
 
     public AStar(Graph graph) {
         _root = new PartialSolution(null, null);

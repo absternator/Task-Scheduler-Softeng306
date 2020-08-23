@@ -4,9 +4,9 @@ import java.util.Set;
 import team17.DAG.Graph;
 
 public class NThreads extends Thread{
-    AStar _aStar;
-    Graph _graph;
-    PartialSolution _completePartialSolution;
+    private AStar _aStar;
+    private Graph _graph;
+    private PartialSolution _completePartialSolution;
 
     public NThreads(AStar aStar, Graph graph) {
         _aStar = aStar;
