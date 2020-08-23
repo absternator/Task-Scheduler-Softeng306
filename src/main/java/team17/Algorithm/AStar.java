@@ -51,7 +51,7 @@ public class AStar extends Algorithm {
      */
     public PartialSolution getOptimalScheduleParallel(Graph graph, int nCores) {
         List<NThreads> nThreads = new ArrayList<>();
-        for(int i=0; i<nCores; i++){
+        for(int i=0; i< nCores; i++){
             NThreads thread = new NThreads(this, graph);
             thread.start();
             nThreads.add(thread);
