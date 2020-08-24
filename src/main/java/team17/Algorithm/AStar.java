@@ -1,5 +1,6 @@
 package team17.Algorithm;
 
+;
 import team17.DAG.Graph;
 
 import java.util.*;
@@ -10,14 +11,15 @@ import java.util.*;
 public class AStar extends Algorithm {
     private final PartialSolution _root;
     private Queue<PartialSolution> _open;
-    private List<PartialSolution> _closed;
+    private Set<PartialSolution> _closed;
+    private int openCount = 0; // todo: this is for testing only(remove later)
     private PartialSolution _completePartialSolution;
     private boolean _foundComplete = false;
 
     public AStar(Graph graph) {
         _root = new PartialSolution(null, null);
         _open = new PriorityQueue<>(expandRoot(_root, graph));
-        _closed = new ArrayList<>();
+        _closed = new HashSet<>();
     }
 
     @Override
@@ -33,13 +35,11 @@ public class AStar extends Algorithm {
                 Set<PartialSolution> children = expandSearch(partialSolution, graph);
                 this.openAddChildren(children);
             }
-            // TODO: 12/08/20 Need to implement partial solution equal to use 
-//            for (PartialSolution child : children) {
-//                if (!closed.contains(child)){
-//                    open.offer(child);
-//                }
-//            }
+
         }
+
+        System.out.println(_open.size()); //todo: for testing only(remove later)
+        System.out.println(openCount);
         return _completePartialSolution;
     }
 
@@ -74,6 +74,7 @@ public class AStar extends Algorithm {
 
     public synchronized PartialSolution getNextPartialSolution() {
         PartialSolution partialSolution = _open.poll();
+        _closed.add(partialSolution);
         if (_foundComplete) {
             return null;
         }
@@ -83,7 +84,7 @@ public class AStar extends Algorithm {
                 _completePartialSolution = partialSolution;
                 return null;
             }
-            _closed.add(partialSolution);
+
         }
         return partialSolution;
     }
@@ -93,9 +94,12 @@ public class AStar extends Algorithm {
      * @param children Set of partial solution children not in closed
      */
     public synchronized void openAddChildren(Set<PartialSolution> children) {
-//        _open.addAll(children);   This is to add all children at once(not preferred)
-        for (PartialSolution child : children) {
+//        openCount += children.size();
+//        _open.addAll(children);
+        // This is to add all children at once(not preferred)
+       for (PartialSolution child : children) {
             if (!_closed.contains(child)) {
+                openCount++;
                 _open.offer(child);
             }
         }

@@ -36,30 +36,21 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
 
     @Override
     public boolean equals(Object other) {
-        if (this == other) {
-            return true;
-        }
-        if (other == null || getClass() != other.getClass()) {
-            return false;
-        }
         ScheduledTask that = (ScheduledTask) other;
-        return _processorNum == that._processorNum &&
-                _startTime == that._startTime &&
+        return _startTime == that._startTime &&
                 Objects.equals(_node, that._node);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_processorNum, _node, _startTime);
+        return Objects.hash(_node, _startTime);
     }
 
     @Override
     public String toString() {
-        return "{" +
-                "_processorNum=" + _processorNum +
-                ", _node=" + _node.getId() +
-                ", _startTime=" + _startTime +
-                '}';
+        return "node=" + _node.getId() +
+                ", startTime=" + _startTime +
+                "procNum=" + _processorNum;
     }
 
     @Override

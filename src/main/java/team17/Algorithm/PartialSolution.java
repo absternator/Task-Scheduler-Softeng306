@@ -93,7 +93,7 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
     }
 
     /**
-     * This metod compares partial solutions dependant on cost underestimate.This is used to order the priority queue in the A* Algorithm.
+     * This method compares partial solutions dependant on cost underestimate.This is used to order the priority queue in the A* Algorithm.
      *
      * @param other Partial solution being compared to.
      * @return Int value to indicate which partial solution has has a lower cost underestimate.
@@ -103,7 +103,6 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
         return this.getCostUnderestimate() - other.getCostUnderestimate();
     }
 // TODO: 12/08/20 come back and do equals method & hashcode !!!! how?
-
     /**
      * This method checks if two partial solutions are equal
      * @param other The other partial solution being checked
@@ -113,18 +112,20 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
     @Override
     public boolean equals(Object other) {
         Set<ScheduledTask> thisSolution = new HashSet<>();
-        this.forEach(thisSolution::add);
+//        this.forEach(thisSolution::add);
+        for (ScheduledTask task : this) {
+            thisSolution.add(task);
+        }
         //while building other solution if if adding task is in THIS solution,return false if not else keep adding.
-        for (ScheduledTask scheduledTask: (PartialSolution)other) {
+        for (ScheduledTask scheduledTask : (PartialSolution)other) {
             if (!thisSolution.contains(scheduledTask)){
                 return false;
             }
         }
         return true;
     }
-
     @Override
     public int hashCode() {
-        return _scheduledTask.hashCode();
+        return Objects.hash(_parent, _scheduledTask);
     }
 }
