@@ -94,9 +94,10 @@ public class AStar extends Algorithm {
      * @param children Set of partial solution children not in closed
      */
     public synchronized void openAddChildren(Set<PartialSolution> children) {
+        // This is to add all children at once(not preferred)
 //        openCount += children.size();
 //        _open.addAll(children);
-        // This is to add all children at once(not preferred)
+
        for (PartialSolution child : children) {
             if (!_closed.contains(child)) {
                 openCount++;
