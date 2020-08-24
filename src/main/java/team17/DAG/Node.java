@@ -80,7 +80,7 @@ public class Node {
         if(!other.getClass().equals(this.getClass())){
             return false;
         }
-        
+
         Node that = (Node) other;
         if (_id.equals(that.getId())) {
             return true;
