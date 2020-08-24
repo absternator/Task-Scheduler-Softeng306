@@ -126,6 +126,6 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
     }
     @Override
     public int hashCode() {
-        return Objects.hash(_parent, _scheduledTask);
+        return Objects.hash(_scheduledTask,_parent);
     }
 }
