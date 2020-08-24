@@ -1,15 +1,29 @@
+import org.junit.Assume;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import team17.Algorithm.PartialSolution;
 import team17.Algorithm.ScheduledTask;
 import team17.DAG.Graph;
 
+import javax.management.remote.rmi._RMIConnection_Stub;
+
 import static org.junit.Assert.fail;
 
 public class TestPartialSolution {
+
+    // *** SET TO TRUE IF YOU WANT TO RUN THESE TESTS ***
+    private static boolean _RunThisTestSuite = false;
+    // **************************************************
+
     private PartialSolution _ps;
     private Graph _graph;
     private ScheduledTask _st;
+
+    @BeforeClass
+    public static void beforeClass(){
+        Assume.assumeTrue(_RunThisTestSuite);
+    }
 
     @Before
     public void setUp() throws Exception {
@@ -25,30 +39,30 @@ public class TestPartialSolution {
         _ps = new PartialSolution(null, _st);
     }
 
-//    @Test
-//    public void testEquals() {
-//        PartialSolution ps2 = new PartialSolution(null, _graph, _st);
-//
-//        if (!_ps.equals(ps2)) {
-//            fail();
-//        }
-//    }
+    @Test
+    public void testEquals() {
+        PartialSolution ps2 = new PartialSolution(null, _st);
 
-//    @Test
-//    public void testEqualsContent() throws Exception {
-//        Graph compare = new Graph();
-//        compare.addNode("A", 3);
-//        compare.addNode("B", 2);
-//        compare.addNode("C", 4);
-//        compare.addEdge("A", "B", 1);
-//        compare.addEdge("A", "C", 5);
-//        ScheduledTask st2 = new ScheduledTask(1, compare.getNode("A"), 0);
-//        PartialSolution ps2 = new PartialSolution(null, compare, st2);
-//
-//        if (!_ps.equals(ps2)) {
-//            fail();
-//        }
-//    }
+        if (!_ps.equals(ps2)) {
+            fail();
+        }
+    }
+
+    @Test
+    public void testEqualsContent() throws Exception {
+        Graph compare = new Graph();
+        compare.addNode("A", 3);
+        compare.addNode("B", 2);
+        compare.addNode("C", 4);
+        compare.addEdge("A", "B", 1);
+        compare.addEdge("A", "C", 5);
+        ScheduledTask st2 = new ScheduledTask(1, compare.getNode("A"), 0);
+        PartialSolution ps2 = new PartialSolution(null, st2);
+
+        if (!_ps.equals(ps2)) {
+            fail();
+        }
+    }
 
     @Test
     public void testNotEquals() throws Exception {
