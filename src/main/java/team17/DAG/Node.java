@@ -9,6 +9,7 @@ public class Node {
     private Map<Node, Integer> _incomingEdges;
     private Set<Node> _dependencies;
     private Set<Node> _dependants;
+    private int _eqId;
 
     /**
      * This is a Node constructor which adds weight and id.
@@ -77,31 +78,25 @@ public class Node {
 
     @Override
     public boolean equals(Object other) {
-        if(!other.getClass().equals(this.getClass())){
-            return false;
-        }
+        return _id.equals(((Node) other)._id);
+    }
 
-        Node that = (Node) other;
-        if (_id.equals(that.getId())) {
+    public boolean isEquivalent(Node other) {
+        if (_id.equals(other.getId())) {
             return true;
         }
-        if (_weight != that._weight) {
-            return false;
-        }
-        if (!_incomingEdges.equals(that._incomingEdges)) {
-            return false;
-        }
-        if (!_dependants.equals(that._dependants)) {
+        if (_weight != other._weight || !_incomingEdges.equals(other._incomingEdges)
+                || !_dependants.equals(other._dependants)) {
             return false;
         }
 
         // check if the weights of the outgoing edges are the same
         for (Node dependant : _dependants) {
-            for (Node thatDependant : that._dependants) {
+            for (Node thatDependant : other._dependants) {
                 // for each matching dependent...
-                if (dependant.equalsID(thatDependant)) {
-                    // ... check that the weight of the incoming edge is the same for this node and that node
-                    if (!dependant._incomingEdges.get(this).equals(thatDependant._incomingEdges.get(that))) {
+                if (dependant.equals(thatDependant)) {
+                    // ... check that the weight of the incoming edge is the same for this node and other node
+                    if (!dependant._incomingEdges.get(this).equals(thatDependant._incomingEdges.get(other))) {
                         return false;
                     }
                 }
@@ -109,10 +104,6 @@ public class Node {
         }
 
         return true;
-    }
-
-    public boolean equalsID(Node other) {
-        return _id.equals(other._id);
     }
 
     @Override
