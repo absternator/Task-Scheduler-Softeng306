@@ -32,6 +32,7 @@ public class Node {
         _dependants = new HashSet<>(node._dependants);
         _bottomLevel = node._bottomLevel;
         _incomingEdges = new HashMap<>(node._incomingEdges);
+        _eqId=node._eqId;
     }
 
     public String getId() {
@@ -59,6 +60,10 @@ public class Node {
         return _dependants;
     }
 
+    public int getEquivalenceId() {
+        return _eqId;
+    }
+
     public void setBottomLevel(int bottomLevel) {
         this._bottomLevel = bottomLevel;
     }
@@ -66,7 +71,6 @@ public class Node {
     public void setIncomingEdges(Node edge, int edgeWeight) {
         _incomingEdges.put(edge, edgeWeight);
     }
-
 
     public void setDependencies(Node dependency) {
         _dependencies.add(dependency);
@@ -76,15 +80,26 @@ public class Node {
         _dependants.add(dependant);
     }
 
+    public void setEquivalenceId(int eqId) {
+        _eqId = eqId;
+    }
+
     @Override
     public boolean equals(Object other) {
         return _id.equals(((Node) other)._id);
     }
 
     public boolean isEquivalent(Node other) {
+        // check id's are the same
         if (_id.equals(other.getId())) {
             return true;
         }
+
+        // if eqId has been set in both nodes, check if they are the same
+        if (_eqId != 0 && other._eqId != 0) {
+            return _eqId == other._eqId;
+        }
+
         if (_weight != other._weight || !_incomingEdges.equals(other._incomingEdges)
                 || !_dependants.equals(other._dependants)) {
             return false;
@@ -92,15 +107,11 @@ public class Node {
 
         // check if the weights of the outgoing edges are the same
         for (Node dependant : _dependants) {
-            for (Node thatDependant : other._dependants) {
-                // for each matching dependent...
-                if (dependant.equals(thatDependant)) {
-                    // ... check that the weight of the incoming edge is the same for this node and other node
-                    if (!dependant._incomingEdges.get(this).equals(thatDependant._incomingEdges.get(other))) {
-                        return false;
-                    }
-                }
+            // for each dependent check that the weight of the incoming edge is the same for this node and other node
+            if (!dependant._incomingEdges.get(this).equals(dependant._incomingEdges.get(other))) {
+                return false;
             }
+
         }
 
         return true;
