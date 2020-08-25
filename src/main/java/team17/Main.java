@@ -20,14 +20,14 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         //Run from command line
-        args = new String[]{"../../src/main/resources/graph.dot", "2"};
+        //args = new String[]{"../../src/main/resources/graph.dot", "2"};
 
         //Run in IDE
-        //args = new String[]{"src/main/resources/graph.dot", "2"};
+        args = new String[]{"src/main/resources/graph.dot", "2"};
 
         CLI cli = new CLI(args);
         FileReadWriter frw = new FileReadWriter(cli);
-        //startVisualisation(args);
+
         launch();
 
         try {
@@ -55,9 +55,6 @@ public class Main extends Application {
 
     }
 
-    public static void startVisualisation(String[] args) {
-        new visualiser().startVisualisation(args);
-    }
 
 
     @Override
@@ -66,7 +63,8 @@ public class Main extends Application {
             FXMLLoader loader =new FXMLLoader();
             loader.setLocation(getClass().getResource("view.fxml"));
             Parent root=loader.load();
-            primaryStage.setScene(new Scene(root, 1000, 800));
+            Scene scene = new Scene(root, 1000, 800);
+            primaryStage.setScene(scene);
             primaryStage.show();
         }catch (Exception e){
 
