@@ -102,7 +102,7 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
     public int compareTo(PartialSolution other) {
         return this.getCostUnderestimate() - other.getCostUnderestimate();
     }
-// TODO: 12/08/20 come back and do equals method & hashcode !!!! how?
+// TODO: 26/08/20 Still will update futher 
     /**
      * This method checks if two partial solutions are equal
      * @param other The other partial solution being checked
@@ -112,7 +112,7 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
     @Override
     public boolean equals(Object other) {
         Set<ScheduledTask> thisSolution = new HashSet<>();
-//        this.forEach(thisSolution::add);
+        
         for (ScheduledTask task : this) {
             thisSolution.add(task);
         }

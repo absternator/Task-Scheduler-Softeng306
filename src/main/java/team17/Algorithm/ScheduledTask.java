@@ -14,8 +14,8 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
 
     public ScheduledTask(int processorNum, Node node, int startTime){
         _processorNum = processorNum;
-        _node= node;
-        _startTime= startTime;
+        _node = node;
+        _startTime = startTime;
     }
 
     public int getStartTime() {
