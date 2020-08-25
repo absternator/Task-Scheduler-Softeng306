@@ -53,6 +53,12 @@ public abstract class Algorithm {
                     continue AddNode;
                 }
             }
+            // if a sibling has already scheduled an equivalent node
+            for (PartialSolution child:children){
+                if(child.getScheduledTask().getNode().isEquivalent(node)){
+                    continue AddNode;
+                }
+            }
 
             //Node can be placed on Processor now
             for (int i = 1; i < graph.getNumOfProcessors() + 1; i++) {
