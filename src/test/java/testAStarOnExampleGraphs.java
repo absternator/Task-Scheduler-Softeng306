@@ -23,7 +23,6 @@ public class testAStarOnExampleGraphs {
     // **************************************************
 
     private String[] _args;
-    private PartialSolution _solution;
 
     @BeforeClass
     public static void setUpBeforeAll() {
@@ -34,63 +33,57 @@ public class testAStarOnExampleGraphs {
     public void testNodes7OutTree_2P() throws IOException {
 
         _args = new String[]{"src/main/resources/Nodes_7_OutTree.dot", "2"};
-        _solution = getAStarSolutionFor(_args);
 
-        assertEquals(28, _solution.getEndTime());
+        assertEquals(28,getAStarSolutionFor(_args));
     }
 
     @Test
     public void testNodes7OutTree_4P() throws IOException {
 
         _args = new String[]{"src/main/resources/Nodes_7_OutTree.dot", "4"};
-        _solution = getAStarSolutionFor(_args);
 
-        assertEquals(22, _solution.getEndTime());
+        assertEquals(22,getAStarSolutionFor(_args));
     }
 
     @Test
     public void testNodes8Random_2P() throws IOException {
 
         _args = new String[]{"src/main/resources/Nodes_8_Random.dot", "2"};
-        _solution = getAStarSolutionFor(_args);
 
-        assertEquals(581, _solution.getEndTime());
+        assertEquals(581,getAStarSolutionFor(_args));
     }
 
     @Test
     public void testNodes8Random_4P() throws IOException {
 
         _args = new String[]{"src/main/resources/Nodes_8_Random.dot", "4"};
-        _solution = getAStarSolutionFor(_args);
 
-        assertEquals(581, _solution.getEndTime());
+        assertEquals(581,getAStarSolutionFor(_args));
     }
 
     @Test
     public void testNodes9SeriesParallel_2P() throws IOException {
 
         _args = new String[]{"src/main/resources/Nodes_9_SeriesParallel.dot", "2"};
-        _solution = getAStarSolutionFor(_args);
 
-        assertEquals(55, _solution.getEndTime());
+        assertEquals(55, getAStarSolutionFor(_args));
     }
 
     @Test
     public void testNodes9SeriesParallel_4P() throws IOException {
 
         _args = new String[]{"src/main/resources/Nodes_9_SeriesParallel.dot", "4"};
-        _solution = getAStarSolutionFor(_args);
 
-        assertEquals(55, _solution.getEndTime());
+        assertEquals(55, getAStarSolutionFor(_args));
     }
 
     @Test
     public void testNodes10Random_2P() throws IOException {
         Assume.assumeTrue(_runNodes10Random);
         _args = new String[]{"src/main/resources/Nodes_10_Random.dot", "2"};
-        _solution = getAStarSolutionFor(_args);
 
-        assertEquals(50, _solution.getEndTime());
+
+        assertEquals(50, getAStarSolutionFor(_args));
     }
 
     @Test
@@ -98,18 +91,17 @@ public class testAStarOnExampleGraphs {
         Assume.assumeTrue(_runNodes10Random);
 
         _args = new String[]{"src/main/resources/Nodes_10_Random.dot", "4"};
-        _solution = getAStarSolutionFor(_args);
 
-        assertEquals(50, _solution.getEndTime());
+
+        assertEquals(50, getAStarSolutionFor(_args));
     }
 
     @Test
     public void testNodes11OutTree_2P() throws IOException {
         Assume.assumeTrue(_runNodes11OutTree);
         _args = new String[]{"src/main/resources/Nodes_11_OutTree.dot", "2"};
-        _solution = getAStarSolutionFor(_args);
 
-        assertEquals(350, _solution.getEndTime());
+        assertEquals(350, getAStarSolutionFor(_args));
     }
 
     @Test
@@ -117,16 +109,15 @@ public class testAStarOnExampleGraphs {
         Assume.assumeTrue(_runNodes11OutTree);
 
         _args = new String[]{"src/main/resources/Nodes_11_OutTree.dot", "4"};
-        _solution = getAStarSolutionFor(_args);
 
-        assertEquals(227, _solution.getEndTime());
+        assertEquals(227, getAStarSolutionFor(_args));
     }
 
-    private PartialSolution getAStarSolutionFor(String[] args) throws IOException {
+    private int getAStarSolutionFor(String[] args) throws IOException {
         CLI cli = new CLI(args);
         FileReadWriter frw = new FileReadWriter(cli);
         Graph graph = frw.readDotFile();
         AStar aStar = new AStar(graph);
-        return aStar.getOptimalSchedule(graph);
+        return aStar.getOptimalSchedule(graph).getScheduledTask().getStartTime();
     }
 }

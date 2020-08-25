@@ -6,9 +6,8 @@ import team17.Algorithm.PartialSolution;
 import team17.Algorithm.ScheduledTask;
 import team17.DAG.Graph;
 
-import javax.management.remote.rmi._RMIConnection_Stub;
-
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class TestPartialSolution {
 
@@ -21,7 +20,7 @@ public class TestPartialSolution {
     private ScheduledTask _st;
 
     @BeforeClass
-    public static void beforeClass(){
+    public static void beforeClass() {
         Assume.assumeTrue(_RunThisTestSuite);
     }
 
@@ -43,9 +42,7 @@ public class TestPartialSolution {
     public void testEquals() {
         PartialSolution ps2 = new PartialSolution(null, _st);
 
-        if (!_ps.equals(ps2)) {
-            fail();
-        }
+        assertTrue(_ps.equals(ps2));
     }
 
     @Test
@@ -59,9 +56,7 @@ public class TestPartialSolution {
         ScheduledTask st2 = new ScheduledTask(1, compare.getNode("A"), 0);
         PartialSolution ps2 = new PartialSolution(null, st2);
 
-        if (!_ps.equals(ps2)) {
-            fail();
-        }
+        assertTrue(_ps.equals(ps2));
     }
 
     @Test
@@ -77,8 +72,6 @@ public class TestPartialSolution {
         ScheduledTask st2 = new ScheduledTask(1, graph2.getNode("A"), 0);
         PartialSolution ps2 = new PartialSolution(null, st2);
 
-        if (_ps.equals(ps2)) {
-            fail();
-        }
+        assertFalse(_ps.equals(ps2));
     }
 }

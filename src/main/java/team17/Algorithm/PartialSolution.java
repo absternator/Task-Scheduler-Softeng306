@@ -69,22 +69,6 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
     }
 
     /**
-     * This returns the current end time of a partial solution
-     *
-     * @return Returns the end time
-     */
-    public int getEndTime() {
-        int end = 0;
-        for (ScheduledTask task : this) {
-            if (task.getFinishTime() > end) {
-                end = task.getFinishTime();
-            }
-        }
-        return end;
-    }
-
-
-    /**
      * This iterator iterates from the current partial solution to the root partial solution to get all tasks
      *
      * @return This returns new Iterator instance.
