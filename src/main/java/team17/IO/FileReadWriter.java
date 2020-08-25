@@ -34,7 +34,9 @@ public class FileReadWriter {
         String line = br.readLine();
         _digraphName = StringUtils.substringBetween(line,"\"");
         while (!(line = br.readLine()).equals("}")) {
-            parse(graph,line);
+            if (!StringUtils.isBlank(line)) {
+                parse(graph,line);
+            }
         }
         graph.addFinishNode();
         graph.setBottomLevel();
@@ -49,9 +51,15 @@ public class FileReadWriter {
      * This parses the information in the input dot file to adds tasks to graph.
      * @param line Each line of the dot file is passed in.
      */
-    public void parse(Graph graph, String line){
+    private void parse(Graph graph, String line) throws IOException {
         String entity = StringUtils.deleteWhitespace(StringUtils.substringBefore(line,"["));
         String weight = StringUtils.substringBetween(line,"Weight=","]");
+
+        if (weight == null) { // Not an entry for a node/edge
+            return;
+        } else if (entity.isEmpty() || weight.isEmpty()) { // Not a valid entry for the graph
+            throw new IOException("Invalid graph entry: Entity = " + entity + ", Weight = " + weight );
+        }
 
         if (!entity.contains("->")) { // this is adding a node
             graph.addNode(entity,Integer.parseInt(weight));
