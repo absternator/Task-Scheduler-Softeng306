@@ -10,17 +10,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-<<<<<<< HEAD
 
 import team17.Algorithm.ScheduledTask;
 import team17.DAG.Graph;
-=======
-import team17.Algorithm.AlgorithmAStar;
-import team17.Algorithm.ListScheduling;
-import team17.Algorithm.ScheduledTask;
-import team17.DAG.Graph;
-import team17.GUI.visualiser;
->>>>>>> working application, removed non existent controller
+
 import team17.IO.CLI;
 import team17.IO.FileReadWriter;
 
@@ -39,6 +32,7 @@ public class Main extends Application {
         CLI cli = new CLI(args);
         FileReadWriter frw = new FileReadWriter(cli);
         Algorithm algorithm;
+
         launch();
 
         try {
@@ -70,9 +64,6 @@ public class Main extends Application {
 
     }
 
-    public static void startVisualisation(String[] args) {
-        new visualiser().startVisualisation(args);
-    }
 
 
     @Override
@@ -81,7 +72,8 @@ public class Main extends Application {
             FXMLLoader loader =new FXMLLoader();
             loader.setLocation(getClass().getResource("view.fxml"));
             Parent root=loader.load();
-            primaryStage.setScene(new Scene(root, 1000, 800));
+            Scene scene = new Scene(root, 1000, 800);
+            primaryStage.setScene(scene);
             primaryStage.show();
         }catch (Exception e){
 
