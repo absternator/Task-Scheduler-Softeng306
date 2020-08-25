@@ -1,8 +1,6 @@
 package team17.Algorithm;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * This represents each partial solution created for the state space search.
@@ -95,7 +93,7 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
     }
 
     /**
-     * This metod compares partial solutions dependant on cost underestimate.This is used to order the priority queue in the A* Algorithm.
+     * This method compares partial solutions dependant on cost underestimate.This is used to order the priority queue in the A* Algorithm.
      *
      * @param other Partial solution being compared to.
      * @return Int value to indicate which partial solution has has a lower cost underestimate.
@@ -104,21 +102,30 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
     public int compareTo(PartialSolution other) {
         return this.getCostUnderestimate() - other.getCostUnderestimate();
     }
-// TODO: 12/08/20 come back and do equals method & hashcode !!!! how?
-
-//    @Override
-//    public boolean equals(Object other) {
-//        for (ScheduledTask scheduledTask : this) {
-//            if(!scheduledTask.equals(other)){
-//                return false;
-//            }
-//        }
-//
-//        return true;
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(_parent, _graph, _scheduledTask);
-//    }
+// TODO: 26/08/20 Still will update futher 
+    /**
+     * This method checks if two partial solutions are equal
+     * @param other The other partial solution being checked
+     * @return Boolean to indicate if both partial solutions are equal
+     */
+    // go through each one and check
+    @Override
+    public boolean equals(Object other) {
+        Set<ScheduledTask> thisSolution = new HashSet<>();
+        
+        for (ScheduledTask task : this) {
+            thisSolution.add(task);
+        }
+        //while building other solution if if adding task is in THIS solution,return false if not else keep adding.
+        for (ScheduledTask scheduledTask : (PartialSolution)other) {
+            if (!thisSolution.contains(scheduledTask)){
+                return false;
+            }
+        }
+        return true;
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(_scheduledTask,_parent);
+    }
 }
