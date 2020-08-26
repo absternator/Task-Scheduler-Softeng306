@@ -39,7 +39,7 @@ public class AStar extends Algorithm {
         }
 
         System.out.println("left in queue: "+_open.size()); //todo: for testing only(remove later)
-        System.out.println("opened: "+openCount);
+        System.out.println("added to queue: "+openCount);
         return _completePartialSolution;
     }
 
@@ -115,7 +115,7 @@ public class AStar extends Algorithm {
             for (int i = 1; i < graph.getNumOfProcessors() + 1; i++) {
 
                 // skip past the previously scheduled processors from the previous partial expansion
-                if (i <= partialSolution.getLastPartialExpansionProcessor()) {
+                if (i <= partialSolution.getLastPartialExpansionProcessor() && node.getId().equals(partialSolution.getLastPartialExpansionNodeId())) {
                     continue;
                 }
 
