@@ -112,7 +112,7 @@ public class AStar extends Algorithm {
             }
 
             //Node can be placed on Processor now
-            for (int i = 1; i < graph.getNumOfProcessors() + 1; i++) {
+            for (int i = 1; i < AlgorithmConfig.getNumOfProcessors() + 1; i++) {
 
                 // skip past the previously scheduled processors from the previous partial expansion
                 if (i <= partialSolution.getLastPartialExpansionProcessor() && node.getId().equals(partialSolution.getLastPartialExpansionNodeId())) {
