@@ -72,8 +72,8 @@ public class GUIController {
     private void setUpMemoryPane(){
         this.memoryUsageTile = TileBuilder.create()
                 .skinType(Tile.SkinType.GAUGE)
-                .maxValue(100)
-                .threshold(100*0.9)
+                .maxValue(maxMemory)
+                .threshold(maxMemory*0.9)
                 .thresholdVisible(false)
                 .unit("MB")
                 .startFromZero(true)
