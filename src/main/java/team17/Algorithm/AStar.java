@@ -12,6 +12,7 @@ public class AStar extends Algorithm {
     private final PartialSolution _root;
     private Queue<PartialSolution> _open;
     private Set<PartialSolution> _closed;
+    private final int _upperBound;
     private int openCount = 0; // todo: this is for testing only(remove later)
     private PartialSolution _completePartialSolution;
     private boolean _foundComplete = false;
@@ -20,6 +21,11 @@ public class AStar extends Algorithm {
         _root = new PartialSolution(null, null);
         _open = new PriorityQueue<>(expandRoot(_root, graph));
         _closed = new HashSet<>();
+        // Adds list schedule as upperBound
+        ListScheduling ls = new ListScheduling(graph);
+        PartialSolution _upperBoundListSchedule = ls.getSchedule();
+        _open.add(_upperBoundListSchedule);
+        _upperBound = _upperBoundListSchedule.getScheduledTask().getStartTime();
     }
 
     @Override
@@ -100,7 +106,7 @@ public class AStar extends Algorithm {
 //        _open.addAll(children);
 
        for (PartialSolution child : children) {
-            if (!_closed.contains(child)) {
+            if (!_closed.contains(child) && child.getCostUnderestimate() < _upperBound) {
                 openCount++;
                 _open.offer(child);
             }
