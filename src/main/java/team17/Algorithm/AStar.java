@@ -15,11 +15,13 @@ public class AStar extends Algorithm {
     private int openCount = 0; // todo: this is for testing only(remove later)
     private PartialSolution _completePartialSolution;
     private boolean _foundComplete = false;
+    private AlgorithmState _algorithmState;
 
-    public AStar(Graph graph) {
+    public AStar(Graph graph, AlgorithmState algorithmState) {
         _root = new PartialSolution(null, null);
         _open = new PriorityQueue<>(expandRoot(_root, graph));
         _closed = new HashSet<>();
+        _algorithmState = algorithmState;
     }
 
     @Override
@@ -82,6 +84,9 @@ public class AStar extends Algorithm {
             if (partialSolution.isCompleteSchedule()) {
                 _foundComplete = true;
                 _completePartialSolution = partialSolution;
+                if (_algorithmState != null) {
+                    _algorithmState.setCompleteSolution(_completePartialSolution);
+                }
                 return null;
             }
 

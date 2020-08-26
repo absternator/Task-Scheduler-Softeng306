@@ -7,15 +7,20 @@ import java.util.Stack;
 
 public class DFS extends Algorithm {
     private final PartialSolution _root;
+    private final AlgorithmState _algorithmState;
 
-    public DFS(Graph graph) {
+    public DFS(Graph graph, AlgorithmState algorithmState) {
         _root = new PartialSolution(null, null);
+        _algorithmState = algorithmState;
     }
 
     @Override
     public PartialSolution getOptimalSchedule(Graph graph) {
         ListScheduling ls = new ListScheduling(graph);
         PartialSolution bestSchedule = ls.getSchedule();
+        if(_algorithmState != null) {
+            _algorithmState.setCompleteSolution(bestSchedule);
+        }
         Set<PartialSolution> children;
         int upperBound = bestSchedule.getCostUnderestimate();
         Stack<PartialSolution> open = new Stack<>();
@@ -28,6 +33,9 @@ public class DFS extends Algorithm {
             if (partialSolution.isCompleteSchedule() && costSoFar < upperBound) { //TODO && !bestSchedule.equals(partialSolution)
                 upperBound = costSoFar;
                 bestSchedule = partialSolution;
+                if(_algorithmState != null) {
+                    _algorithmState.setCompleteSolution(bestSchedule);
+                }
             } else {
                 children = expandSearch(partialSolution,graph);
                 for (PartialSolution child:children) {

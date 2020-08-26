@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.chart.*;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -38,8 +39,12 @@ public class GanttChart<X,Y> extends XYChart<X,Y> {
         return ((TaskData) obj).getStyleClass();
     }
 
-    private static double getLength( Object obj) {
+    private static int getLength( Object obj) {
         return ((TaskData) obj).getLength();
+    }
+
+    private static String getText( Object obj) {
+        return ((TaskData) obj).getId();
     }
 
     @Override protected void layoutPlotChildren() {
@@ -71,6 +76,12 @@ public class GanttChart<X,Y> extends XYChart<X,Y> {
                         ellipse.setWidth( getLength( item.getExtraValue()) * ((getXAxis() instanceof NumberAxis) ? Math.abs(((NumberAxis)getXAxis()).getScale()) : 1));
                         ellipse.setHeight(getBlockHeight() * ((getYAxis() instanceof NumberAxis) ? Math.abs(((NumberAxis)getYAxis()).getScale()) : 1));
                         y -= getBlockHeight() / 2.0;
+
+                        Text taskIdText = new Text(getText(item.getExtraValue()));
+                        taskIdText.setTranslateX(ellipse.getWidth()/2);
+                        taskIdText.setTranslateY(ellipse.getHeight()/2);
+                        region.getChildren().add(taskIdText);
+
 
                         // Note: workaround for RT-7689 - saw this in ProgressControlSkin
                         // The region doesn't update itself when the shape is mutated in place, so we
