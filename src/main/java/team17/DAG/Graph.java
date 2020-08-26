@@ -118,7 +118,7 @@ public class Graph {
     }
 
     /**
-     * This sets the bottoom level for each task. Will be used as hueristic for algorithm.
+     * This sets the bottom level for each task. Will be used as heuristic for algorithm.
      */
     public void setBottomLevel() {
         boolean progress = false;

@@ -29,6 +29,19 @@ public abstract class Algorithm {
     public abstract PartialSolution getOptimalScheduleParallel(Graph graph, int nCores);
 
     /**
+     * This expands the root and assigns the first task to the first processor
+     * @return Set of Partial solutions where first node is placed on first processor
+     */
+    public Set<PartialSolution> expandRoot(PartialSolution partialSolution, Graph graph){
+        Set<PartialSolution> children = new HashSet<>();
+        for (Node node: graph.getNodeList()) {
+            if(node.getDependencies().size() == 0){
+                children.add(new PartialSolution(partialSolution,new ScheduledTask(1,node,0)));
+            }
+        }
+        return children;
+    }
+    /**
      * This method expands the state space tree getting children. It adds tasks to processors.
      *
      * @return A set of partial solutions are returns. These are the children of the current solution.

@@ -1,5 +1,6 @@
 package team17.Algorithm;
 
+;
 import team17.DAG.Graph;
 
 import java.util.*;
@@ -10,15 +11,15 @@ import java.util.*;
 public class AStar extends Algorithm {
     private final PartialSolution _root;
     private Queue<PartialSolution> _open;
-    private List<PartialSolution> _closed;
+    private Set<PartialSolution> _closed;
+    private int openCount = 0; // todo: this is for testing only(remove later)
     private PartialSolution _completePartialSolution;
     private boolean _foundComplete = false;
 
     public AStar(Graph graph) {
         _root = new PartialSolution(null, null);
-        _open = new PriorityQueue<>();
-        _closed = new ArrayList<>();
-        _open.add(_root);
+        _open = new PriorityQueue<>(expandRoot(_root, graph));
+        _closed = new HashSet<>();
     }
 
     @Override
@@ -34,13 +35,11 @@ public class AStar extends Algorithm {
                 Set<PartialSolution> children = expandSearch(partialSolution, graph);
                 this.openAddChildren(children);
             }
-            // TODO: 12/08/20 Need to implement partial solution equal to use 
-//            for (PartialSolution child : children) {
-//                if (!closed.contains(child)){
-//                    open.offer(child);
-//                }
-//            }
+
         }
+
+        System.out.println(_open.size()); //todo: for testing only(remove later)
+        System.out.println(openCount);
         return _completePartialSolution;
     }
 
@@ -51,19 +50,19 @@ public class AStar extends Algorithm {
      */
     public PartialSolution getOptimalScheduleParallel(Graph graph, int nCores) {
         List<NThreads> nThreads = new ArrayList<>();
-        for(int i=0; i<nCores; i++){
+        for (int i = 0; i < nCores; i++) {
             NThreads thread = new NThreads(this, graph);
             thread.start();
             nThreads.add(thread);
         }
         PartialSolution schedule = this.getOptimalSchedule(graph);
-        if(schedule!=null) {
+        if (schedule != null) {
             return schedule;
         }
-        for(NThreads thr : nThreads){
+        for (NThreads thr : nThreads) {
             try {
                 thr.join();
-                if(thr.getCompletePartialSolution()!=null){
+                if (thr.getCompletePartialSolution() != null) {
                     return thr.getCompletePartialSolution();
                 }
             } catch (InterruptedException e) {
@@ -73,23 +72,39 @@ public class AStar extends Algorithm {
         return _completePartialSolution;
     }
 
-    public synchronized PartialSolution getNextPartialSolution(){
+    public synchronized PartialSolution getNextPartialSolution() {
         PartialSolution partialSolution = _open.poll();
-        if(_foundComplete) {
+        _closed.add(partialSolution);
+        if (_foundComplete) {
             return null;
         }
-        if(partialSolution!=null){
+        if (partialSolution != null) {
             if (partialSolution.isCompleteSchedule()) {
                 _foundComplete = true;
                 _completePartialSolution = partialSolution;
                 return null;
             }
-            _closed.add(partialSolution);
+
         }
         return partialSolution;
     }
 
-    public synchronized void openAddChildren(Set<PartialSolution> children){
-        _open.addAll(children);
+    /**
+     * This adds children to open if partial solution not already present in closed.
+     * @param children Set of partial solution children not in closed
+     */
+    public synchronized void openAddChildren(Set<PartialSolution> children) {
+        // TODO: 26/08/20 will be updated futher 
+        // This is to add all children at once(not preferred)
+//        openCount += children.size();
+//        _open.addAll(children);
+
+       for (PartialSolution child : children) {
+            if (!_closed.contains(child)) {
+                openCount++;
+                _open.offer(child);
+            }
+        }
     }
+
 }
