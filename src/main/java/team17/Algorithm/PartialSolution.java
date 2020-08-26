@@ -9,9 +9,14 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
     private final PartialSolution _parent;
     private final ScheduledTask _scheduledTask;
 
+    private String _lastPartialExpansionNodeId;
+    private int _lastPartialExpansionProcessor;
+
     public PartialSolution(PartialSolution parent, ScheduledTask scheduledTask) {
         _parent = parent;
         _scheduledTask = scheduledTask;
+        _lastPartialExpansionNodeId = "";
+        _lastPartialExpansionProcessor = 0;
     }
 
     /**
@@ -25,6 +30,22 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
 
     public ScheduledTask getScheduledTask() {
         return _scheduledTask;
+    }
+
+    public String getLastPartialExpansionNodeId() {
+        return _lastPartialExpansionNodeId;
+    }
+
+    public void setLastPartialExpansionNodeId(String id) {
+        _lastPartialExpansionNodeId = id;
+    }
+
+    public int getLastPartialExpansionProcessor() {
+        return _lastPartialExpansionProcessor;
+    }
+
+    public void setLastPartialExpansionProcessor(int processor) {
+        _lastPartialExpansionProcessor = processor;
     }
 
     /**
@@ -118,10 +139,23 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
      * This method compares partial solutions dependant on cost underestimate.This is used to order the priority queue in the A* Algorithm.
      *
      * @param other Partial solution being compared to.
-     * @return Int value to indicate which partial solution has has a lower cost underestimate.
+     * @return Int value to indicate which partial solution has a lower cost underestimate.
+     *          If cost underestimates are the same, it returns a value to indicate which one has
+     *          more tasks scheduled on it.
      */
     @Override
     public int compareTo(PartialSolution other) {
+        if (this.getCostUnderestimate() == other.getCostUnderestimate()) {
+            int numTasksThis = 0;
+            int numTasksOther = 0;
+            for (ScheduledTask task : this) {
+                numTasksThis++;
+            }
+            for (ScheduledTask task : other) {
+                numTasksOther++;
+            }
+            return numTasksOther - numTasksThis;
+        }
         return this.getCostUnderestimate() - other.getCostUnderestimate();
     }
 // TODO: 26/08/20 Still will update futher 
