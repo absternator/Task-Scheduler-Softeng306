@@ -24,6 +24,7 @@ public class Main extends Application {
     private static CLI _config;
     private static AlgorithmState _algorithmState;
 
+
     public static void main(String[] args) {
         //Run from command line
         //args = new String[]{"../../src/main/resources/graph.dot", "2"};
@@ -83,7 +84,7 @@ public class Main extends Application {
             Thread thread = new Thread(() -> startAlgorithm());
             thread.start();
 
-            Scene scene = new Scene(root, 1000, 800);
+            Scene scene = new Scene(root, 1000, 750);
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (Exception e) {
