@@ -90,11 +90,6 @@ public class Node {
     }
 
     public boolean isEquivalent(Node other) {
-        // check id's are the same
-        if (_id.equals(other.getId())) {
-            return true;
-        }
-
         // if eqId has been set in both nodes, check if they are the same
         if (_eqId != 0 && other._eqId != 0) {
             return _eqId == other._eqId;
