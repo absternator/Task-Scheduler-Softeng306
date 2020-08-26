@@ -6,43 +6,47 @@ import java.util.Set;
 import java.util.Stack;
 
 public class DFS extends Algorithm {
-    private final PartialSolution _root;
+    ListScheduling _ls;
+    PartialSolution _bestSchedule;
+    int _upperBound;
+    Stack<PartialSolution> _open = new Stack<>();
 
     public DFS(Graph graph) {
-        _root = new PartialSolution(null, null);
+        final PartialSolution _root = new PartialSolution(null, null);
+        _ls = new ListScheduling(graph);
+        _bestSchedule = _ls.getSchedule();
+        _upperBound = _bestSchedule.getCostUnderestimate();
+        _open.push(_root);
     }
 
     @Override
-    public PartialSolution getOptimalSchedule(Graph graph) {
-        ListScheduling ls = new ListScheduling(graph);
-        PartialSolution bestSchedule = ls.getSchedule();
-        Set<PartialSolution> children;
-        int upperBound = bestSchedule.getCostUnderestimate();
-        Stack<PartialSolution> open = new Stack<>();
-        open.push(_root);
-        while (!open.isEmpty()) {
-            PartialSolution partialSolution = open.pop();
+    public PartialSolution getSolution(){
+        return _bestSchedule;
+    }
+
+    @Override
+    public synchronized PartialSolution getNextPartialSolution() {
+        if(!_open.isEmpty()) {
+            PartialSolution partialSolution = _open.pop();
             int costSoFar = partialSolution.getCostUnderestimate();
-            if (partialSolution.isCompleteSchedule() && costSoFar < upperBound) { //TODO && !bestSchedule.equals(partialSolution)
-                upperBound = costSoFar;
-                bestSchedule = partialSolution;
-            } else {
-                children = expandSearch(partialSolution,graph);
-                for (PartialSolution child:children) {
-                    int cost = child.getCostUnderestimate();
-                    if (cost < upperBound) {
-                        open.push(child);
-                    }
-                }
+            if (partialSolution.isCompleteSchedule() && costSoFar < _upperBound) { //TODO && !bestSchedule.equals(partialSolution)
+                _upperBound = costSoFar;
+                _bestSchedule = partialSolution;
+            }
+            return partialSolution;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public synchronized void openAddChildren(Set<PartialSolution> children) {
+        for (PartialSolution child:children) {
+            int cost = child.getCostUnderestimate();
+            if (cost < _upperBound) {
+                _open.push(child);
             }
         }
-        return bestSchedule;
     }
-
-    @Override
-    public PartialSolution getOptimalScheduleParallel(Graph graph, int nCores) {
-        return null;
-    }
-
 
 }

@@ -3,7 +3,9 @@ package team17.Algorithm;
 import team17.DAG.Graph;
 import team17.DAG.Node;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public abstract class Algorithm {
@@ -18,15 +20,49 @@ public abstract class Algorithm {
      * @param graph the input graph of tasks
      * @return a collection of scheduled tasks representing the optimal solution
      */
-    public abstract PartialSolution getOptimalSchedule(Graph graph);
+    public PartialSolution getOptimalSchedule(Graph graph) {
+        while (true) {
+            PartialSolution partialSolution = this.getNextPartialSolution();
+            if (partialSolution == null) {
+                break;
+            } else {
+                Set<PartialSolution> children = expandSearch(partialSolution,graph);
+                this.openAddChildren(children);
+            }
+        }
+        return getSolution();
+    }
 
     /**
      * Method to return the optimal solution for a given graph input for multiple cores
      * @param graph
      * @param nCores
-     * @return
+     * @return The complete partial solution which is optimal
      */
-    public abstract PartialSolution getOptimalScheduleParallel(Graph graph, int nCores);
+    public PartialSolution getOptimalScheduleParallel(Graph graph, int nCores) {
+        List<NThreads> nThreads = new ArrayList<>();
+        for(int i=0; i<nCores; i++){
+            NThreads thread = new NThreads(this, graph);
+            thread.start();
+            nThreads.add(thread);
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        this.getOptimalSchedule(graph);
+        for(NThreads thr : nThreads){
+            try {
+                thr.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return this.getSolution();
+    }
+
+    protected abstract PartialSolution getSolution();
 
     /**
      * This method expands the state space tree getting children. It adds tasks to processors.
@@ -87,4 +123,15 @@ public abstract class Algorithm {
         return children;
     }
 
+    /**
+     *
+     * @return
+     */
+    public abstract PartialSolution getNextPartialSolution();
+
+    /**
+     *
+     * @param children
+     */
+    public abstract void openAddChildren(Set<PartialSolution> children);
 }
