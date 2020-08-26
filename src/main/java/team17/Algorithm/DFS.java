@@ -6,15 +6,18 @@ import java.util.Set;
 import java.util.Stack;
 
 public class DFS extends Algorithm {
+
     ListScheduling _ls;
     PartialSolution _bestSchedule;
     int _upperBound;
     Stack<PartialSolution> _open = new Stack<>();
+    private final AlgorithmState _algorithmState;
 
-    public DFS(Graph graph) {
+    public DFS(Graph graph, AlgorithmState algorithmState) {
         final PartialSolution _root = new PartialSolution(null, null);
         _ls = new ListScheduling(graph);
         _bestSchedule = _ls.getSchedule();
+        _algorithmState = algorithmState;
         _upperBound = _bestSchedule.getCostUnderestimate();
         _open.push(_root);
     }
