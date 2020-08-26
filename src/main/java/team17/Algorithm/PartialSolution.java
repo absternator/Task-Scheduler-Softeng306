@@ -34,10 +34,32 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
      */
     public int getCostUnderestimate() {
         int costUnderestimate = 0;
+        int loadBalance = ((AlgorithmConfig.getTotalNodeWeight() + getIdleTime()) / AlgorithmConfig.getNumOfProcessors());
         for (ScheduledTask scheduledTask : this) {
             costUnderestimate = Math.max(costUnderestimate, scheduledTask.getStartTime() + scheduledTask.getNode().getBottomLevel());
         }
-        return costUnderestimate;
+        return Math.max(costUnderestimate, loadBalance);
+    }
+
+    public int getIdleTime() {
+        int[] processorFinishTimes = new int[AlgorithmConfig.getNumOfProcessors()];
+        int[] processorWeights = new int[AlgorithmConfig.getNumOfProcessors()];
+        int processor;
+        // find the end time and weight of each processor
+        for (ScheduledTask task : this) {
+            processor = task.getProcessorNum() - 1;
+            if (task.getFinishTime() > processorFinishTimes[processor]) {
+                processorFinishTimes[processor] = task.getFinishTime();
+            }
+            processorWeights[processor] += task.getNode().getWeight();
+        }
+        // calculate the idle time
+        int idleTime = 0;
+        for (int i = 0; i < AlgorithmConfig.getNumOfProcessors(); i++) {
+            idleTime += processorFinishTimes[i] - processorWeights[i];
+        }
+
+        return idleTime;
     }
 
     /**
@@ -103,8 +125,10 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
         return this.getCostUnderestimate() - other.getCostUnderestimate();
     }
 // TODO: 26/08/20 Still will update futher 
+
     /**
      * This method checks if two partial solutions are equal
+     *
      * @param other The other partial solution being checked
      * @return Boolean to indicate if both partial solutions are equal
      */
@@ -112,20 +136,21 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
     @Override
     public boolean equals(Object other) {
         Set<ScheduledTask> thisSolution = new HashSet<>();
-        
+
         for (ScheduledTask task : this) {
             thisSolution.add(task);
         }
         //while building other solution if if adding task is in THIS solution,return false if not else keep adding.
-        for (ScheduledTask scheduledTask : (PartialSolution)other) {
-            if (!thisSolution.contains(scheduledTask)){
+        for (ScheduledTask scheduledTask : (PartialSolution) other) {
+            if (!thisSolution.contains(scheduledTask)) {
                 return false;
             }
         }
         return true;
     }
+
     @Override
     public int hashCode() {
-        return Objects.hash(_scheduledTask,_parent);
+        return Objects.hash(_scheduledTask, _parent);
     }
 }

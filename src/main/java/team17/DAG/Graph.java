@@ -1,12 +1,13 @@
 package team17.DAG;
 
+import team17.Algorithm.AlgorithmConfig;
+
 import java.util.*;
 
 /**
  * This represents the input dot file in a graph to be used to schedule.
  */
 public class Graph {
-    private int _numOfProcessors; // TODO: 12/08/20 relocate if needed
     private List<Node> _nodeList;
     private Map<String, Node> _nodeLookup;
 
@@ -19,20 +20,12 @@ public class Graph {
         return _nodeLookup.get(id);
     }
 
-    public int getNumOfProcessors() {
-        return _numOfProcessors;
-    }
-
     public List<Node> getNodeList() {
         return _nodeList;
     }
 
     public Map<String, Node> getNodeLookup() {
         return _nodeLookup;
-    }
-
-    public void setNumOfProcessors(int numOfProcessors) {
-        _numOfProcessors = numOfProcessors;
     }
 
     /**
@@ -49,7 +42,7 @@ public class Graph {
     }
 
     /**
-     * This adds adges from one task to another, whilst setting up dependencies.
+     * This adds edges from one task to another, whilst setting up dependencies.
      *
      * @param from       Task from in string format
      * @param to         Task to task in string format
@@ -112,7 +105,7 @@ public class Graph {
     @Override
     public String toString() {
         return "Graph{" +
-                "_numOfProcessors=" + _numOfProcessors +
+                "_numOfProcessors=" + AlgorithmConfig.getNumOfProcessors() +
                 ", _nodeList=" + _nodeList +
                 '}';
     }
@@ -143,5 +136,16 @@ public class Graph {
             if (!progress) throw new RuntimeException("\"Cyclic dependency, algorithm stopped!");
 
         }
+    }
+
+    /**
+     * This calculates the total weight of all the nodes in the graph and sets it in AlgorithmConfig
+     */
+    public void calculateTotalNodeWeight() {
+        int totalWeight = 0;
+        for (Node node : _nodeList) {
+            totalWeight += node.getWeight();
+        }
+        AlgorithmConfig.setTotalNodeWeight(totalWeight);
     }
 }
