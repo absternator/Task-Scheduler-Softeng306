@@ -38,6 +38,7 @@ public class FileReadWriter {
         graph.addFinishNode();
         graph.setBottomLevel();
         graph.setNumOfProcessors(_cli.getProcessors());// Test : number of processors to run on
+        graph.setEquivalentNodes();
 
         return graph;
     }
