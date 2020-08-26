@@ -74,7 +74,7 @@ public class ListScheduling {
      * @return a valid schedule
      */
     public PartialSolution getSchedule() {
-        int numProcessors = _graph.getNumOfProcessors();
+        int numProcessors = AlgorithmConfig.getNumOfProcessors();
         ScheduledTask[] processors = new ScheduledTask[numProcessors]; // latest task of each processor
         List<Node> nodes = getTopologicalOrder();
         PartialSolution schedule = new PartialSolution(null,null);

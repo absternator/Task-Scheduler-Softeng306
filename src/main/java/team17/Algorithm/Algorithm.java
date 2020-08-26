@@ -68,12 +68,12 @@ public abstract class Algorithm {
             }
 
             //Node can be placed on Processor now
-            for (int i = 1; i < graph.getNumOfProcessors() + 1; i++) {
-                int eligibleStartime = 0;
+            for (int i = 1; i < AlgorithmConfig.getNumOfProcessors() + 1; i++) {
+                int eligibleStartTime = 0;
                 // Start time based on  last task on this processor
                 for (ScheduledTask scheduledTask : partialSolution) {
                     if (scheduledTask.getProcessorNum() == i) {
-                        eligibleStartime = scheduledTask.getFinishTime();
+                        eligibleStartTime = scheduledTask.getFinishTime();
                         break;
                     }
                 }
@@ -91,10 +91,10 @@ public abstract class Algorithm {
                         if (!dependantFound) {
                             continue;
                         }
-                        eligibleStartime = Math.max(eligibleStartime, scheduledTask.getFinishTime() + communicationTime);
+                        eligibleStartTime = Math.max(eligibleStartTime, scheduledTask.getFinishTime() + communicationTime);
                     }
                 }
-                children.add(new PartialSolution(partialSolution, new ScheduledTask(i, node, eligibleStartime)));
+                children.add(new PartialSolution(partialSolution, new ScheduledTask(i, node, eligibleStartTime)));
             }
         }
         return children;

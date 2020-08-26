@@ -1,15 +1,15 @@
 package team17.DAG;
 
+import team17.Algorithm.AlgorithmConfig;
+
 import java.util.*;
 
 /**
  * This represents the input dot file in a graph to be used to schedule.
  */
 public class Graph {
-    private int _numOfProcessors; // TODO: 12/08/20 relocate if needed
     private List<Node> _nodeList;
     private Map<String, Node> _nodeLookup;
-    private int _totalWeight;
 
     public Graph() {
         _nodeList = new ArrayList<>();
@@ -20,20 +20,12 @@ public class Graph {
         return _nodeLookup.get(id);
     }
 
-    public int getNumOfProcessors() {
-        return _numOfProcessors;
-    }
-
     public List<Node> getNodeList() {
         return _nodeList;
     }
 
     public Map<String, Node> getNodeLookup() {
         return _nodeLookup;
-    }
-
-    public void setNumOfProcessors(int numOfProcessors) {
-        _numOfProcessors = numOfProcessors;
     }
 
     /**
@@ -50,7 +42,7 @@ public class Graph {
     }
 
     /**
-     * This adds adges from one task to another, whilst setting up dependencies.
+     * This adds edges from one task to another, whilst setting up dependencies.
      *
      * @param from       Task from in string format
      * @param to         Task to task in string format
@@ -87,7 +79,7 @@ public class Graph {
     @Override
     public String toString() {
         return "Graph{" +
-                "_numOfProcessors=" + _numOfProcessors +
+                "_numOfProcessors=" + AlgorithmConfig.getNumOfProcessors() +
                 ", _nodeList=" + _nodeList +
                 '}';
     }
@@ -121,15 +113,13 @@ public class Graph {
     }
 
     /**
-     * This gets the total weight of all the nodes in the graph.
+     * This calculates the total weight of all the nodes in the graph and sets it in AlgorithmConfig
      */
-    public int getTotalWeight() {
-        // lazy calculation, only calculate if it hasn't been set yet
-        if (_totalWeight == 0) {
-            for (Node node : _nodeList) {
-                _totalWeight += node.getWeight();
-            }
+    public void calculateTotalNodeWeight() {
+        int totalWeight = 0;
+        for (Node node : _nodeList) {
+            totalWeight += node.getWeight();
         }
-        return _totalWeight;
+        AlgorithmConfig.setTotalNodeWeight(totalWeight);
     }
 }
