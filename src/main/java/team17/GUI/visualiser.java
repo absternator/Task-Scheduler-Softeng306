@@ -12,9 +12,7 @@ public class visualiser extends Application {
         super();
     }
 
-    public void startVisualisation(String[] args) {
-        launch(args);
-    }
+
 
     @Override
     public void start(Stage primaryStage) {

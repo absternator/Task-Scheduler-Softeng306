@@ -7,4 +7,5 @@ digraph "outputExample" {
 	d         [Weight=2,Start=6,Processor=2];
 	b -> d    [Weight=2];
 	c -> d    [Weight=1];
+	e         [Weight=2,Start=5,Processor=1];
 }
