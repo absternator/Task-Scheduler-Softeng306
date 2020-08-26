@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import team17.Algorithm.ScheduledTask;
 import team17.DAG.Graph;
 
+import team17.GUI.GUIController;
 import team17.IO.CLI;
 import team17.IO.FileReadWriter;
 
@@ -71,9 +72,11 @@ public class Main extends Application {
         try {
             FXMLLoader loader =new FXMLLoader();
             loader.setLocation(getClass().getResource("view.fxml"));
+
             Parent root=loader.load();
-            Scene scene = new Scene(root, 1000, 800);
+            Scene scene = new Scene(root, 1000, 750);
             primaryStage.setScene(scene);
+
             primaryStage.show();
         }catch (Exception e){
 
