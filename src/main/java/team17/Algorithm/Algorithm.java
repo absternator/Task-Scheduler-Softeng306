@@ -17,6 +17,7 @@ public abstract class Algorithm {
 
     /**
      * Method to return the optimal solution for a given graph input
+     *
      * @param graph the input graph of tasks
      * @return a collection of scheduled tasks representing the optimal solution
      */
@@ -35,8 +36,9 @@ public abstract class Algorithm {
 
     /**
      * Method to return the optimal solution for a given graph input for multiple cores
-     * @param graph
-     * @param nCores
+     *
+     * @param graph The whole graph
+     * @param nCores Number of cores specified for parallelisation
      * @return The complete partial solution which is optimal
      */
     public PartialSolution getOptimalScheduleParallel(Graph graph, int nCores) {
@@ -62,6 +64,11 @@ public abstract class Algorithm {
         return this.getSolution();
     }
 
+    /**
+     * Returns the completed solution stored in the field
+     *
+     * @return The complete partial solution
+     */
     protected abstract PartialSolution getSolution();
 
     /**
@@ -124,14 +131,16 @@ public abstract class Algorithm {
     }
 
     /**
+     * Gets the next partial solution, this is a synchronised method
      *
-     * @return
+     * @return The next partial solution in the queue/stack, or null if there is none
      */
     public abstract PartialSolution getNextPartialSolution();
 
     /**
+     * Adds children to open, this is a synchronised method
      *
-     * @param children
+     * @param children The children needed to be added to open
      */
     public abstract void openAddChildren(Set<PartialSolution> children);
 }
