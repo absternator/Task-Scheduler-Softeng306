@@ -106,9 +106,7 @@ public class Node {
             if (!dependant._incomingEdges.get(this).equals(dependant._incomingEdges.get(other))) {
                 return false;
             }
-
         }
-
         return true;
     }
 
