@@ -38,6 +38,7 @@ public class FileReadWriter {
         }
         graph.addFinishNode();
         graph.setBottomLevel();
+        graph.setEquivalentNodes();
         graph.calculateTotalNodeWeight();
         AlgorithmConfig.setNumOfProcessors(_cli.getProcessors());// Test : number of processors to run on
 

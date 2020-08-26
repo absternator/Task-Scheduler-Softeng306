@@ -76,6 +76,32 @@ public class Graph {
         }
     }
 
+    public void setEquivalentNodes() {
+        int eqId = 1; // the equivalence id
+        ArrayList<Node> unset = new ArrayList<>(_nodeList); // the nodes that haven't had their eqId set
+        ArrayList<Node> remove = new ArrayList<>();
+
+        for (Node node : _nodeList) {
+            if (node.getEquivalenceId() == 0) { // only set the eqId if it has not already been set
+                node.setEquivalenceId(eqId);
+                unset.remove(node);
+
+                // check all unset nodes for equivalence
+                for (Node other : unset) {
+                    if (node.isEquivalent(other)) {
+                        other.setEquivalenceId(eqId);
+                        remove.add(other);
+                    }
+                }
+
+                // remove set nodes from unset
+                unset.removeAll(remove);
+                remove.clear();
+                eqId++;
+            }
+        }
+    }
+
     @Override
     public String toString() {
         return "Graph{" +
