@@ -1,0 +1,21 @@
+.status-red {
+    -fx-background-color: rgb(71, 177, 240);
+    -fx-border-color: cornflowerblue;
+}
+.status-green {
+    -fx-background-color: rgb(147, 208, 81);
+    -fx-border-color: cornflowerblue;
+}
+.status-blue {
+    -fx-background-color: rgb(238, 152, 160);
+    -fx-border-color: cornflowerblue;
+}
+
+/*to style the axis*/
+.axis:left {
+    -fx-border-color: transparent orange transparent transparent;
+}
+
+.axis:bottom{
+    -fx-border-color: orange transparent transparent;
+}
