@@ -112,17 +112,28 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
     @Override
     public boolean equals(Object other) {
         Set<ScheduledTask> thisSolution = new HashSet<>();
-        
+        // TODO: 26/08/20  get proc end times(hard coded to 4 atm) ALgoConfig.getProcNum
+        int[] thisProcessorEndTimes = new int[5];
+        int[] otherProcessorEndTimes = new int[5];
         for (ScheduledTask task : this) {
             thisSolution.add(task);
+            if(task.getFinishTime() > thisProcessorEndTimes[task.getProcessorNum()-1]){
+                thisProcessorEndTimes[task.getProcessorNum() - 1] = task.getFinishTime();
+            }
         }
-        //while building other solution if if adding task is in THIS solution,return false if not else keep adding.
-        for (ScheduledTask scheduledTask : (PartialSolution)other) {
-            if (!thisSolution.contains(scheduledTask)){
+        for (ScheduledTask task : (PartialSolution)other) {
+            if(task.getFinishTime() > otherProcessorEndTimes[task.getProcessorNum()-1]){
+                otherProcessorEndTimes[task.getProcessorNum() - 1] = task.getFinishTime();
+            }
+            //while building other solution if if adding task is in THIS solution,return false if not else keep adding.
+            if (!thisSolution.contains(task)){
                 return false;
             }
         }
-        return true;
+        Arrays.sort(thisProcessorEndTimes);
+        Arrays.sort(otherProcessorEndTimes);
+//        Checks if each processor length is equal
+        return Arrays.equals(thisProcessorEndTimes, otherProcessorEndTimes);
     }
     @Override
     public int hashCode() {

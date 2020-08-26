@@ -13,7 +13,7 @@ public class AStar extends Algorithm {
     private Queue<PartialSolution> _open;
     private Set<PartialSolution> _closed;
     private final int _upperBound;
-    private int openCount = 0; // todo: this is for testing only(remove later)
+    private int maxOpenCount = 0; // todo: this is for testing only(remove later)
     private PartialSolution _completePartialSolution;
     private boolean _foundComplete = false;
 
@@ -45,7 +45,7 @@ public class AStar extends Algorithm {
         }
 
         System.out.println(_open.size()); //todo: for testing only(remove later)
-        System.out.println(openCount);
+        System.out.println(maxOpenCount);
         return _completePartialSolution;
     }
 
@@ -79,6 +79,10 @@ public class AStar extends Algorithm {
     }
 
     public synchronized PartialSolution getNextPartialSolution() {
+        // Max open count size at 1 time// used for testing only
+        if(maxOpenCount < _open.size()){
+            maxOpenCount = _open.size();
+        }
         PartialSolution partialSolution = _open.poll();
         _closed.add(partialSolution);
         if (_foundComplete) {
@@ -102,12 +106,12 @@ public class AStar extends Algorithm {
     public synchronized void openAddChildren(Set<PartialSolution> children) {
         // TODO: 26/08/20 will be updated futher 
         // This is to add all children at once(not preferred)
-//        openCount += children.size();
+//        maxOpenCount += children.size();
 //        _open.addAll(children);
 
        for (PartialSolution child : children) {
-            if (!_closed.contains(child) && child.getCostUnderestimate() < _upperBound) {
-                openCount++;
+            if (!_closed.contains(child)  && child.getCostUnderestimate() < _upperBound) {
+               // maxOpenCount++;
                 _open.offer(child);
             }
         }
