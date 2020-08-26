@@ -99,7 +99,7 @@ public class CLI {
 
     /**
      * This method is a get method for the number of cores to execute in parallel
-     * @return an integer of the number of cores, null if sequential
+     * @return an integer of the number of cores, 0 if sequential
      */
     public int getCores() {
         return _nCores;
