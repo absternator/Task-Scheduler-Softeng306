@@ -1,6 +1,7 @@
 package team17.IO;
 
 import org.apache.commons.cli.*;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * This class contains the command line configuration parsing logic
@@ -78,7 +79,8 @@ public class CLI {
      * @return a string of the output file name, null if default
      */
     public String getOutput() {
-        return _output;
+        return  StringUtils.isBlank(_output) ? StringUtils.substringBefore(_input, ".dot") + "-output" : _output;
+
     }
 
     /**

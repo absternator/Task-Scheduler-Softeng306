@@ -42,6 +42,7 @@ public class AStar extends Algorithm {
 
         System.out.println(_open.size()); //todo: for testing only(remove later)
         System.out.println(openCount);
+
         return _completePartialSolution;
     }
 

@@ -46,6 +46,7 @@ public class DFS extends Algorithm {
                 }
             }
         }
+
         return bestSchedule;
     }
 
