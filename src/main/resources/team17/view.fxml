@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"  >
+<AnchorPane prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane layoutY="384.0" prefHeight="375.0" prefWidth="666.0">
          <children>
@@ -26,7 +26,7 @@
                   <Font size="45.0" />
                </font>
             </Text>
-            <Pane layoutY="90.0" prefHeight="200.0" prefWidth="334.0">
+            <Pane layoutY="90.0" prefHeight="185.0" prefWidth="334.0">
                <children>
                   <TextFlow id="InputText" fx:id="InputText" prefHeight="50.0" prefWidth="334.0">
                      <children>
@@ -55,10 +55,15 @@
                         </Text>
                      </children>
                   </TextFlow>
+                  <Text layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time Elapsed:">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Text>
                </children></Pane>
-            <Pane id="StatusPane" layoutX="67.0" layoutY="284.0" prefHeight="100.0" prefWidth="200.0">
+            <Pane id="StatusPane" layoutX="70.0" layoutY="375.0" prefHeight="73.0" prefWidth="172.0">
                <children>
-                  <Text id="StatusText" fx:id="StatusText" layoutX="40.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Running" textAlignment="CENTER">
+                  <Text id="StatusText" fx:id="StatusText" layoutX="20.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Running" textAlignment="CENTER" wrappingWidth="144.9931640625">
                      <font>
                         <Font size="32.0" />
                      </font>
@@ -66,8 +71,12 @@
                </children>
             </Pane>
             <Pane id="MemoryPane" fx:id="MemoryPane" layoutX="30.0" layoutY="458.0" prefHeight="292.0" prefWidth="304.0" />
+            <Text fx:id="runningTime" layoutX="77.0" layoutY="333.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0m00s" textAlignment="CENTER" wrappingWidth="157.9931640625">
+               <font>
+                  <Font size="32.0" />
+               </font>
+            </Text>
          </children>
       </AnchorPane>
    </children>
 </AnchorPane>
-
