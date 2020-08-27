@@ -1,6 +1,7 @@
 package team17.IO;
 
 import org.apache.commons.lang3.StringUtils;
+import team17.Algorithm.AlgorithmConfig;
 import team17.Algorithm.ScheduledTask;
 import team17.DAG.Graph;
 import team17.DAG.Node;
@@ -37,7 +38,9 @@ public class FileReadWriter {
         }
         graph.addFinishNode();
         graph.setBottomLevel();
-        graph.setNumOfProcessors(_cli.getProcessors());// Test : number of processors to run on
+        graph.setEquivalentNodes();
+        graph.calculateTotalNodeWeight();
+        AlgorithmConfig.setNumOfProcessors(_cli.getProcessors());// Test : number of processors to run on
 
         return graph;
     }

@@ -1,8 +1,6 @@
 package team17.Algorithm;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * This represents each partial solution created for the state space search.
@@ -11,9 +9,14 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
     private final PartialSolution _parent;
     private final ScheduledTask _scheduledTask;
 
+    private String _lastPartialExpansionNodeId;
+    private int _lastPartialExpansionProcessor;
+
     public PartialSolution(PartialSolution parent, ScheduledTask scheduledTask) {
         _parent = parent;
         _scheduledTask = scheduledTask;
+        _lastPartialExpansionNodeId = "";
+        _lastPartialExpansionProcessor = 0;
     }
 
     /**
@@ -29,6 +32,22 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
         return _scheduledTask;
     }
 
+    public String getLastPartialExpansionNodeId() {
+        return _lastPartialExpansionNodeId;
+    }
+
+    public void setLastPartialExpansionNodeId(String id) {
+        _lastPartialExpansionNodeId = id;
+    }
+
+    public int getLastPartialExpansionProcessor() {
+        return _lastPartialExpansionProcessor;
+    }
+
+    public void setLastPartialExpansionProcessor(int processor) {
+        _lastPartialExpansionProcessor = processor;
+    }
+
     /**
      * This method returns the underestimate cost to finish schedule from a partial schedule
      *
@@ -36,10 +55,32 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
      */
     public int getCostUnderestimate() {
         int costUnderestimate = 0;
+        int loadBalance = ((AlgorithmConfig.getTotalNodeWeight() + getIdleTime()) / AlgorithmConfig.getNumOfProcessors());
         for (ScheduledTask scheduledTask : this) {
             costUnderestimate = Math.max(costUnderestimate, scheduledTask.getStartTime() + scheduledTask.getNode().getBottomLevel());
         }
-        return costUnderestimate;
+        return Math.max(costUnderestimate, loadBalance);
+    }
+
+    public int getIdleTime() {
+        int[] processorFinishTimes = new int[AlgorithmConfig.getNumOfProcessors()];
+        int[] processorWeights = new int[AlgorithmConfig.getNumOfProcessors()];
+        int processor;
+        // find the end time and weight of each processor
+        for (ScheduledTask task : this) {
+            processor = task.getProcessorNum() - 1;
+            if (task.getFinishTime() > processorFinishTimes[processor]) {
+                processorFinishTimes[processor] = task.getFinishTime();
+            }
+            processorWeights[processor] += task.getNode().getWeight();
+        }
+        // calculate the idle time
+        int idleTime = 0;
+        for (int i = 0; i < AlgorithmConfig.getNumOfProcessors(); i++) {
+            idleTime += processorFinishTimes[i] - processorWeights[i];
+        }
+
+        return idleTime;
     }
 
     /**
@@ -95,30 +136,55 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
     }
 
     /**
-     * This metod compares partial solutions dependant on cost underestimate.This is used to order the priority queue in the A* Algorithm.
+     * This method compares partial solutions dependant on cost underestimate.This is used to order the priority queue in the A* Algorithm.
      *
      * @param other Partial solution being compared to.
-     * @return Int value to indicate which partial solution has has a lower cost underestimate.
+     * @return Int value to indicate which partial solution has a lower cost underestimate.
+     *          If cost underestimates are the same, it returns a value to indicate which one has
+     *          more tasks scheduled on it.
      */
     @Override
     public int compareTo(PartialSolution other) {
+        if (this.getCostUnderestimate() == other.getCostUnderestimate()) {
+            int numTasksThis = 0;
+            int numTasksOther = 0;
+            for (ScheduledTask task : this) {
+                numTasksThis++;
+            }
+            for (ScheduledTask task : other) {
+                numTasksOther++;
+            }
+            return numTasksOther - numTasksThis;
+        }
         return this.getCostUnderestimate() - other.getCostUnderestimate();
     }
-// TODO: 12/08/20 come back and do equals method & hashcode !!!! how?
+// TODO: 26/08/20 Still will update futher 
 
-//    @Override
-//    public boolean equals(Object other) {
-//        for (ScheduledTask scheduledTask : this) {
-//            if(!scheduledTask.equals(other)){
-//                return false;
-//            }
-//        }
-//
-//        return true;
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(_parent, _graph, _scheduledTask);
-//    }
+    /**
+     * This method checks if two partial solutions are equal
+     *
+     * @param other The other partial solution being checked
+     * @return Boolean to indicate if both partial solutions are equal
+     */
+    // go through each one and check
+    @Override
+    public boolean equals(Object other) {
+        Set<ScheduledTask> thisSolution = new HashSet<>();
+
+        for (ScheduledTask task : this) {
+            thisSolution.add(task);
+        }
+        //while building other solution if if adding task is in THIS solution,return false if not else keep adding.
+        for (ScheduledTask scheduledTask : (PartialSolution) other) {
+            if (!thisSolution.contains(scheduledTask)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_scheduledTask, _parent);
+    }
 }

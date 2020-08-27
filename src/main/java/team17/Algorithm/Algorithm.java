@@ -72,6 +72,19 @@ public abstract class Algorithm {
     protected abstract PartialSolution getSolution();
 
     /**
+     * This expands the root and assigns the first task to the first processor
+     * @return Set of Partial solutions where first node is placed on first processor
+     */
+    public Set<PartialSolution> expandRoot(PartialSolution partialSolution, Graph graph){
+        Set<PartialSolution> children = new HashSet<>();
+        for (Node node: graph.getNodeList()) {
+            if(node.getDependencies().size() == 0){
+                children.add(new PartialSolution(partialSolution,new ScheduledTask(1,node,0)));
+            }
+        }
+        return children;
+    }
+    /**
      * This method expands the state space tree getting children. It adds tasks to processors.
      *
      * @return A set of partial solutions are returns. These are the children of the current solution.
@@ -96,14 +109,20 @@ public abstract class Algorithm {
                     continue AddNode;
                 }
             }
+            // if a sibling has already scheduled an equivalent node
+            for (PartialSolution child:children){
+                if(child.getScheduledTask().getNode().isEquivalent(node)){
+                    continue AddNode;
+                }
+            }
 
             //Node can be placed on Processor now
-            for (int i = 1; i < graph.getNumOfProcessors() + 1; i++) {
-                int eligibleStartime = 0;
+            for (int i = 1; i < AlgorithmConfig.getNumOfProcessors() + 1; i++) {
+                int eligibleStartTime = 0;
                 // Start time based on  last task on this processor
                 for (ScheduledTask scheduledTask : partialSolution) {
                     if (scheduledTask.getProcessorNum() == i) {
-                        eligibleStartime = scheduledTask.getFinishTime();
+                        eligibleStartTime = scheduledTask.getFinishTime();
                         break;
                     }
                 }
@@ -121,10 +140,10 @@ public abstract class Algorithm {
                         if (!dependantFound) {
                             continue;
                         }
-                        eligibleStartime = Math.max(eligibleStartime, scheduledTask.getFinishTime() + communicationTime);
+                        eligibleStartTime = Math.max(eligibleStartTime, scheduledTask.getFinishTime() + communicationTime);
                     }
                 }
-                children.add(new PartialSolution(partialSolution, new ScheduledTask(i, node, eligibleStartime)));
+                children.add(new PartialSolution(partialSolution, new ScheduledTask(i, node, eligibleStartTime)));
             }
         }
         return children;
