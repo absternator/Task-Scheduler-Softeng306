@@ -3,7 +3,9 @@ package team17.Algorithm;
 import team17.DAG.Graph;
 import team17.DAG.Node;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public abstract class Algorithm {
@@ -48,25 +50,35 @@ public abstract class Algorithm {
      */
     public Set<PartialSolution> expandSearch(PartialSolution partialSolution, Graph graph) {
         Set<PartialSolution> children = new HashSet<>();
-
         Set<Node> nodesInSchedule = new HashSet<>();
+        List<Node> freeNodes = new ArrayList<>(graph.getNodeList()); //nodes that are `eligible to be scheduled
+        Set<Node> notEligible = new HashSet<>();
+        //Go through and remove indelible nodes
         for (ScheduledTask scheduledTask : partialSolution) {
             nodesInSchedule.add(scheduledTask.getNode());
+            freeNodes.remove(scheduledTask.getNode());
         }
-
-        AddNode:
-        for (Node node : graph.getNodeList()) {
-            // If node is already in schedule cant add
-            if (nodesInSchedule.contains(node)) {
-                continue;
-            }
-            //if dependency not in schedule
-            for (Node dependency : node.getDependencies()) {
-                if (!nodesInSchedule.contains(dependency)) {
-                    continue AddNode;
+        for (Node node : freeNodes) {
+            for (Node dependency: node.getDependencies()) {
+                if(!nodesInSchedule.contains(dependency)){
+                    notEligible.add(node);
                 }
             }
+        }
+        freeNodes.removeAll(notEligible);
+        // Check if free tasks meet criteria. IF yes return node to be ordered next.
+//        Node fixedTask = forkJoin(freeNodes,partialSolution);
+//        if (fixedTask != null){
+//            for (Node notFixedNode: freeNodes) {
+//                if (!notFixedNode.equals(fixedTask)){
+//                    notEligible.add(notFixedNode);
+//                }
+//            }
+//            freeNodes.removeAll(notEligible);
+//        }
 
+        AddNode:
+        for (Node node : freeNodes) {
             //Node can be placed on Processor now
             for (int i = 1; i < graph.getNumOfProcessors() + 1; i++) {
                 int eligibleStartime = 0;
@@ -98,6 +110,28 @@ public abstract class Algorithm {
             }
         }
         return children;
+    }
+
+    protected static Node forkJoin(List<Node> freeNodes, PartialSolution partialSolution) {
+        Set<Node> sameChild = new HashSet<>();
+        for (Node node: freeNodes) {
+            Set<Node> dependencies = node.getDependencies();
+            Set<Node> dependents = node.getDependants();
+            if(dependencies.size() > 1 && dependents.size() > 1){
+                return null;
+            }
+
+            if(dependents.size() == 1){
+               sameChild.addAll(dependents);
+            }
+            if (sameChild.size() != 1 ){
+                return  null;
+            }
+            if(dependencies.size() == 1){
+
+            }
+        }
+        return null;
     }
 
 }
