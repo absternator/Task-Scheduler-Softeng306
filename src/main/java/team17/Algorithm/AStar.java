@@ -1,6 +1,6 @@
 package team17.Algorithm;
 
-;
+
 import team17.DAG.Graph;
 
 import java.util.*;
@@ -9,16 +9,15 @@ import java.util.*;
  * Class that contains the main skeleton of the A* algorithm
  */
 public class AStar extends Algorithm {
-    private final PartialSolution _root;
-    private Queue<PartialSolution> _open;
-    private Set<PartialSolution> _closed;
+    private final  Queue<PartialSolution> _open;
+    private final  Set<PartialSolution> _closed;
     private final int _upperBound;
     private int maxOpenCount = 0; // todo: this is for testing only(remove later)
     private PartialSolution _completePartialSolution;
     private boolean _foundComplete = false;
 
     public AStar(Graph graph) {
-        _root = new PartialSolution(null, null);
+        PartialSolution _root = new PartialSolution(null, null);
         _open = new PriorityQueue<>(expandRoot(_root, graph));
         _closed = new HashSet<>();
         // Adds list schedule as upperBound
@@ -104,7 +103,7 @@ public class AStar extends Algorithm {
      * @param children Set of partial solution children not in closed
      */
     public synchronized void openAddChildren(Set<PartialSolution> children) {
-        // TODO: 26/08/20 will be updated futher 
+        // TODO: 26/08/20 will be updated further
         // This is to add all children at once(not preferred)
 //        maxOpenCount += children.size();
 //        _open.addAll(children);
