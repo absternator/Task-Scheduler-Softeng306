@@ -76,6 +76,7 @@ public class Node {
     public void setIncomingEdges(Node edge, int edgeWeight) {
         _incomingEdges.put(edge, edgeWeight);
     }
+
     public void setOutgoingEdges(Node edge, int edgeWeight) {
         _outgoingEdges.put(edge,edgeWeight);
     }

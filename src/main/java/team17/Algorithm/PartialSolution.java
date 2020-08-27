@@ -171,8 +171,8 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
     public boolean equals(Object other) {
         Set<ScheduledTask> thisSolution = new HashSet<>();
         // TODO: 26/08/20  get proc end times(hard coded to 4 atm) ALgoConfig.getProcNum
-        int[] thisProcessorEndTimes = new int[5];
-        int[] otherProcessorEndTimes = new int[5];
+        int[] thisProcessorEndTimes = new int[AlgorithmConfig.getNumOfProcessors()];
+        int[] otherProcessorEndTimes = new int[AlgorithmConfig.getNumOfProcessors()];
         for (ScheduledTask task : this) {
             thisSolution.add(task);
             if(task.getFinishTime() > thisProcessorEndTimes[task.getProcessorNum()-1]){

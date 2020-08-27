@@ -15,7 +15,7 @@ public class Main {
         //args = new String[]{"../../src/main/resources/graph.dot", "2"};
 
         //Run in IDE
-        args = new String[]{"src/main/resources/Nodes_7_OutTree.dot", "5"}; //"-o", "src/main/resources/4cores", "-p", "4"};
+        args = new String[]{"src/main/resources/Nodes_11_OutTree.dot", "2"}; //"-o", "src/main/resources/4cores", "-p", "4"};
 
         CLI cli = new CLI(args);
         FileReadWriter frw = new FileReadWriter(cli);
@@ -29,7 +29,7 @@ public class Main {
             //graph.getNodeList().size() > 11
             //                    || (graph.getNodeList().size() >10 && graph.getNumOfProcessors() > 3)
             //                    || (graph.getNodeList().size() >9 && graph.getNumOfProcessors() > 6)
-            if (true) {
+            if (false) {
                 algorithm = new DFS(graph); //TODO remove graph parameter
                 if(cli.getCores()<2) {
                     schedule = algorithm.getOptimalSchedule(graph).fullSchedule(); // Returns list of Schedule

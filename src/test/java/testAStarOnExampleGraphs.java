@@ -19,7 +19,7 @@ public class testAStarOnExampleGraphs {
     private static boolean _RunThisTestSuite = true;
 
     private boolean _runNodes10Random = false; // TODO Parse Nodes10
-    private boolean _runNodes11OutTree = false; // May take a long time or run out of memory
+    private boolean _runNodes11OutTree = true; // May take a long time or run out of memory
     // **************************************************
 
     private String[] _args;

@@ -97,7 +97,7 @@ public abstract class Algorithm {
      * @param notEligible These are the nodes in schedule currently
      * @param freeNodes Nodes that can be scheduled
      */
-    private void FixedTaskOrder(PartialSolution partialSolution, Set<Node> notEligible, List<Node> freeNodes) {
+    protected void FixedTaskOrder(PartialSolution partialSolution, Set<Node> notEligible, List<Node> freeNodes) {
         Node fixedTask = forkJoin(freeNodes, partialSolution);
         if (fixedTask != null) {
             for (Node notFixedNode : freeNodes) {
@@ -118,7 +118,7 @@ public abstract class Algorithm {
     public Set<PartialSolution> expandSearch(PartialSolution partialSolution, Graph graph) {
         Set<PartialSolution> children = new HashSet<>();
         Set<Node> nodesInSchedule = new HashSet<>();
-        List<Node> freeNodes = new ArrayList<>(graph.getNodeList()); //nodes that are `eligible to be scheduled
+        List<Node> freeNodes = new ArrayList<>(graph.getNodeList()); //nodes that are eligible to be scheduled
         Set<Node> notEligible = new HashSet<>();
         //Go through and remove indelible nodes
         for (ScheduledTask scheduledTask : partialSolution) {
@@ -167,13 +167,14 @@ public abstract class Algorithm {
                         eligibleStartTime = Math.max(eligibleStartTime, scheduledTask.getFinishTime() + communicationTime);
                     }
                 }
-                children.add(new PartialSolution(partialSolution, new ScheduledTask(i, node, eligibleStartime)));
+                children.add(new PartialSolution(partialSolution, new ScheduledTask(i, node, eligibleStartTime)));
             }
         }
         return children;
     }
 
     protected static Node forkJoin(List<Node> freeNodes, PartialSolution partialSolution) {
+        if (freeNodes.size() == 0) return null;
         Set<Node> sameChild = new HashSet<>();
         Set<Integer> sameParentProcessor = new HashSet<>();
         Map<Node, Integer> dataReadyMap = new HashMap<>();

@@ -55,19 +55,35 @@ public class AStar extends Algorithm {
 
       @Override
     public Set<PartialSolution> expandSearch(PartialSolution partialSolution, Graph graph) {
-        Set<PartialSolution> children = new HashSet<>();
+          Set<PartialSolution> children = new HashSet<>();
+          Set<Node> nodesInSchedule = new HashSet<>();
+          List<Node> freeNodes = new ArrayList<>(graph.getNodeList()); //nodes that are eligible to be scheduled
+          Set<Node> notEligible = new HashSet<>();
+          //Go through and remove indelible nodes
+          for (ScheduledTask scheduledTask : partialSolution) {
+              nodesInSchedule.add(scheduledTask.getNode());
+              freeNodes.remove(scheduledTask.getNode());
+          }
+          for (Node node : freeNodes) {
+              for (Node dependency : node.getDependencies()) {
+                  if (!nodesInSchedule.contains(dependency)) {
+                      notEligible.add(node);
+                  }
+              }
+          }
+          freeNodes.removeAll(notEligible);
+          // Check if free tasks meet criteria. IF yes return node to be ordered next.
+          /********************This line implements fork-join*************************/
+          FixedTaskOrder(partialSolution, notEligible, freeNodes);
+          /********************This line implements fork-join*************************/
 
-        Set<Node> nodesInSchedule = new HashSet<>();
-        for (ScheduledTask scheduledTask : partialSolution) {
-            nodesInSchedule.add(scheduledTask.getNode());
-        }
-        // skip the nodes for children that were already made in the previous expansion
+          // skip the nodes for children that were already made in the previous expansion
         boolean skipNodes = true;
         if (partialSolution.getLastPartialExpansionNodeId().equals("")) {
             skipNodes = false;
         }
         AddNode:
-        for (Node node : graph.getNodeList()) {
+        for (Node node : freeNodes) {
 
             // skip to the last scheduled node from a previous partial expansion
             if (skipNodes) {
@@ -77,16 +93,7 @@ public class AStar extends Algorithm {
                     continue;
                 }
             }
-            // If node is already in schedule cant add
-            if (nodesInSchedule.contains(node)) {
-                continue;
-            }
-            //if dependency not in schedule
-            for (Node dependency : node.getDependencies()) {
-                if (!nodesInSchedule.contains(dependency)) {
-                    continue AddNode;
-                }
-            }
+
 
             //Node can be placed on Processor now
             for (int i = 1; i < AlgorithmConfig.getNumOfProcessors() + 1; i++) {
@@ -141,10 +148,7 @@ public class AStar extends Algorithm {
 
     @Override
     public synchronized PartialSolution getNextPartialSolution(){
-        // Max open count size at 1 time// used for testing only
-        if(maxOpenCount < _open.size()){
-            maxOpenCount = _open.size();
-        }
+
         PartialSolution partialSolution = _open.poll();
         _closed.add(partialSolution);
         if (_foundComplete) {
@@ -173,7 +177,7 @@ public class AStar extends Algorithm {
 //        _open.addAll(children);
        for (PartialSolution child : children) {
             if (!_closed.contains(child)  && child.getCostUnderestimate() < _upperBound) {
-               // maxOpenCount++;
+                maxOpenCount++;
                 _open.offer(child);
             }
         }
