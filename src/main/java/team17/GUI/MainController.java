@@ -53,20 +53,23 @@ public class MainController {
         maxMemory = Runtime.getRuntime().maxMemory() / 1048576; // in bytes
         setUpMemoryPane();
         memoryUsageTile.setValue(0);
-        readValue();
+        readMemory();
         startTiming();
 
 
     }
 
-    private void readValue() {
+    /*
+    using polling to read the memory usage
+    period = 1 seconds
+     */
+    private void readMemory() {
         Timeline tm = new Timeline(new KeyFrame(Duration.millis(1000), event -> {
             double usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
             usedMemory = usedMemory / 1000000;
             memoryUsageTile.setValue(usedMemory);
-
+            //determine whether the overall sorting is finished or not
             if (_algorithmState.getFinished()) {
-                //tm.stop();
                 _algorithmState.setFinished(false);
                 setUpOutputFileName();
                 UpdateStatus();
@@ -75,8 +78,8 @@ public class MainController {
         }));
         tm.setCycleCount(Timeline.INDEFINITE);
         tm.play();
-
     }
+
 
     public void setUpInputFileName() {
         inputFile = _config.getInput();
