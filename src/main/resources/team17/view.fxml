@@ -55,7 +55,7 @@
                         </Text>
                      </children>
                   </TextFlow>
-                  <Text layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time Elapsed:">
+                  <Text layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time Elapsed:">
                      <font>
                         <Font size="26.0" />
                      </font>
