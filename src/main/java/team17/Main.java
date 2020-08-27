@@ -30,7 +30,7 @@ public class Main extends Application {
         //args = new String[]{"../../src/main/resources/graph.dot", "2"};
 
         //Run in IDE
-        args = new String[]{"src/main/resources/graph2.dot", "2", "-v"};
+        args = new String[]{"src/main/resources/graph2.dot", "3", "-v"};
 
         _config = new CLI(args);
 
