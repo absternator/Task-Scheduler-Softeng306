@@ -26,11 +26,11 @@ public class Main extends Application {
         //args = new String[]{"../../src/main/resources/graph.dot", "2"};
 
         //Run in IDE
-        args = new String[]{"src/main/resources/graph5.dot", "2", "-v"};
+        args = new String[]{"src/main/resources/graph5.dot", "2"};
 
         _config = new CLI(args);
 
-        if (_config.getVisualise() == true) {
+        if (_config.getVisualise()) {
             launch();
         } else {
             startAlgorithm();
@@ -57,15 +57,18 @@ public class Main extends Application {
                 }
             }
             frw.writeOutput(schedule);
-            _algorithmState.setFinished(true);
+            if(_algorithmState != null) {
+                _algorithmState.setFinished(true);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("FINISHED");
     }
 
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("view.fxml"));
