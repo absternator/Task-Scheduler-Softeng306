@@ -79,8 +79,8 @@ public class CLI {
      * @return a string of the output file name, null if default
      */
     public String getOutput() {
-        return  StringUtils.isBlank(_output) ? StringUtils.substringBefore(_input, ".dot") + "-output" : _output;
-
+        String fileName = StringUtils.isBlank(_output) ? StringUtils.substringBefore(_input, ".dot") + "-output" : _output;
+        return fileName +".dot";
     }
 
     /**
