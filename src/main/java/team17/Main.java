@@ -26,7 +26,7 @@ public class Main extends Application {
         //args = new String[]{"../../src/main/resources/graph.dot", "2"};
 
         //Run in IDE
-        args = new String[]{"src/main/resources/graph2.dot", "2", "-v"};
+        args = new String[]{"src/main/resources/graph5.dot", "2", "-v"};
 
         _config = new CLI(args);
 
@@ -44,7 +44,7 @@ public class Main extends Application {
             List<ScheduledTask> schedule;
             Algorithm algorithm;
 
-            if (true) {
+            if (false) {
                 algorithm = new DFS(graph,_algorithmState); //TODO remove graph parameter
                 schedule = algorithm.getOptimalSchedule(graph).fullSchedule();// Returns list of Schedule
             } else {
@@ -88,6 +88,7 @@ public class Main extends Application {
             Scene scene = new Scene(root, 1000, 750);
             primaryStage.setScene(scene);
             primaryStage.show();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

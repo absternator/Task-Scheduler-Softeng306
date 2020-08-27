@@ -1,19 +1,29 @@
 package team17.GUI;
 
 
-import eu.hansolo.tilesfx.TileBuilder;
 import eu.hansolo.tilesfx.Tile;
+import eu.hansolo.tilesfx.TileBuilder;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 import team17.Algorithm.AlgorithmState;
+import team17.GUI.GanttChart.GanttChart;
+import team17.GUI.GanttChart.GanttChartHelper;
 import team17.IO.CLI;
 
 public class MainController {
+
+    @FXML
+    private AnchorPane ganttChartContainer;
 
     @FXML
     private Pane MemoryPane;
@@ -35,6 +45,7 @@ public class MainController {
 
     private CLI _config;
     private AlgorithmState _algorithmState;
+    private GanttChartHelper _gch;
 
     public MainController(CLI config) {
         _config = config;
@@ -46,6 +57,7 @@ public class MainController {
 
 
     public void init() {
+        createGanttChart();
         setUpInputFileName();
 
         setUpNumberOfProcessors();
@@ -70,6 +82,10 @@ public class MainController {
                 _algorithmState.setFinished(false);
                 setUpOutputFileName();
                 UpdateStatus();
+            }
+
+            if (_algorithmState.getCompleteSolution() != null) {
+                _gch.updateGanttChart(_algorithmState.getCompleteSolution().fullSchedule());
             }
 
         }));
@@ -135,5 +151,35 @@ public class MainController {
         MemoryPane.getChildren().addAll(memoryUsageTile);
     }
 
+    private void createGanttChart() {
+        String[] processors = new String[_config.getProcessors()];
+        for(int i = 0; i < _config.getProcessors(); i++) {
+            processors[i] = "Processor " + String.valueOf(i+1);
+        }
+
+        final NumberAxis xAxis = new NumberAxis();
+        final CategoryAxis yAxis = new CategoryAxis();
+
+        final GanttChart<Number, String> chart = new GanttChart<Number, String>(xAxis, yAxis);
+        xAxis.setLabel("");
+        xAxis.setTickLabelFill(Color.CHOCOLATE);
+        xAxis.setMinorTickCount(4);
+
+        yAxis.setLabel("");
+        yAxis.setTickLabelFill(Color.CHOCOLATE);
+        yAxis.setTickLabelGap(10);
+        yAxis.setCategories(FXCollections.<String>observableArrayList(processors));
+
+        chart.setTitle("Current Schedule");
+        chart.setLegendVisible(false);
+        chart.setBlockHeight(20);
+        chart.setVerticalGridLinesVisible(false);
+
+        chart.getStylesheets().add(getClass().getResource("ganttchart.css").toExternalForm());
+
+        _gch = new GanttChartHelper(chart, _config.getProcessors());
+
+        ganttChartContainer.getChildren().add(chart);
+    }
 
 }

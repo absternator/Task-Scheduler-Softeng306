@@ -1,8 +1,6 @@
 package team17.Algorithm;
 
-import java.util.Observable;
-
-public class AlgorithmState extends Observable {
+public class AlgorithmState{
     private PartialSolution _completeSolution;
     private boolean _isFinished;
 
@@ -12,8 +10,6 @@ public class AlgorithmState extends Observable {
 
     public void setCompleteSolution(PartialSolution completeSolution) {
         this._completeSolution = completeSolution;
-        //setChanged();
-        //notifyObservers();
     }
 
     public PartialSolution getCompleteSolution() {
