@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class AStar extends Algorithm {
     private final Queue<PartialSolution> _open;
-    private final List<PartialSolution> _closed;
+    private final Set<PartialSolution> _closed;
     private int openCount = 0; // todo: this is for testing only(remove later)
     private PartialSolution _completePartialSolution;
     private boolean _foundComplete = false;
@@ -18,7 +18,7 @@ public class AStar extends Algorithm {
     public AStar(Graph graph) {
         final PartialSolution _root = new PartialSolution(null, null);
         _open = new PriorityQueue<>(expandRoot(_root, graph));
-        _closed = new HashSet<>();
+        _closed = new HashSet<PartialSolution>();
         _open.add(_root);
     }
 
