@@ -6,6 +6,7 @@ public class Node {
     private final int _weight;
     private int _bottomLevel;
     private Map<Node,Integer> _incomingEdges;
+    private Map<Node,Integer> _outgoingEdges;
     private Set<Node> _dependencies;
     private Set<Node> _dependants;
     /**
@@ -17,6 +18,7 @@ public class Node {
         _id=id;
         _weight=weight;
         _incomingEdges = new HashMap<>();
+        _outgoingEdges = new HashMap<>();
         _dependants = new HashSet<>();
         _dependencies = new HashSet<>();
     }
@@ -46,7 +48,9 @@ public class Node {
         return _incomingEdges;
     }
 
-
+    public Map<Node, Integer> getOutgoingEdges() {
+        return _outgoingEdges;
+    }
 
     public Set<Node> getDependencies() {
         return _dependencies;
@@ -62,6 +66,9 @@ public class Node {
 
     public void setIncomingEdges(Node edge, int edgeWeight) {
         _incomingEdges.put(edge,edgeWeight);
+    }
+    public void setOutgoingEdges(Node edge, int edgeWeight) {
+        _outgoingEdges.put(edge,edgeWeight);
     }
 
 

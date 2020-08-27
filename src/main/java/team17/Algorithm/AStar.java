@@ -108,7 +108,6 @@ public class AStar extends Algorithm {
         // This is to add all children at once(not preferred)
 //        maxOpenCount += children.size();
 //        _open.addAll(children);
-
        for (PartialSolution child : children) {
             if (!_closed.contains(child)  && child.getCostUnderestimate() < _upperBound) {
                // maxOpenCount++;
