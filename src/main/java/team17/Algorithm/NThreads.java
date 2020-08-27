@@ -4,32 +4,23 @@ import java.util.Set;
 import team17.DAG.Graph;
 
 public class NThreads extends Thread{
-    private AStar _aStar;
-    private Graph _graph;
-    private PartialSolution _completePartialSolution;
+    private final Algorithm _algo;
+    private final Graph _graph;
 
-    public NThreads(AStar aStar, Graph graph) {
-        _aStar = aStar;
+    public NThreads(Algorithm algo, Graph graph) {
+        _algo = algo;
         _graph = graph;
-    }
-
-    public PartialSolution getCompletePartialSolution() {
-        return _completePartialSolution;
     }
 
     @Override
     public void run() {
         while(true) {
-            PartialSolution partialSolution = _aStar.getNextPartialSolution();
+            PartialSolution partialSolution = _algo.getNextPartialSolution();
             if(partialSolution==null) {
                 break;
             } else {
-                if (partialSolution.isCompleteSchedule()) {
-                    _completePartialSolution = partialSolution;
-                    break;
-                }
-                Set<PartialSolution> children = _aStar.expandSearch(partialSolution, _graph);
-                _aStar.openAddChildren(children);
+                Set<PartialSolution> children = _algo.expandSearch(partialSolution, _graph);
+                _algo.openAddChildren(children);
             }
         }
     }

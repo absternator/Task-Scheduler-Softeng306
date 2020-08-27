@@ -3,7 +3,9 @@ package team17.Algorithm;
 import team17.DAG.Graph;
 import team17.DAG.Node;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public abstract class Algorithm {
@@ -15,18 +17,59 @@ public abstract class Algorithm {
 
     /**
      * Method to return the optimal solution for a given graph input
+     *
      * @param graph the input graph of tasks
      * @return a collection of scheduled tasks representing the optimal solution
      */
-    public abstract PartialSolution getOptimalSchedule(Graph graph);
+    public PartialSolution getOptimalSchedule(Graph graph) {
+        while (true) {
+            PartialSolution partialSolution = this.getNextPartialSolution();
+            if (partialSolution == null) {
+                break;
+            } else {
+                Set<PartialSolution> children = expandSearch(partialSolution,graph);
+                this.openAddChildren(children);
+            }
+        }
+        return getSolution();
+    }
 
     /**
      * Method to return the optimal solution for a given graph input for multiple cores
-     * @param graph
-     * @param nCores
-     * @return
+     *
+     * @param graph The whole graph
+     * @param nCores Number of cores specified for parallelisation
+     * @return The complete partial solution which is optimal
      */
-    public abstract PartialSolution getOptimalScheduleParallel(Graph graph, int nCores);
+    public PartialSolution getOptimalScheduleParallel(Graph graph, int nCores) {
+        List<NThreads> nThreads = new ArrayList<>();
+        for(int i=0; i<nCores; i++){
+            NThreads thread = new NThreads(this, graph);
+            thread.start();
+            nThreads.add(thread);
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        this.getOptimalSchedule(graph);
+        for(NThreads thr : nThreads){
+            try {
+                thr.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return this.getSolution();
+    }
+
+    /**
+     * Returns the completed solution stored in the field
+     *
+     * @return The complete partial solution
+     */
+    protected abstract PartialSolution getSolution();
 
     /**
      * This expands the root and assigns the first task to the first processor
@@ -106,4 +149,17 @@ public abstract class Algorithm {
         return children;
     }
 
+    /**
+     * Gets the next partial solution, this is a synchronised method
+     *
+     * @return The next partial solution in the queue/stack, or null if there is none
+     */
+    public abstract PartialSolution getNextPartialSolution();
+
+    /**
+     * Adds children to open, this is a synchronised method
+     *
+     * @param children The children needed to be added to open
+     */
+    public abstract void openAddChildren(Set<PartialSolution> children);
 }

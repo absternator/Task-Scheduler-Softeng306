@@ -9,20 +9,25 @@ import java.util.*;
  * Class that contains the main skeleton of the A* algorithm
  */
 public class AStar extends Algorithm {
-    private final PartialSolution _root;
-    private Queue<PartialSolution> _open;
-    private Set<PartialSolution> _closed;
+    private final Queue<PartialSolution> _open;
+    private final List<PartialSolution> _closed;
     private int openCount = 0; // todo: this is for testing only(remove later)
     private PartialSolution _completePartialSolution;
     private boolean _foundComplete = false;
 
     public AStar(Graph graph) {
-        _root = new PartialSolution(null, null);
+        final PartialSolution _root = new PartialSolution(null, null);
         _open = new PriorityQueue<>(expandRoot(_root, graph));
         _closed = new HashSet<>();
+        _open.add(_root);
     }
 
     @Override
+    public PartialSolution getSolution(){
+        return _completePartialSolution;
+    }
+  
+      @Override
     public PartialSolution getOptimalSchedule(Graph graph) {
         while (true) {
             PartialSolution partialSolution = this.getNextPartialSolution();
@@ -42,41 +47,8 @@ public class AStar extends Algorithm {
         System.out.println("added to queue: "+openCount);
         return _completePartialSolution;
     }
-
-    /**
-     * This is the actual A* Algorithm that returns the optimal schedule in parallel
-     *
-     * @return The full Schedule which is the optimal solution
-     */
-    public PartialSolution getOptimalScheduleParallel(Graph graph, int nCores) {
-        List<NThreads> nThreads = new ArrayList<>();
-        for (int i = 0; i < nCores; i++) {
-            NThreads thread = new NThreads(this, graph);
-            thread.start();
-            nThreads.add(thread);
-        }
-        PartialSolution schedule = this.getOptimalSchedule(graph);
-        if (schedule != null) {
-            return schedule;
-        }
-        for (NThreads thr : nThreads) {
-            try {
-                thr.join();
-                if (thr.getCompletePartialSolution() != null) {
-                    return thr.getCompletePartialSolution();
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        return _completePartialSolution;
-    }
-
-    public Set<PartialSolution> partialExpansion(PartialSolution child) {
-        return null;
-    }
-
-    @Override
+  
+      @Override
     public Set<PartialSolution> expandSearch(PartialSolution partialSolution, Graph graph) {
         Set<PartialSolution> children = new HashSet<>();
 
@@ -162,7 +134,8 @@ public class AStar extends Algorithm {
         return children;
     }
 
-    public synchronized PartialSolution getNextPartialSolution() {
+    @Override
+    public synchronized PartialSolution getNextPartialSolution(){
         PartialSolution partialSolution = _open.poll();
         _closed.add(partialSolution);
         if (_foundComplete) {
