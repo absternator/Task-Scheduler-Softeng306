@@ -18,16 +18,55 @@ public abstract class Algorithm {
      * @param graph the input graph of tasks
      * @return a collection of scheduled tasks representing the optimal solution
      */
-    public abstract PartialSolution getOptimalSchedule(Graph graph);
+    public PartialSolution getOptimalSchedule(Graph graph) {
+        while (true) {
+            PartialSolution partialSolution = this.getNextPartialSolution();
+            if (partialSolution == null) {
+                break;
+            } else {
+                Set<PartialSolution> children = expandSearch(partialSolution,graph);
+                this.openAddChildren(children);
+            }
+        }
+        return getSolution();
+    }
 
     /**
      * Method to return the optimal solution for a given graph input for multiple cores
      *
-     * @param graph
-     * @param nCores
-     * @return
+     * @param graph The whole graph
+     * @param nCores Number of cores specified for parallelisation
+     * @return The complete partial solution which is optimal
      */
-    public abstract PartialSolution getOptimalScheduleParallel(Graph graph, int nCores);
+    public PartialSolution getOptimalScheduleParallel(Graph graph, int nCores) {
+        List<NThreads> nThreads = new ArrayList<>();
+        for(int i=0; i<nCores; i++){
+            NThreads thread = new NThreads(this, graph);
+            thread.start();
+            nThreads.add(thread);
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        this.getOptimalSchedule(graph);
+        for(NThreads thr : nThreads){
+            try {
+                thr.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return this.getSolution();
+    }
+
+    /**
+     * Returns the completed solution stored in the field
+     *
+     * @return The complete partial solution
+     */
+    protected abstract PartialSolution getSolution();
 
     /**
      * This expands the root and assigns the first task to the first processor
@@ -102,12 +141,12 @@ public abstract class Algorithm {
         AddNode:
         for (Node node : freeNodes) {
             //Node can be placed on Processor now
-            for (int i = 1; i < graph.getNumOfProcessors() + 1; i++) {
-                int eligibleStartime = 0;
+            for (int i = 1; i < AlgorithmConfig.getNumOfProcessors() + 1; i++) {
+                int eligibleStartTime = 0;
                 // Start time based on  last task on this processor
                 for (ScheduledTask scheduledTask : partialSolution) {
                     if (scheduledTask.getProcessorNum() == i) {
-                        eligibleStartime = scheduledTask.getFinishTime();
+                        eligibleStartTime = scheduledTask.getFinishTime();
                         break;
                     }
                 }
@@ -125,7 +164,7 @@ public abstract class Algorithm {
                         if (!dependantFound) {
                             continue;
                         }
-                        eligibleStartime = Math.max(eligibleStartime, scheduledTask.getFinishTime() + communicationTime);
+                        eligibleStartTime = Math.max(eligibleStartTime, scheduledTask.getFinishTime() + communicationTime);
                     }
                 }
                 children.add(new PartialSolution(partialSolution, new ScheduledTask(i, node, eligibleStartime)));
@@ -208,4 +247,17 @@ public abstract class Algorithm {
         return freeNodes.get(0);
     }
 
+    /**
+     * Gets the next partial solution, this is a synchronised method
+     *
+     * @return The next partial solution in the queue/stack, or null if there is none
+     */
+    public abstract PartialSolution getNextPartialSolution();
+
+    /**
+     * Adds children to open, this is a synchronised method
+     *
+     * @param children The children needed to be added to open
+     */
+    public abstract void openAddChildren(Set<PartialSolution> children);
 }

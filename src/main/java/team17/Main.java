@@ -29,9 +29,13 @@ public class Main {
             //graph.getNodeList().size() > 11
             //                    || (graph.getNodeList().size() >10 && graph.getNumOfProcessors() > 3)
             //                    || (graph.getNodeList().size() >9 && graph.getNumOfProcessors() > 6)
-            if (false) {
+            if (true) {
                 algorithm = new DFS(graph); //TODO remove graph parameter
-                schedule = algorithm.getOptimalSchedule(graph).fullSchedule();// Returns list of Schedule
+                if(cli.getCores()<2) {
+                    schedule = algorithm.getOptimalSchedule(graph).fullSchedule(); // Returns list of Schedule
+                } else {
+                    schedule = algorithm.getOptimalScheduleParallel(graph, cli.getCores()-1).fullSchedule();
+                }
             } else {
                 // for small graphs, use the A* algorithm
                 algorithm = new AStar(graph); //TODO remove graph parameter
