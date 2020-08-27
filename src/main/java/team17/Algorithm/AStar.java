@@ -72,11 +72,8 @@ public class AStar extends Algorithm {
               }
           }
           freeNodes.removeAll(notEligible);
-          // Check if free tasks meet criteria. IF yes return node to be ordered next.
-          /********************This line implements fork-join*************************/
-          FixedTaskOrder(partialSolution, notEligible, freeNodes);
-          /********************This line implements fork-join*************************/
-
+          // Check if free tasks meet criteria. IF yes return node to be ordered next.!!
+          fixedTaskOrder(partialSolution, notEligible, freeNodes);
           // skip the nodes for children that were already made in the previous expansion
         boolean skipNodes = true;
         if (partialSolution.getLastPartialExpansionNodeId().equals("")) {

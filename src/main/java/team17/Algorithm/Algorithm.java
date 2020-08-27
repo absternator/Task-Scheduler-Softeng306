@@ -24,7 +24,7 @@ public abstract class Algorithm {
             if (partialSolution == null) {
                 break;
             } else {
-                Set<PartialSolution> children = expandSearch(partialSolution,graph);
+                Set<PartialSolution> children = expandSearch(partialSolution, graph);
                 this.openAddChildren(children);
             }
         }
@@ -34,13 +34,13 @@ public abstract class Algorithm {
     /**
      * Method to return the optimal solution for a given graph input for multiple cores
      *
-     * @param graph The whole graph
+     * @param graph  The whole graph
      * @param nCores Number of cores specified for parallelisation
      * @return The complete partial solution which is optimal
      */
     public PartialSolution getOptimalScheduleParallel(Graph graph, int nCores) {
         List<NThreads> nThreads = new ArrayList<>();
-        for(int i=0; i<nCores; i++){
+        for (int i = 0; i < nCores; i++) {
             NThreads thread = new NThreads(this, graph);
             thread.start();
             nThreads.add(thread);
@@ -51,7 +51,7 @@ public abstract class Algorithm {
             }
         }
         this.getOptimalSchedule(graph);
-        for(NThreads thr : nThreads){
+        for (NThreads thr : nThreads) {
             try {
                 thr.join();
             } catch (InterruptedException e) {
@@ -82,10 +82,10 @@ public abstract class Algorithm {
                 freeNodes.add(node);
             }
         }
-        /********************This line implements fork-join*************************/
-        FixedTaskOrder(partialSolution, notEligible, freeNodes);
-        /********************This line implements fork-join*************************/
-        for (Node node: freeNodes) {
+        // Check if free tasks meet criteria. IF yes return node to be ordered next.
+        fixedTaskOrder(partialSolution, notEligible, freeNodes);
+
+        for (Node node : freeNodes) {
             children.add(new PartialSolution(partialSolution, new ScheduledTask(1, node, 0)));
         }
         return children;
@@ -93,11 +93,12 @@ public abstract class Algorithm {
 
     /**
      * This is used to check if fork-join/independent task criteria is met. if yes we fix schedule task.
+     *
      * @param partialSolution This instance of Partial solution
-     * @param notEligible These are the nodes in schedule currently
-     * @param freeNodes Nodes that can be scheduled
+     * @param notEligible     null set used to transfer contents from freeNodes and then remove later in method
+     * @param freeNodes       Nodes that are eligible to  be scheduled
      */
-    protected void FixedTaskOrder(PartialSolution partialSolution, Set<Node> notEligible, List<Node> freeNodes) {
+    protected void fixedTaskOrder(PartialSolution partialSolution, Set<Node> notEligible, List<Node> freeNodes) {
         Node fixedTask = forkJoin(freeNodes, partialSolution);
         if (fixedTask != null) {
             for (Node notFixedNode : freeNodes) {
@@ -133,10 +134,10 @@ public abstract class Algorithm {
             }
         }
         freeNodes.removeAll(notEligible);
+        notEligible.clear();
         // Check if free tasks meet criteria. IF yes return node to be ordered next.
-        /********************This line implements fork-join*************************/
-        FixedTaskOrder(partialSolution, notEligible, freeNodes);
-        /********************This line implements fork-join*************************/
+        fixedTaskOrder(partialSolution, notEligible, freeNodes);
+
 
         AddNode:
         for (Node node : freeNodes) {
@@ -174,7 +175,7 @@ public abstract class Algorithm {
     }
 
     protected static Node forkJoin(List<Node> freeNodes, PartialSolution partialSolution) {
-        if (freeNodes.size() == 0) return null;
+        if (freeNodes.isEmpty()) return null;
         Set<Node> sameChild = new HashSet<>();
         Set<Integer> sameParentProcessor = new HashSet<>();
         Map<Node, Integer> dataReadyMap = new HashMap<>();
@@ -199,7 +200,7 @@ public abstract class Algorithm {
                     if (dependencies.contains(task.getNode())) {
                         sameParentProcessor.add(task.getProcessorNum());
                         int dataReadyTime = task.getFinishTime() + node.getIncomingEdges().get(task.getNode());
-                        dataReadyMap.put(node,dataReadyTime);
+                        dataReadyMap.put(node, dataReadyTime);
                     }
                 }
             } else {
@@ -214,19 +215,17 @@ public abstract class Algorithm {
             //sort by increasing data ready time
             int incomingData = dataReadyMap.get(o1) - dataReadyMap.get(o2);
             //tie breaker: sort by decreasing outgoing edges
-            if(incomingData == 0){
+            if (incomingData == 0) {
                 int firstNodeOutgoing = 0;
                 int secondNodeOutgoing = 0;
                 //if has child, then order by decreasing communication cost. Else =0.
-                if(o1.getDependants() != null){
-                    for (Map.Entry<Node,Integer> entry : o1.getOutgoingEdges().entrySet()) {
-                        firstNodeOutgoing = entry.getValue();
-                    }
+                if (!o1.getDependants().isEmpty()) {
+                    Node first = o1.getDependants().iterator().next();
+                    firstNodeOutgoing = first.getIncomingEdges().get(o1);
                 }
-                if(o2.getDependants() != null){
-                    for (Map.Entry<Node,Integer> entry : o2.getOutgoingEdges().entrySet()) {
-                        secondNodeOutgoing = entry.getValue();
-                    }
+                if (!o2.getDependants().isEmpty()) {
+                    Node second = o2.getDependants().iterator().next();
+                    secondNodeOutgoing = second.getIncomingEdges().get(o2);
                 }
                 return secondNodeOutgoing - firstNodeOutgoing;
             } else {
@@ -235,14 +234,15 @@ public abstract class Algorithm {
         });
         //check if free nodes sorted by decreasing outgoing edge weights
         int maxValue = Integer.MAX_VALUE;
-        for (Node node: freeNodes) {
-            for (Map.Entry<Node,Integer> entry : node.getOutgoingEdges().entrySet()) {
-                int value = entry.getValue();
-                if (value <= maxValue){
-                    maxValue = value;
-                } else {
-                    return null;
-                }
+        for (Node node : freeNodes) {
+            int value = 0;
+            for (Node item : node.getDependants()) {
+                value = item.getIncomingEdges().get(node);
+            }
+            if (value <= maxValue) {
+                maxValue = value;
+            } else {
+                return null;
             }
         }
         return freeNodes.get(0);
