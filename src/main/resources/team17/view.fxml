@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
 
 <AnchorPane prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -53,7 +56,7 @@
                         </Text>
                      </children>
                   </TextFlow>
-                  <Text layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time Elapsed:">
+                  <Text layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time Elapsed:">
                      <font>
                         <Font size="26.0" />
                      </font>

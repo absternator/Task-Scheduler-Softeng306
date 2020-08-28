@@ -26,9 +26,7 @@ public class ListScheduling {
         // get a copy of nodes for the unordered list
         List<Node> unorderedNodes = new ArrayList<>();
         for (Node node : _graph.getNodeList()) {
-            if (!node.getId().equals("end")) {
                 unorderedNodes.add(new Node(node));
-            }
         }
 
         List<Node> orderedNodes = new ArrayList<>();
@@ -74,7 +72,7 @@ public class ListScheduling {
      * @return a valid schedule
      */
     public PartialSolution getSchedule() {
-        int numProcessors = _graph.getNumOfProcessors();
+        int numProcessors = AlgorithmConfig.getNumOfProcessors();
         ScheduledTask[] processors = new ScheduledTask[numProcessors]; // latest task of each processor
         List<Node> nodes = getTopologicalOrder();
         PartialSolution schedule = new PartialSolution(null,null);

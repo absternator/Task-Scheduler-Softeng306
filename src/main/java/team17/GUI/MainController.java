@@ -27,14 +27,15 @@ public class MainController {
     private TextFlow ProcessorsNumberText;
     @FXML
     private Text StatusText;
+
     @FXML
     private Pane GraphPane;
 
-    private Tile _memoryUsageTile;
-    private double _maxMemory;
-    private int _processorsNumber;
-    private String _inputFile;
-    private String _outputFile;
+    private Tile memoryUsageTile;
+    private double maxMemory;
+    private int processorsNumber;
+    private String inputFile;
+    private String outputFile;
 
 
     private CLI _config;
@@ -54,23 +55,26 @@ public class MainController {
 
         setUpNumberOfProcessors();
         //show memory usage
-        _maxMemory = Runtime.getRuntime().maxMemory() / 1048576; // in bytes
+        maxMemory = Runtime.getRuntime().maxMemory() / 1048576; // in bytes
         setUpMemoryPane();
-        _memoryUsageTile.setValue(0);
-        readValue();
+        memoryUsageTile.setValue(0);
+        readMemory();
         startTiming();
 
 
     }
 
-    private void readValue() {
+    /*
+    using polling to read the memory usage
+    period = 1 seconds
+     */
+    private void readMemory() {
         Timeline tm = new Timeline(new KeyFrame(Duration.millis(1000), event -> {
             double usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
             usedMemory = usedMemory / 1000000;
-            _memoryUsageTile.setValue(usedMemory);
-
+            memoryUsageTile.setValue(usedMemory);
+            //determine whether the overall sorting is finished or not
             if (_algorithmState.getFinished()) {
-                //tm.stop();
                 _algorithmState.setFinished(false);
                 setUpOutputFileName();
                 UpdateStatus();
@@ -79,31 +83,31 @@ public class MainController {
         }));
         tm.setCycleCount(Timeline.INDEFINITE);
         tm.play();
-
     }
 
+
     public void setUpInputFileName() {
-        _inputFile = _config.getInput();
-        _inputFile = _inputFile.substring(_inputFile.lastIndexOf('/') + 1);
-        _inputFile = "  " + _inputFile;
-        Text iText = new Text(_inputFile);
+        inputFile = _config.getInput();
+        inputFile = inputFile.substring(inputFile.lastIndexOf('/') + 1);
+        inputFile = "  " + inputFile;
+        Text iText = new Text(inputFile);
         iText.setStyle("-fx-font: 22 System;");
         InputText.getChildren().add(iText);
     }
 
     public void setUpOutputFileName() {
-        _outputFile = _config.getOutput();
+        outputFile = _config.getOutput();
         //OutputFile = "src/main/graphout.dot";
-        _outputFile = _outputFile.substring(_outputFile.lastIndexOf('/') + 1);
-        _outputFile = "  " + _outputFile;
-        Text oText = new Text(_outputFile);
+        outputFile = outputFile.substring(outputFile.lastIndexOf('/') + 1);
+        outputFile = "  " + outputFile;
+        Text oText = new Text(outputFile);
         oText.setStyle("-fx-font: 22 System;");
         OutputText.getChildren().add(oText);
     }
 
     public void setUpNumberOfProcessors() {
-        _processorsNumber = _config.getProcessors();
-        String processorNumberString = String.valueOf(_processorsNumber);
+        processorsNumber = _config.getProcessors();
+        String processorNumberString = String.valueOf(processorsNumber);
         processorNumberString = "  " + processorNumberString;
         Text pText = new Text(processorNumberString);
         pText.setStyle("-fx-font: 22 System;");
@@ -124,10 +128,10 @@ public class MainController {
 
 
     private void setUpMemoryPane() {
-        this._memoryUsageTile = TileBuilder.create()
+        this.memoryUsageTile = TileBuilder.create()
                 .skinType(Tile.SkinType.GAUGE)
-                .maxValue(_maxMemory)
-                .threshold(_maxMemory * 0.85)
+                .maxValue(maxMemory)
+                .threshold(maxMemory * 0.85)
                 .thresholdVisible(false)
                 .unit("MB")
                 .startFromZero(true)
@@ -136,7 +140,7 @@ public class MainController {
                 .prefWidth(MemoryPane.getWidth())
                 .prefHeight(MemoryPane.getHeight())
                 .build();
-        MemoryPane.getChildren().addAll(_memoryUsageTile);
+        MemoryPane.getChildren().addAll(memoryUsageTile);
     }
 
     private void setUpGraphPane() {

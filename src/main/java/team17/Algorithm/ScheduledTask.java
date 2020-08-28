@@ -36,6 +36,8 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
 
     @Override
     public boolean equals(Object other) {
+        
+        
         ScheduledTask that = (ScheduledTask) other;
         return _startTime == that._startTime &&
                 Objects.equals(_node, that._node);
