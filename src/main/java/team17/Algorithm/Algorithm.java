@@ -7,10 +7,11 @@ import java.util.*;
 
 public abstract class Algorithm {
 
-//    /**
-//     * Initialise the root of the graph
-//     */
-//    public abstract void initialise(Graph graph);
+    protected AlgorithmState _algorithmState;
+
+    public Algorithm(AlgorithmState algorithmState) {
+        _algorithmState = algorithmState;
+    }
 
     /**
      * Method to return the optimal solution for a given graph input
@@ -87,6 +88,9 @@ public abstract class Algorithm {
 
         for (Node node : freeNodes) {
             children.add(new PartialSolution(partialSolution, new ScheduledTask(1, node, 0)));
+        }
+        if (_algorithmState != null) {
+            _algorithmState.updateNumUnexpandedPartialSolutions(children.size());
         }
         return children;
     }
