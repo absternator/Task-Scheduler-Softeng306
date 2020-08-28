@@ -10,3 +10,8 @@ node {
     stroke-mode: plain;
     stroke-color: dimgrey;
 }
+
+edge {
+    text-background-mode: rounded-box;
+    text-style: bold-italic;
+}

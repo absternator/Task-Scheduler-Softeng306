@@ -25,6 +25,8 @@ public class Main extends Application {
     private static AlgorithmState _algorithmState;
     private static Graph _graph;
     private static FileReadWriter _frw;
+    private static volatile boolean _guiActive = false;
+    private static volatile boolean _algoActive = false;
 
 
     public static void main(String[] args) {
@@ -32,7 +34,7 @@ public class Main extends Application {
         //args = new String[]{"../../src/main/resources/graph.dot", "2"};
 
         //Run in IDE
-        args = new String[]{"src/main/resources/graph.dot", "3", "-v"};
+        args = new String[]{"src/main/resources/Nodes_11_OutTree.dot", "3", "-v"};
         //args = new String[]{"src/main/resources/graph.dot", "3"};
 
         _config = new CLI(args);
@@ -52,6 +54,7 @@ public class Main extends Application {
     }
 
     private static void startAlgorithm() {
+        _algoActive = true;
         List<ScheduledTask> schedule;
         Algorithm algorithm;
 
@@ -72,13 +75,19 @@ public class Main extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        _algoActive = false;
         _algorithmState.setFinished(true);
+
+        if(!_guiActive){
+            System.exit(0);
+        }
     }
 
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
+            _guiActive = true;
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("view.fxml"));
             MainController mainController = new MainController(_config, _graph);
@@ -89,10 +98,13 @@ public class Main extends Application {
             mainController.setAlgorithmState(_algorithmState);
             mainController.init();
 
-            // To make sure SwingNode is disposed
+            // To make sure application stops
             primaryStage.setOnCloseRequest(e -> {
                 Platform.exit();
-                System.exit(0);
+                _guiActive = false;
+                if (!_algoActive) {
+                    System.exit(0);
+                }
             });
 
             // run Astar
