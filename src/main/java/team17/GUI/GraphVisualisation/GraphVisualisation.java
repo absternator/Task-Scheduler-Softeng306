@@ -9,7 +9,9 @@ import org.graphstream.ui.swingViewer.DefaultView;
 import org.graphstream.ui.view.Viewer;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Dimension;
+import java.util.List;
+import java.util.Map;
 
 public class GraphVisualisation {
     team17.DAG.Graph _graph;
@@ -43,14 +45,30 @@ public class GraphVisualisation {
         Graph graph = new SingleGraph("Visualise Graph");
         graph.addAttribute("ui.stylesheet", "url(file:src/main/resources/team17/GUI/graph.css)");
 
+        List<team17.DAG.Node> dagNodes = _graph.getNodeList();
 
-        for(int i = 0; i<5; i++){
-            Node n = graph.addNode(""+ i);
-            n.addAttribute("ui.label", "" + i);
+        for(team17.DAG.Node dagNode: dagNodes) {
+            String id = dagNode.getId();
+            if(!id.equals("end")) {
+                Node n = graph.addNode(id);
+                n.addAttribute("ui.label", id);
+            }
         }
 
-        Edge e = graph.addEdge("01", "0", "1", true);
-        e.addAttribute("ui.label", "weight=2");
+//        for(int i = 0; i<5; i++){
+//            Node n = graph.addNode(""+ i);
+//            n.addAttribute("ui.label", "" + i);
+//        }
+
+//        for(team17.DAG.Node dagNode: dagNodes) {
+//            Map<team17.DAG.Node, Integer> map = dagNode.getIncomingEdges();
+//            for(Map.Entry<team17.DAG.Node, Integer> entry: map.entrySet()) {
+//
+//            }
+//        }
+//
+//        Edge e = graph.addEdge("01", "0", "1", true);
+//        e.addAttribute("ui.label", "weight=2");
         return graph;
     }
 
