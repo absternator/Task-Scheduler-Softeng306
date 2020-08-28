@@ -82,7 +82,6 @@ public class GanttChart<X,Y> extends XYChart<X,Y> {
                         taskIdText.setTranslateY(ellipse.getHeight()/2);
                         region.getChildren().add(taskIdText);
 
-
                         // Note: workaround for RT-7689 - saw this in ProgressControlSkin
                         // The region doesn't update itself when the shape is mutated in place, so we
                         // null out and then restore the shape in order to force invalidation.

@@ -57,17 +57,17 @@
                      </font>
                   </Text>
                </children></Pane>
-            <Pane id="StatusPane" layoutX="70.0" layoutY="375.0" prefHeight="73.0" prefWidth="172.0">
+            <Pane id="StatusPane" layoutX="83.0" layoutY="376.0" prefHeight="73.0" prefWidth="172.0">
                <children>
-                  <Text fx:id="StatusText" layoutX="20.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Running" textAlignment="CENTER" wrappingWidth="144.9931640625">
+                  <Text fx:id="StatusText" layoutX="16.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Running" textAlignment="CENTER" wrappingWidth="144.9931640625">
                      <font>
                         <Font size="32.0" />
                      </font>
                   </Text>
                </children>
             </Pane>
-            <Pane fx:id="MemoryPane" layoutX="30.0" layoutY="458.0" prefHeight="292.0" prefWidth="304.0" />
-            <Text fx:id="runningTime" layoutX="77.0" layoutY="333.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0m00s" textAlignment="CENTER" wrappingWidth="157.9931640625">
+            <Pane fx:id="MemoryPane" layoutX="42.0" layoutY="466.0" prefHeight="274.0" prefWidth="291.0" />
+            <Text fx:id="runningTime" layoutX="88.0" layoutY="333.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0m00s" textAlignment="CENTER" wrappingWidth="157.9931640625">
                <font>
                   <Font size="32.0" />
                </font>

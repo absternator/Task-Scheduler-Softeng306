@@ -79,7 +79,6 @@ public class testAStarOnExampleGraphs {
         Assume.assumeTrue(_runNodes10Random);
         _args = new String[]{"src/main/resources/Nodes_10_Random.dot", "2"};
 
-
         assertEquals(50, getAStarSolutionFor(_args));
     }
 
