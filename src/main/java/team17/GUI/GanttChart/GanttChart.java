@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  *
- * Code modified from https://stackoverflow.com/questions/27975898/gantt-chart-from-scratch
+ * Modified code written by user Roland from https://stackoverflow.com/questions/27975898/gantt-chart-from-scratch
  * @param <X>
  * @param <Y>
  */
