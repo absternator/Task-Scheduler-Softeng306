@@ -17,7 +17,9 @@ public class DFS extends Algorithm {
         _ls = new ListScheduling(graph);
         _bestSchedule = _ls.getSchedule();
         _algorithmState = algorithmState;
-        _algorithmState.setCompleteSolution(_bestSchedule);
+        if (_algorithmState != null) {
+            _algorithmState.setCompleteSolution(_bestSchedule);
+        }
         _upperBound = _bestSchedule.getCostUnderestimate();
         _open.push(_root);
     }
