@@ -1,19 +1,19 @@
 graph {
-    fill-color: lightgrey;
+    /*fill-color: lightgrey;*/
+    text-size: 15px;
 }
 
 node {
     text-style: bold;
-    text-size: 15px;
     text-alignment: center;
     size: 25px, 25px;
-    fill-color: white;
+    fill-color: lightgrey;
     stroke-mode: plain;
-    stroke-color: black;
+    stroke-color: darkgrey;
 }
 
 edge {
-    fill-color: dimgrey;
+    fill-color: darkgrey;
     text-style: bold-italic;
     text-alignment: along;
 }
