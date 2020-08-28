@@ -33,7 +33,8 @@ public class GraphVisualisation {
         Viewer viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
         viewer.enableAutoLayout();
 
-        DefaultView view = new DefaultView(viewer, Viewer.DEFAULT_VIEW_ID, Viewer.newGraphRenderer());
+//        DefaultView view = new DefaultView(viewer, Viewer.DEFAULT_VIEW_ID, Viewer.newGraphRenderer());
+        DefaultView view = (DefaultView) viewer.addDefaultView(false);
         view.setMinimumSize(new Dimension(600,400));
 
         SwingUtilities.invokeLater(() -> sn.setContent(view));
@@ -51,7 +52,8 @@ public class GraphVisualisation {
         List<team17.DAG.Node> dagNodes = _graph.getNodeList();
 
         // Add all the nodes and ids
-        for(team17.DAG.Node dagNode: dagNodes) {
+        // To change node colour: n.addAttribute("ui.class", "p+processorNum")
+         for(team17.DAG.Node dagNode: dagNodes) {
             String id = dagNode.getId();
             if(!id.equals("end")) {
                 Node n = graph.addNode(id);

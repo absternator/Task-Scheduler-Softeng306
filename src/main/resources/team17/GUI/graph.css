@@ -1,17 +1,59 @@
 graph {
-    fill-color: grey;
+    fill-color: lightgrey;
 }
 
 node {
+    text-style: bold;
     text-size: 15px;
     text-alignment: center;
     size: 25px, 25px;
-    fill-color: cornflowerblue;
+    fill-color: white;
     stroke-mode: plain;
-    stroke-color: dimgrey;
+    stroke-color: black;
 }
 
 edge {
-    text-background-mode: rounded-box;
+    fill-color: dimgrey;
     text-style: bold-italic;
+    text-alignment: along;
+}
+
+node.p1 {
+    fill-color: #babade;
+    stroke-color: #8686c5;
+}
+
+node.p2 {
+    fill-color: #ccbade;
+    stroke-color: #a686c5;
+}
+
+node.p3 {
+    fill-color: #baccde;
+    stroke-color: #86a6c5;
+}
+
+node.p4 {
+    fill-color: #debade;
+    stroke-color: #c586c5;
+}
+
+node.p5 {
+    fill-color: #dedeba;
+    stroke-color: #c5c586;
+}
+
+node.p6 {
+    fill-color: #badecc;
+    stroke-color: #86c5a6;
+}
+
+node.p7 {
+    fill-color: #deccba;
+    stroke-color: #c5a686;
+}
+
+node.p8 {
+    fill-color: #badede;
+    stroke-color: #86c5c5;
 }
