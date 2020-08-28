@@ -83,8 +83,15 @@ public class AStar extends Algorithm {
             skipNodes = false;
         }
 
+        AddNode:
         for (Node node : freeNodes) {
 
+            // if a sibling has already scheduled an equivalent node
+            for (PartialSolution child:children){
+                if(child.getScheduledTask().getNode().isEquivalent(node)){
+                    continue AddNode;
+                }
+            }
             // skip to the last scheduled node from a previous partial expansion
             if (skipNodes) {
                 if (node.getId().equals(partialSolution.getLastPartialExpansionNodeId())) {
