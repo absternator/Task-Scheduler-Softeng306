@@ -5,12 +5,14 @@ import eu.hansolo.tilesfx.TileBuilder;
 import eu.hansolo.tilesfx.Tile;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 import team17.Algorithm.AlgorithmState;
+import team17.GUI.GraphVisualisation.GraphVisualisation;
 import team17.IO.CLI;
 
 public class MainController {
@@ -25,12 +27,14 @@ public class MainController {
     private TextFlow ProcessorsNumberText;
     @FXML
     private Text StatusText;
+    @FXML
+    private Pane GraphPane;
 
-    private Tile memoryUsageTile;
-    private double maxMemory;
-    private int processorsNumber;
-    private String inputFile;
-    private String outputFile;
+    private Tile _memoryUsageTile;
+    private double _maxMemory;
+    private int _processorsNumber;
+    private String _inputFile;
+    private String _outputFile;
 
 
     private CLI _config;
@@ -50,9 +54,9 @@ public class MainController {
 
         setUpNumberOfProcessors();
         //show memory usage
-        maxMemory = Runtime.getRuntime().maxMemory() / 1048576; // in bytes
+        _maxMemory = Runtime.getRuntime().maxMemory() / 1048576; // in bytes
         setUpMemoryPane();
-        memoryUsageTile.setValue(0);
+        _memoryUsageTile.setValue(0);
         readValue();
         startTiming();
 
@@ -63,7 +67,7 @@ public class MainController {
         Timeline tm = new Timeline(new KeyFrame(Duration.millis(1000), event -> {
             double usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
             usedMemory = usedMemory / 1000000;
-            memoryUsageTile.setValue(usedMemory);
+            _memoryUsageTile.setValue(usedMemory);
 
             if (_algorithmState.getFinished()) {
                 //tm.stop();
@@ -79,27 +83,27 @@ public class MainController {
     }
 
     public void setUpInputFileName() {
-        inputFile = _config.getInput();
-        inputFile = inputFile.substring(inputFile.lastIndexOf('/') + 1);
-        inputFile = "  " + inputFile;
-        Text iText = new Text(inputFile);
+        _inputFile = _config.getInput();
+        _inputFile = _inputFile.substring(_inputFile.lastIndexOf('/') + 1);
+        _inputFile = "  " + _inputFile;
+        Text iText = new Text(_inputFile);
         iText.setStyle("-fx-font: 22 System;");
         InputText.getChildren().add(iText);
     }
 
     public void setUpOutputFileName() {
-        outputFile = _config.getOutput();
+        _outputFile = _config.getOutput();
         //OutputFile = "src/main/graphout.dot";
-        outputFile = outputFile.substring(outputFile.lastIndexOf('/') + 1);
-        outputFile = "  " + outputFile;
-        Text oText = new Text(outputFile);
+        _outputFile = _outputFile.substring(_outputFile.lastIndexOf('/') + 1);
+        _outputFile = "  " + _outputFile;
+        Text oText = new Text(_outputFile);
         oText.setStyle("-fx-font: 22 System;");
         OutputText.getChildren().add(oText);
     }
 
     public void setUpNumberOfProcessors() {
-        processorsNumber = _config.getProcessors();
-        String processorNumberString = String.valueOf(processorsNumber);
+        _processorsNumber = _config.getProcessors();
+        String processorNumberString = String.valueOf(_processorsNumber);
         processorNumberString = "  " + processorNumberString;
         Text pText = new Text(processorNumberString);
         pText.setStyle("-fx-font: 22 System;");
@@ -120,10 +124,10 @@ public class MainController {
 
 
     private void setUpMemoryPane() {
-        this.memoryUsageTile = TileBuilder.create()
+        this._memoryUsageTile = TileBuilder.create()
                 .skinType(Tile.SkinType.GAUGE)
-                .maxValue(maxMemory)
-                .threshold(maxMemory * 0.85)
+                .maxValue(_maxMemory)
+                .threshold(_maxMemory * 0.85)
                 .thresholdVisible(false)
                 .unit("MB")
                 .startFromZero(true)
@@ -132,7 +136,14 @@ public class MainController {
                 .prefWidth(MemoryPane.getWidth())
                 .prefHeight(MemoryPane.getHeight())
                 .build();
-        MemoryPane.getChildren().addAll(memoryUsageTile);
+        MemoryPane.getChildren().addAll(_memoryUsageTile);
+    }
+
+    private void setUpGraphPane() {
+        SwingNode sn = new SwingNode();
+        GraphVisualisation gv = new GraphVisualisation();
+        gv.createSwingContent(sn);
+        GraphPane.getChildren().add(sn);
     }
 
 

@@ -2,12 +2,14 @@ package team17;
 
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import team17.Algorithm.*;
 import team17.DAG.Graph;
+import team17.GUI.GraphVisualisation.GraphVisualisation;
 import team17.GUI.MainController;
 import team17.IO.CLI;
 import team17.IO.FileReadWriter;
@@ -31,9 +33,11 @@ public class Main extends Application {
         _config = new CLI(args);
 
         if (_config.getVisualise() == true) {
+            GraphVisualisation gv = new GraphVisualisation();
             launch();
         } else {
             startAlgorithm();
+            Platform.exit();
         }
     }
 
