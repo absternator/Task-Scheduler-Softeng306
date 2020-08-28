@@ -12,7 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GraphVisualisation {
-    public GraphVisualisation() {
+    public GraphVisualisation(team17.DAG.Graph graph) {
         // Set default graph renderer
         System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
     }

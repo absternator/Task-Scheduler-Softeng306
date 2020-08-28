@@ -13,6 +13,7 @@ import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 
 import team17.Algorithm.AlgorithmState;
+import team17.DAG.Graph;
 import team17.GUI.GraphVisualisation.GraphVisualisation;
 import team17.IO.CLI;
 
@@ -39,10 +40,12 @@ public class MainController {
 
 
     private CLI _config;
+    private Graph _graph;
     private AlgorithmState _algorithmState;
 
-    public MainController(CLI config) {
+    public MainController(CLI config, Graph graph) {
         _config = config;
+        _graph = graph;
     }
 
     public void setAlgorithmState(AlgorithmState algorithmState) {
@@ -144,7 +147,7 @@ public class MainController {
     }
 
     private void setUpGraphPane() {
-        GraphVisualisation gv = new GraphVisualisation();
+        GraphVisualisation gv = new GraphVisualisation(_graph);
         gv.createSwingGraph(GraphPane);
     }
 
