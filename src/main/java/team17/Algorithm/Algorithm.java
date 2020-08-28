@@ -139,7 +139,7 @@ public abstract class Algorithm {
         fixedTaskOrder(partialSolution, notEligible, freeNodes);
 
 
-        AddNode:
+
         for (Node node : freeNodes) {
             //Node can be placed on Processor now
             for (int i = 1; i < AlgorithmConfig.getNumOfProcessors() + 1; i++) {
