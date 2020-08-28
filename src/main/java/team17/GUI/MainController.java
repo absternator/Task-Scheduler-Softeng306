@@ -133,9 +133,7 @@ public class MainController {
 
     }
 
-    private void finishTiming() {
 
-    }
 
 
     private void setUpMemoryPane() {
