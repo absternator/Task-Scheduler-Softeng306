@@ -79,12 +79,6 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
-            // To make sure SwingNode exits
-            primaryStage.setOnCloseRequest(e -> {
-                Platform.exit();
-                System.exit(0);
-            });
-
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("view.fxml"));
             MainController mainController = new MainController(_config, _graph);
@@ -94,6 +88,12 @@ public class Main extends Application {
             _algorithmState = new AlgorithmState();
             mainController.setAlgorithmState(_algorithmState);
             mainController.init();
+
+            // To make sure SwingNode is disposed
+            primaryStage.setOnCloseRequest(e -> {
+                Platform.exit();
+                System.exit(0);
+            });
 
             // run Astar
             Thread thread = new Thread(){

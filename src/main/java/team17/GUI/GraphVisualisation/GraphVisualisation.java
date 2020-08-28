@@ -36,9 +36,7 @@ public class GraphVisualisation {
         DefaultView view = new DefaultView(viewer, Viewer.DEFAULT_VIEW_ID, Viewer.newGraphRenderer());
         view.setMinimumSize(new Dimension(600,400));
 
-        SwingUtilities.invokeLater(() -> {
-            sn.setContent((JPanel) view);
-        });
+        SwingUtilities.invokeLater(() -> sn.setContent(view));
     }
 
     /**
