@@ -13,6 +13,9 @@ import java.awt.Dimension;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class visualises the graph using graphstream and embeds it into SwingNode
+ */
 public class GraphVisualisation {
     team17.DAG.Graph _graph;
 
@@ -72,8 +75,6 @@ public class GraphVisualisation {
                 }
             }
         }
-
         return graph;
     }
-
 }

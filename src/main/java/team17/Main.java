@@ -55,6 +55,7 @@ public class Main extends Application {
 
     private static void startAlgorithm() {
         _algoActive = true;
+
         List<ScheduledTask> schedule;
         Algorithm algorithm;
 
@@ -75,9 +76,12 @@ public class Main extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // Sets algorithm state as nonactive
         _algoActive = false;
         _algorithmState.setFinished(true);
 
+        // Check if GUI is still active, if not, exit the program
         if(!_guiActive){
             System.exit(0);
         }
@@ -88,6 +92,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         try {
             _guiActive = true;
+
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("view.fxml"));
             MainController mainController = new MainController(_config, _graph);
@@ -101,7 +106,9 @@ public class Main extends Application {
             // To make sure application stops
             primaryStage.setOnCloseRequest(e -> {
                 Platform.exit();
-                _guiActive = false;
+                _guiActive = false; // Sets GUI to nonactive
+
+                // Checks if algorithm is still running, if not then exit the program
                 if (!_algoActive) {
                     System.exit(0);
                 }

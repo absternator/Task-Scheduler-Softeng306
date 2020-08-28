@@ -23,6 +23,7 @@ public class AlgorithmState extends Observable {
     public void setFinished(boolean isFinished) {
         this._isFinished = isFinished;
     }
+
     public boolean getFinished(){
         return _isFinished;
     }

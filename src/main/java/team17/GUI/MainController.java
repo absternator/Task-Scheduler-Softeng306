@@ -37,8 +37,6 @@ public class MainController {
     private int processorsNumber;
     private String inputFile;
     private String outputFile;
-
-
     private CLI _config;
     private Graph _graph;
     private AlgorithmState _algorithmState;
@@ -52,24 +50,23 @@ public class MainController {
         _algorithmState = algorithmState;
     }
 
-
     public void init() {
         setUpInputFileName();
-
         setUpGraphPane();
-
         setUpNumberOfProcessors();
+
         //show memory usage
         maxMemory = Runtime.getRuntime().maxMemory() / 1048576; // in bytes
         setUpMemoryPane();
         memoryUsageTile.setValue(0);
         readMemory();
+
         startTiming();
     }
 
-    /*
-    using polling to read the memory usage
-    period = 1 seconds
+    /**
+     * using polling to read the memory usage
+     * period = 1 seconds
      */
     private void readMemory() {
         Timeline tm = new Timeline(new KeyFrame(Duration.millis(1000), event -> {
@@ -82,12 +79,10 @@ public class MainController {
                 setUpOutputFileName();
                 UpdateStatus();
             }
-
         }));
         tm.setCycleCount(Timeline.INDEFINITE);
         tm.play();
     }
-
 
     public void setUpInputFileName() {
         inputFile = _config.getInput();
@@ -129,7 +124,6 @@ public class MainController {
 
     }
 
-
     private void setUpMemoryPane() {
         this.memoryUsageTile = TileBuilder.create()
                 .skinType(Tile.SkinType.GAUGE)
@@ -150,6 +144,4 @@ public class MainController {
         GraphVisualisation gv = new GraphVisualisation(_graph);
         gv.createSwingGraph(GraphPane);
     }
-
-
 }
