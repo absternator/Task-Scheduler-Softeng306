@@ -11,12 +11,18 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
 
     private String _lastPartialExpansionNodeId;
     private int _lastPartialExpansionProcessor;
+    private int _scheduleLength;
 
     public PartialSolution(PartialSolution parent, ScheduledTask scheduledTask) {
         _parent = parent;
         _scheduledTask = scheduledTask;
         _lastPartialExpansionNodeId = "";
         _lastPartialExpansionProcessor = 0;
+        if (parent == null) {
+            _scheduleLength = 0;
+        } else {
+            _scheduleLength = parent._scheduleLength + 1;
+        }
     }
 
     /**
@@ -140,8 +146,8 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
      *
      * @param other Partial solution being compared to.
      * @return Int value to indicate which partial solution has a lower cost underestimate.
-     *          If cost underestimates are the same, it returns a value to indicate which one has
-     *          more tasks scheduled on it.
+     * If cost underestimates are the same, it returns a value to indicate which one has
+     * more tasks scheduled on it.
      */
     @Override
     public int compareTo(PartialSolution other) {
@@ -175,16 +181,16 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
         int[] otherProcessorEndTimes = new int[AlgorithmConfig.getNumOfProcessors()];
         for (ScheduledTask task : this) {
             thisSolution.add(task);
-            if(task.getFinishTime() > thisProcessorEndTimes[task.getProcessorNum()-1]){
+            if (task.getFinishTime() > thisProcessorEndTimes[task.getProcessorNum() - 1]) {
                 thisProcessorEndTimes[task.getProcessorNum() - 1] = task.getFinishTime();
             }
         }
-        for (ScheduledTask task : (PartialSolution)other) {
-            if(task.getFinishTime() > otherProcessorEndTimes[task.getProcessorNum()-1]){
+        for (ScheduledTask task : (PartialSolution) other) {
+            if (task.getFinishTime() > otherProcessorEndTimes[task.getProcessorNum() - 1]) {
                 otherProcessorEndTimes[task.getProcessorNum() - 1] = task.getFinishTime();
             }
             //while building other solution if adding task is in THIS solution,return false else keep adding.
-            if (!thisSolution.contains(task)){
+            if (!thisSolution.contains(task)) {
                 return false;
             }
         }
@@ -197,5 +203,9 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
     @Override
     public int hashCode() {
         return Objects.hash(_scheduledTask, _parent);
+    }
+
+    public int getScheduleLength() {
+        return _scheduleLength;
     }
 }

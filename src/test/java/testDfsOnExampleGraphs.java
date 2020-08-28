@@ -1,6 +1,7 @@
 import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import team17.Algorithm.AlgorithmState;
 import team17.Algorithm.DFS;
 import team17.Algorithm.PartialSolution;
 import team17.DAG.Graph;
@@ -108,7 +109,7 @@ public class testDfsOnExampleGraphs {
         CLI cli = new CLI(args);
         FileReadWriter frw = new FileReadWriter(cli);
         Graph graph = frw.readDotFile();
-        DFS dfs = new DFS(graph,null);
+        DFS dfs = new DFS(graph,new AlgorithmState());
         return dfs.getOptimalSchedule(graph).getScheduledTask().getFinishTime();
     }
 }
