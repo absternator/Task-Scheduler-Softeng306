@@ -26,24 +26,28 @@ public class MainController {
 
     @FXML
     private Pane MemoryPane;
-
     @FXML
     private TextFlow InputText;
-
     @FXML
     private TextFlow OutputText;
-
     @FXML
     private TextFlow ProcessorsNumberText;
-
     @FXML
     private Text StatusText;
+    @FXML
+    private Text runningTime;
+    @FXML
+    private Pane StatusPane;
 
     private Tile memoryUsageTile;
     private double maxMemory;
+    private double usedMemory;
     private int processorsNumber;
     private String inputFile;
     private String outputFile;
+    private double duration;
+    private double startTime;
+    private boolean timing;
 
 
     private CLI _config;
@@ -58,61 +62,79 @@ public class MainController {
         _algorithmState = algorithmState;
     }
 
-
+    /**
+     * This method initialise the setting for GUI
+     */
     public void init() {
         createGanttChart();
+        //read and set the input file name
         setUpInputFileName();
 
+        //read and set the number of processor
         setUpNumberOfProcessors();
-        //show memory usage
+
+        //Get the max memory that can be used for this computer
         maxMemory = Runtime.getRuntime().maxMemory() / 1048576; // in bytes
+        //StatusPane.setStyle("-fx-background-color: rgb(229, 195, 36)");
+        //set up the memory usage tile pane
         setUpMemoryPane();
         memoryUsageTile.setValue(0);
-        readMemory();
+
+        //start polling
+        timing=true;
+        startTime = System.currentTimeMillis();
         startTiming();
+        updateGUI();
     }
 
-    /*
-    using polling to read the memory usage
-    period = 1 seconds
+    /**
+     * Method to read the memory usage from the system periodically and update the corresponding GUI element
      */
-    private void readMemory() {
-        Timeline tm = new Timeline(new KeyFrame(Duration.millis(1000), event -> {
-            double usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+    private void updateGUI() {
+        Timeline tm = new Timeline();
+        KeyFrame frame = new KeyFrame(Duration.millis(200), event -> {
+            usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
             usedMemory = usedMemory / 1000000;
             memoryUsageTile.setValue(usedMemory);
-            //determine whether the overall sorting is finished or not
             if (_algorithmState.getFinished()) {
                 _algorithmState.setFinished(false);
                 setUpOutputFileName();
+                //change the status from "running" to "done"
                 UpdateStatus();
+                //stop timing
+                timing=false;
+                //update gantt chart
+                if (_algorithmState.getCompleteSolution() != null) {
+                    _gch.updateGanttChart(_algorithmState.getCompleteSolution().fullSchedule());
+                }
             }
-
-            if (_algorithmState.getCompleteSolution() != null) {
-                _gch.updateGanttChart(_algorithmState.getCompleteSolution().fullSchedule());
-            }
-
-        }));
+        });
         tm.setCycleCount(Timeline.INDEFINITE);
+        tm.getKeyFrames().add(frame);
         tm.play();
     }
 
+    /**
+     * Method to get the input file name and update the corresponding GUI element
+     */
     public void setUpInputFileName() {
         inputFile = _config.getInput();
+        // remove the path "src/main..."
         inputFile = inputFile.substring(inputFile.lastIndexOf('/') + 1);
         inputFile = "  " + inputFile;
         Text iText = new Text(inputFile);
-        iText.setStyle("-fx-font: 22 System;");
+        iText.setStyle("-fx-font: 20 System;");
         InputText.getChildren().add(iText);
     }
 
     public void setUpOutputFileName() {
         outputFile = _config.getOutput();
         //OutputFile = "src/main/graphout.dot";
+        // remove the path "src/main..."
         outputFile = outputFile.substring(outputFile.lastIndexOf('/') + 1);
         outputFile = "  " + outputFile;
         Text oText = new Text(outputFile);
-        oText.setStyle("-fx-font: 22 System;");
+        oText.setStyle("-fx-font: 20 System;");
         OutputText.getChildren().add(oText);
     }
 
@@ -121,7 +143,7 @@ public class MainController {
         String processorNumberString = String.valueOf(processorsNumber);
         processorNumberString = "  " + processorNumberString;
         Text pText = new Text(processorNumberString);
-        pText.setStyle("-fx-font: 22 System;");
+        pText.setStyle("-fx-font: 20 System;");
         ProcessorsNumberText.getChildren().add(pText);
     }
 
@@ -130,10 +152,24 @@ public class MainController {
     }
 
     private void startTiming() {
+        Timeline tm = new Timeline();
+        KeyFrame frame = new KeyFrame(Duration.millis(1), event -> {
+            //check whether the sorting is finished
+            if (timing != false) {
+                // the sort is still running so keep updating the timer
+                double currentTime = System.currentTimeMillis();
+                duration = (currentTime - startTime)/1000; // in second
+                int min = (int) (duration/60);
+                double sec = duration-min*60;
+                String str = String.valueOf(min) + "m" + String.valueOf(sec)+ "s";
+                runningTime.setText(String.valueOf(str));
+            }
 
+        });
+        tm.setCycleCount(Timeline.INDEFINITE);
+        tm.getKeyFrames().add(frame);
+        tm.play();
     }
-
-
 
 
     private void setUpMemoryPane() {
