@@ -9,9 +9,10 @@ import java.util.*;
  * Class that contains the main skeleton of the A* algorithm
  */
 public class AStar extends Algorithm {
-    private final  Queue<PartialSolution> _open;
-    private final  Set<PartialSolution> _closed;
+    private final Queue<PartialSolution> _open;
+    private final Set<PartialSolution> _closed;
     private final int _upperBound;
+    private PartialSolution _upperBoundListSchedule;
     private int maxOpenCount = 0; // todo: this is for testing only(remove later)
 
     private PartialSolution _completePartialSolution;
@@ -24,18 +25,18 @@ public class AStar extends Algorithm {
         _closed = new HashSet<>();
         // Adds list schedule as upperBound
         ListScheduling ls = new ListScheduling(graph);
-        PartialSolution _upperBoundListSchedule = ls.getSchedule();
+        _upperBoundListSchedule = ls.getSchedule();
         _open.add(_upperBoundListSchedule);
         _upperBound = _upperBoundListSchedule.getScheduledTask().getStartTime();
 
     }
 
     @Override
-    public PartialSolution getSolution(){
+    public PartialSolution getSolution() {
         return _completePartialSolution;
     }
 
-      @Override
+    @Override
     public PartialSolution getOptimalSchedule(Graph graph) {
         while (true) {
             PartialSolution partialSolution = this.getNextPartialSolution();
@@ -47,37 +48,45 @@ public class AStar extends Algorithm {
                 }
                 Set<PartialSolution> children = expandSearch(partialSolution, graph);
                 this.openAddChildren(children);
+
+                if (maxOpenCount % 100 == 0) {
+                    System.out.print("\r pushed solutions:" + maxOpenCount + "\topen size: " + _open.size() + "\tclosed.size: " + _closed.size());
+                }
+                if (maxOpenCount > 300000) {
+                    System.out.println("\r");
+                    return null;
+                }
             }
 
         }
 
-        System.out.println("left in queue: "+_open.size()); //todo: for testing only(remove later)
-        System.out.println("added to queue: "+maxOpenCount);
+        System.out.println("left in queue: " + _open.size()); //todo: for testing only(remove later)
+        System.out.println("added to queue: " + maxOpenCount);
         return _completePartialSolution;
     }
 
-      @Override
+    @Override
     public Set<PartialSolution> expandSearch(PartialSolution partialSolution, Graph graph) {
-          Set<PartialSolution> children = new HashSet<>();
-          Set<Node> nodesInSchedule = new HashSet<>();
-          List<Node> freeNodes = new ArrayList<>(graph.getNodeList()); //nodes that are eligible to be scheduled
-          Set<Node> notEligible = new HashSet<>();
-          //Go through and remove indelible nodes
-          for (ScheduledTask scheduledTask : partialSolution) {
-              nodesInSchedule.add(scheduledTask.getNode());
-              freeNodes.remove(scheduledTask.getNode());
-          }
-          for (Node node : freeNodes) {
-              for (Node dependency : node.getDependencies()) {
-                  if (!nodesInSchedule.contains(dependency)) {
-                      notEligible.add(node);
-                  }
-              }
-          }
-          freeNodes.removeAll(notEligible);
-          // Check if free tasks meet criteria. IF yes return node to be ordered next.!!
-          fixedTaskOrder(partialSolution, notEligible, freeNodes);
-          // skip the nodes for children that were already made in the previous expansion
+        Set<PartialSolution> children = new HashSet<>();
+        Set<Node> nodesInSchedule = new HashSet<>();
+        List<Node> freeNodes = new ArrayList<>(graph.getNodeList()); //nodes that are eligible to be scheduled
+        Set<Node> notEligible = new HashSet<>();
+        //Go through and remove indelible nodes
+        for (ScheduledTask scheduledTask : partialSolution) {
+            nodesInSchedule.add(scheduledTask.getNode());
+            freeNodes.remove(scheduledTask.getNode());
+        }
+        for (Node node : freeNodes) {
+            for (Node dependency : node.getDependencies()) {
+                if (!nodesInSchedule.contains(dependency)) {
+                    notEligible.add(node);
+                }
+            }
+        }
+        freeNodes.removeAll(notEligible);
+        // Check if free tasks meet criteria. IF yes return node to be ordered next.!!
+        fixedTaskOrder(partialSolution, notEligible, freeNodes);
+        // skip the nodes for children that were already made in the previous expansion
         boolean skipNodes = true;
         if (partialSolution.getLastPartialExpansionNodeId().equals("")) {
             skipNodes = false;
@@ -147,7 +156,7 @@ public class AStar extends Algorithm {
     }
 
     @Override
-    public synchronized PartialSolution getNextPartialSolution(){
+    public synchronized PartialSolution getNextPartialSolution() {
 
         PartialSolution partialSolution = _open.poll();
         _closed.add(partialSolution);
@@ -175,8 +184,8 @@ public class AStar extends Algorithm {
         // This is to add all children at once(not preferred)
 //        maxOpenCount += children.size();
 //        _open.addAll(children);
-       for (PartialSolution child : children) {
-            if (!_closed.contains(child)  && child.getCostUnderestimate() < _upperBound) {
+        for (PartialSolution child : children) {
+            if (!_closed.contains(child) && child.getCostUnderestimate() < _upperBound) {
                 maxOpenCount++;
                 _open.offer(child);
             }

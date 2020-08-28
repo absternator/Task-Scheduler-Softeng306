@@ -26,6 +26,7 @@ public class Main {
         try {
             Graph graph = frw.readDotFile();
             List<ScheduledTask> schedule;
+            PartialSolution solution;
 
             // Temp Conditions
             //graph.getNodeList().size() > 11
@@ -33,20 +34,25 @@ public class Main {
             //                    || (graph.getNodeList().size() >9 && graph.getNumOfProcessors() > 6)
             if (false) {
                 algorithm = new DFS(graph); //TODO remove graph parameter
-                if(cli.getCores()<2) {
-                    schedule = algorithm.getOptimalSchedule(graph).fullSchedule(); // Returns list of Schedule
-                } else {
-                    schedule = algorithm.getOptimalScheduleParallel(graph, cli.getCores()-1).fullSchedule();
-                }
             } else {
                 // for small graphs, use the A* algorithm
                 algorithm = new AStar(graph); //TODO remove graph parameter
-                if(cli.getCores()<2) {
-                    schedule = algorithm.getOptimalSchedule(graph).fullSchedule(); // Returns list of Schedule
-                } else {
-                    schedule = algorithm.getOptimalScheduleParallel(graph, cli.getCores()-1).fullSchedule();
+            }
+
+            if(cli.getCores()<2) {
+                solution = algorithm.getOptimalSchedule(graph);
+                if (solution == null) {
+                    algorithm = new DFS(graph);
+                    solution = algorithm.getOptimalSchedule(graph);
+                }
+            } else {
+                solution = algorithm.getOptimalScheduleParallel(graph, cli.getCores()-1);
+                if (solution == null) {
+                    algorithm = new DFS(graph);
+                    solution = algorithm.getOptimalScheduleParallel(graph, cli.getCores()-1);
                 }
             }
+            schedule = solution.fullSchedule(); // Returns list of Schedule
 
             frw.writeOutput(schedule);
 
