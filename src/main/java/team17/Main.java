@@ -1,6 +1,6 @@
 package team17;
 
-
+import javafx.application.Platform;
 import team17.Algorithm.Algorithm;
 import team17.Algorithm.AStar;
 import team17.Algorithm.DFS;
@@ -72,6 +72,12 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
+            // To make sure SwingNode exits
+            primaryStage.setOnCloseRequest(e -> {
+                Platform.exit();
+                System.exit(0);
+            });
+
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("view.fxml"));
             MainController mainController = new MainController(_config);

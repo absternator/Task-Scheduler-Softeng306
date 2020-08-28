@@ -1,0 +1,12 @@
+graph {
+    fill-color: grey;
+}
+
+node {
+    text-size: 15px;
+    text-alignment: center;
+    size: 25px, 25px;
+    fill-color: cornflowerblue;
+    stroke-mode: plain;
+    stroke-color: dimgrey;
+}

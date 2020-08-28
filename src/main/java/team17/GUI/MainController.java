@@ -1,8 +1,8 @@
 package team17.GUI;
 
-
 import eu.hansolo.tilesfx.TileBuilder;
 import eu.hansolo.tilesfx.Tile;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.embed.swing.SwingNode;
@@ -11,6 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
+
 import team17.Algorithm.AlgorithmState;
 import team17.GUI.GraphVisualisation.GraphVisualisation;
 import team17.IO.CLI;
@@ -27,9 +28,8 @@ public class MainController {
     private TextFlow ProcessorsNumberText;
     @FXML
     private Text StatusText;
-
     @FXML
-    private Pane GraphPane;
+    private SwingNode GraphPane;
 
     private Tile memoryUsageTile;
     private double maxMemory;
@@ -53,6 +53,8 @@ public class MainController {
     public void init() {
         setUpInputFileName();
 
+        setUpGraphPane();
+
         setUpNumberOfProcessors();
         //show memory usage
         maxMemory = Runtime.getRuntime().maxMemory() / 1048576; // in bytes
@@ -60,8 +62,6 @@ public class MainController {
         memoryUsageTile.setValue(0);
         readMemory();
         startTiming();
-
-
     }
 
     /*
@@ -144,10 +144,8 @@ public class MainController {
     }
 
     private void setUpGraphPane() {
-        SwingNode sn = new SwingNode();
         GraphVisualisation gv = new GraphVisualisation();
-        gv.createSwingContent(sn);
-        GraphPane.getChildren().add(sn);
+        gv.createSwingGraph(GraphPane);
     }
 
 
