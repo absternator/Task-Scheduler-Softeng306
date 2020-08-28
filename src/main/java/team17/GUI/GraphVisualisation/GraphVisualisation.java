@@ -41,12 +41,18 @@ public class GraphVisualisation {
         });
     }
 
+    /**
+     * This method converts the graph for the algorithm into a graphstream graph for visualisation
+     *
+     * @return the graphstream graph
+     */
     public Graph convertToGraphStream() {
         Graph graph = new SingleGraph("Visualise Graph");
         graph.addAttribute("ui.stylesheet", "url(file:src/main/resources/team17/GUI/graph.css)");
 
         List<team17.DAG.Node> dagNodes = _graph.getNodeList();
 
+        // Add all the nodes and ids
         for(team17.DAG.Node dagNode: dagNodes) {
             String id = dagNode.getId();
             if(!id.equals("end")) {
@@ -55,20 +61,18 @@ public class GraphVisualisation {
             }
         }
 
-//        for(int i = 0; i<5; i++){
-//            Node n = graph.addNode(""+ i);
-//            n.addAttribute("ui.label", "" + i);
-//        }
+        // Add all the edges and weights
+        for(team17.DAG.Node dagNode: dagNodes) {
+            if(!dagNode.getId().equals("end")) {
+                Map<team17.DAG.Node, Integer> map = dagNode.getIncomingEdges();
+                for (Map.Entry<team17.DAG.Node, Integer> entry : map.entrySet()) {
+                    Edge e = graph.addEdge(entry.getKey().getId() + dagNode.getId(), entry.getKey().getId(),
+                            dagNode.getId(), true);
+                    e.addAttribute("ui.label", "Weight=" + entry.getValue());
+                }
+            }
+        }
 
-//        for(team17.DAG.Node dagNode: dagNodes) {
-//            Map<team17.DAG.Node, Integer> map = dagNode.getIncomingEdges();
-//            for(Map.Entry<team17.DAG.Node, Integer> entry: map.entrySet()) {
-//
-//            }
-//        }
-//
-//        Edge e = graph.addEdge("01", "0", "1", true);
-//        e.addAttribute("ui.label", "weight=2");
         return graph;
     }
 
