@@ -15,7 +15,9 @@ public class Main {
         //args = new String[]{"../../src/main/resources/graph.dot", "2"};
 
         //Run in IDE
-        args = new String[]{"src/main/resources/Nodes_11_OutTree.dot", "4"}; //"-o", "src/main/resources/4cores", "-p", "4"};
+
+        args = new String[]{"src/main/resources/graph.dot", "2"};
+
 
         CLI cli = new CLI(args);
         FileReadWriter frw = new FileReadWriter(cli);

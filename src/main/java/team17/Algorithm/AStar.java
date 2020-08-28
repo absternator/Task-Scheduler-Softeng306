@@ -13,18 +13,21 @@ public class AStar extends Algorithm {
     private final  Set<PartialSolution> _closed;
     private final int _upperBound;
     private int maxOpenCount = 0; // todo: this is for testing only(remove later)
+
     private PartialSolution _completePartialSolution;
     private boolean _foundComplete = false;
 
     public AStar(Graph graph) {
         final PartialSolution _root = new PartialSolution(null, null);
         _open = new PriorityQueue<>(expandRoot(_root, graph));
+
         _closed = new HashSet<>();
         // Adds list schedule as upperBound
         ListScheduling ls = new ListScheduling(graph);
         PartialSolution _upperBoundListSchedule = ls.getSchedule();
         _open.add(_upperBoundListSchedule);
         _upperBound = _upperBoundListSchedule.getScheduledTask().getStartTime();
+
     }
 
     @Override
@@ -79,7 +82,7 @@ public class AStar extends Algorithm {
         if (partialSolution.getLastPartialExpansionNodeId().equals("")) {
             skipNodes = false;
         }
-        AddNode:
+
         for (Node node : freeNodes) {
 
             // skip to the last scheduled node from a previous partial expansion
