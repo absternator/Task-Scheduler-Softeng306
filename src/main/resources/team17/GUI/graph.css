@@ -1,5 +1,4 @@
 graph {
-    /*fill-color: lightgrey;*/
     text-size: 15px;
 }
 
@@ -17,6 +16,8 @@ edge {
     text-style: bold-italic;
     text-alignment: along;
 }
+
+/* Node Colours */
 
 node.p1 {
     fill-color: #babade;
