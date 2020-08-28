@@ -69,7 +69,7 @@ public class FileReadWriter {
      * @param solution the set of scheduled tasks in the final optimal solution
      */
     public void writeOutput(List<ScheduledTask> solution) throws IOException {
-        String outputFileName = StringUtils.isBlank(_cli.getOutput()) ? StringUtils.substringBefore(_cli.getInput(), ".dot") + "-output" : _cli.getOutput();
+        String outputFileName = _cli.getOutput();
 
         //Puts the list in alphabetical order to match the input.
         Collections.sort(solution);

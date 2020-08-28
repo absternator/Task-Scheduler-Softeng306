@@ -72,7 +72,7 @@ public class MainController {
     }
 
     private void readValue() {
-        Timeline tm = new Timeline(new KeyFrame(Duration.millis(1000), event -> {
+        Timeline tm = new Timeline(new KeyFrame(Duration.millis(2000), event -> {
             double usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
             usedMemory = usedMemory / 1000000;
             memoryUsageTile.setValue(usedMemory);
@@ -164,6 +164,7 @@ public class MainController {
         xAxis.setLabel("");
         xAxis.setTickLabelFill(Color.CHOCOLATE);
         xAxis.setMinorTickCount(4);
+        xAxis.setAnimated(false);
 
         yAxis.setLabel("");
         yAxis.setTickLabelFill(Color.CHOCOLATE);

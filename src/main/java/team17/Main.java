@@ -2,6 +2,7 @@ package team17;
 
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -26,7 +27,7 @@ public class Main extends Application {
         //args = new String[]{"../../src/main/resources/graph.dot", "2"};
 
         //Run in IDE
-        args = new String[]{"src/main/resources/graph5.dot", "2"};
+        args = new String[]{"src/main/resources/Nodes_11_OutTree.dot", "2", "-v"};
 
         _config = new CLI(args);
 
@@ -34,6 +35,7 @@ public class Main extends Application {
             launch();
         } else {
             startAlgorithm();
+            Platform.exit();
         }
     }
 
@@ -44,7 +46,7 @@ public class Main extends Application {
             List<ScheduledTask> schedule;
             Algorithm algorithm;
 
-            if (false) {
+            if (true) {
                 algorithm = new DFS(graph,_algorithmState); //TODO remove graph parameter
                 schedule = algorithm.getOptimalSchedule(graph).fullSchedule();// Returns list of Schedule
             } else {
@@ -60,10 +62,10 @@ public class Main extends Application {
             if(_algorithmState != null) {
                 _algorithmState.setFinished(true);
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("FINISHED");
     }
 
 
@@ -90,6 +92,7 @@ public class Main extends Application {
 
             Scene scene = new Scene(root, 1000, 750);
             primaryStage.setScene(scene);
+            //primaryStage.setOnCloseRequest();
             primaryStage.show();
 
         } catch (Exception e) {
