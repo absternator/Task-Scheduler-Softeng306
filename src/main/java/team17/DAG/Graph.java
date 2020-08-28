@@ -56,9 +56,10 @@ public class Graph {
         Node fromNode = _nodeLookup.get(from);
         Node toNode = _nodeLookup.get(to);
 
-
+        // Set outgoing from - > to node edge
         fromNode.setDependants(toNode);
 
+        //set incoming from - > to node edge
         toNode.setIncomingEdges(fromNode, edgeWeight);
         toNode.setDependencies(fromNode);
     }
@@ -69,6 +70,7 @@ public class Graph {
         _nodeLookup.put("end", finish);
         for (Node node : _nodeList) {
             if (node.getDependants().size() == 0 && !node.equals(finish)) {
+
                 node.setDependants(finish);
                 finish.setIncomingEdges(node, 0);
                 finish.setDependencies(node);

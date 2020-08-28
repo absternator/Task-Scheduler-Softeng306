@@ -9,24 +9,32 @@ import java.util.*;
  * Class that contains the main skeleton of the A* algorithm
  */
 public class AStar extends Algorithm {
-    private final Queue<PartialSolution> _open;
-    private final Set<PartialSolution> _closed;
-    private int openCount = 0; // todo: this is for testing only(remove later)
+    private final  Queue<PartialSolution> _open;
+    private final  Set<PartialSolution> _closed;
+    private final int _upperBound;
+    private int maxOpenCount = 0; // todo: this is for testing only(remove later)
+
     private PartialSolution _completePartialSolution;
     private boolean _foundComplete = false;
 
     public AStar(Graph graph) {
         final PartialSolution _root = new PartialSolution(null, null);
         _open = new PriorityQueue<>(expandRoot(_root, graph));
-        _closed = new HashSet<PartialSolution>();
-        _open.add(_root);
+
+        _closed = new HashSet<>();
+        // Adds list schedule as upperBound
+        ListScheduling ls = new ListScheduling(graph);
+        PartialSolution _upperBoundListSchedule = ls.getSchedule();
+        _open.add(_upperBoundListSchedule);
+        _upperBound = _upperBoundListSchedule.getScheduledTask().getStartTime();
+
     }
 
     @Override
     public PartialSolution getSolution(){
         return _completePartialSolution;
     }
-  
+
       @Override
     public PartialSolution getOptimalSchedule(Graph graph) {
         while (true) {
@@ -44,25 +52,38 @@ public class AStar extends Algorithm {
         }
 
         System.out.println("left in queue: "+_open.size()); //todo: for testing only(remove later)
-        System.out.println("added to queue: "+openCount);
+        System.out.println("added to queue: "+maxOpenCount);
         return _completePartialSolution;
     }
-  
+
       @Override
     public Set<PartialSolution> expandSearch(PartialSolution partialSolution, Graph graph) {
-        Set<PartialSolution> children = new HashSet<>();
-
-        Set<Node> nodesInSchedule = new HashSet<>();
-        for (ScheduledTask scheduledTask : partialSolution) {
-            nodesInSchedule.add(scheduledTask.getNode());
-        }
-        // skip the nodes for children that were already made in the previous expansion
+          Set<PartialSolution> children = new HashSet<>();
+          Set<Node> nodesInSchedule = new HashSet<>();
+          List<Node> freeNodes = new ArrayList<>(graph.getNodeList()); //nodes that are eligible to be scheduled
+          Set<Node> notEligible = new HashSet<>();
+          //Go through and remove indelible nodes
+          for (ScheduledTask scheduledTask : partialSolution) {
+              nodesInSchedule.add(scheduledTask.getNode());
+              freeNodes.remove(scheduledTask.getNode());
+          }
+          for (Node node : freeNodes) {
+              for (Node dependency : node.getDependencies()) {
+                  if (!nodesInSchedule.contains(dependency)) {
+                      notEligible.add(node);
+                  }
+              }
+          }
+          freeNodes.removeAll(notEligible);
+          // Check if free tasks meet criteria. IF yes return node to be ordered next.!!
+          fixedTaskOrder(partialSolution, notEligible, freeNodes);
+          // skip the nodes for children that were already made in the previous expansion
         boolean skipNodes = true;
         if (partialSolution.getLastPartialExpansionNodeId().equals("")) {
             skipNodes = false;
         }
-        AddNode:
-        for (Node node : graph.getNodeList()) {
+
+        for (Node node : freeNodes) {
 
             // skip to the last scheduled node from a previous partial expansion
             if (skipNodes) {
@@ -72,16 +93,7 @@ public class AStar extends Algorithm {
                     continue;
                 }
             }
-            // If node is already in schedule cant add
-            if (nodesInSchedule.contains(node)) {
-                continue;
-            }
-            //if dependency not in schedule
-            for (Node dependency : node.getDependencies()) {
-                if (!nodesInSchedule.contains(dependency)) {
-                    continue AddNode;
-                }
-            }
+
 
             //Node can be placed on Processor now
             for (int i = 1; i < AlgorithmConfig.getNumOfProcessors() + 1; i++) {
@@ -136,6 +148,7 @@ public class AStar extends Algorithm {
 
     @Override
     public synchronized PartialSolution getNextPartialSolution(){
+
         PartialSolution partialSolution = _open.poll();
         _closed.add(partialSolution);
         if (_foundComplete) {
@@ -158,14 +171,13 @@ public class AStar extends Algorithm {
      * @param children Set of partial solution children not in closed
      */
     public synchronized void openAddChildren(Set<PartialSolution> children) {
-        // TODO: 26/08/20 will be updated futher 
+        // TODO: 26/08/20 will be updated further
         // This is to add all children at once(not preferred)
-//        openCount += children.size();
+//        maxOpenCount += children.size();
 //        _open.addAll(children);
-
-        for (PartialSolution child : children) {
-            if (!_closed.contains(child)) {
-                openCount++;
+       for (PartialSolution child : children) {
+            if (!_closed.contains(child)  && child.getCostUnderestimate() < _upperBound) {
+                maxOpenCount++;
                 _open.offer(child);
             }
         }
