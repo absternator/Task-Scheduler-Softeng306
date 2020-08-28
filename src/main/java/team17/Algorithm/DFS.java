@@ -6,7 +6,6 @@ import java.util.Set;
 import java.util.Stack;
 
 public class DFS extends Algorithm {
-
     ListScheduling _ls;
     PartialSolution _bestSchedule;
     int _upperBound;
@@ -18,6 +17,7 @@ public class DFS extends Algorithm {
         _ls = new ListScheduling(graph);
         _bestSchedule = _ls.getSchedule();
         _algorithmState = algorithmState;
+        _algorithmState.setCompleteSolution(_bestSchedule);
         _upperBound = _bestSchedule.getCostUnderestimate();
         _open.push(_root);
     }
@@ -35,6 +35,9 @@ public class DFS extends Algorithm {
             if (partialSolution.isCompleteSchedule() && costSoFar < _upperBound) { //TODO && !bestSchedule.equals(partialSolution)
                 _upperBound = costSoFar;
                 _bestSchedule = partialSolution;
+                if (_algorithmState != null) {
+                    _algorithmState.setCompleteSolution(_bestSchedule);
+                }
             }
             return partialSolution;
         } else {

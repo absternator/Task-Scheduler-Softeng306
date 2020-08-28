@@ -1,11 +1,12 @@
 package team17;
 
-
 import team17.Algorithm.Algorithm;
 import team17.Algorithm.AStar;
 import team17.Algorithm.DFS;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -35,10 +36,11 @@ public class Main extends Application {
 
         _config = new CLI(args);
 
-        if (_config.getVisualise() == true) {
+        if (_config.getVisualise()) {
             launch();
         } else {
             startAlgorithm();
+            Platform.exit();
         }
     }
 
@@ -62,7 +64,10 @@ public class Main extends Application {
                 }
             }
             frw.writeOutput(schedule);
-            _algorithmState.setFinished(true);
+
+            if(_algorithmState != null) {
+                _algorithmState.setFinished(true);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -70,7 +75,7 @@ public class Main extends Application {
 
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("view.fxml"));
@@ -92,7 +97,10 @@ public class Main extends Application {
 
             Scene scene = new Scene(root, 1000, 750);
             primaryStage.setScene(scene);
+
+            //primaryStage.setOnCloseRequest();
             primaryStage.show();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

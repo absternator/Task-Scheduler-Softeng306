@@ -18,7 +18,6 @@ public class AStar extends Algorithm {
     private boolean _foundComplete = false;
     private AlgorithmState _algorithmState;
 
-
     public AStar(Graph graph, AlgorithmState algorithmState) {
         final PartialSolution _root = new PartialSolution(null, null);
         _open = new PriorityQueue<>(expandRoot(_root, graph));

@@ -14,11 +14,7 @@
             <Button layoutX="142.0" layoutY="87.0" mnemonicParsing="false" text="Button" />
          </children>
       </AnchorPane>
-      <AnchorPane prefHeight="375.0" prefWidth="666.0">
-         <children>
-            <Button layoutX="133.0" layoutY="73.0" mnemonicParsing="false" text="Button" />
-         </children>
-      </AnchorPane>
+      <AnchorPane fx:id="ganttChartContainer" prefHeight="375.0" prefWidth="666.0" />
       <AnchorPane layoutX="666.0" prefHeight="750.0" prefWidth="334.0">
          <children>
             <Text id="StatisticsTitle" fontSmoothingType="LCD" layoutX="70.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Statistics" textAlignment="CENTER">

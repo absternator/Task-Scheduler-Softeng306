@@ -1,12 +1,14 @@
 package team17.GUI.GanttChart;
 
 import javafx.scene.chart.XYChart;
-import team17.Algorithm.AlgorithmState;
+
 import team17.Algorithm.ScheduledTask;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
-public class GanttChartHelper implements Observer{
+public class GanttChartHelper {
 
     private int _numProcessors;
     private GanttChart<Number, String> _chart;
@@ -45,9 +47,4 @@ public class GanttChartHelper implements Observer{
         }
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-        AlgorithmState state = (AlgorithmState) o;
-        updateGanttChart(state.getCompleteSolution().fullSchedule());
-    }
 }
