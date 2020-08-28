@@ -3,16 +3,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import team17.Algorithm.DFS;
 import team17.Algorithm.PartialSolution;
-import team17.Algorithm.ScheduledTask;
 import team17.DAG.Graph;
 import team17.IO.CLI;
 import team17.IO.FileReadWriter;
 
 import java.io.IOException;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 public class testDfsOnExampleGraphs {
 

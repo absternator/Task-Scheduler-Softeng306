@@ -20,6 +20,7 @@ public class testAStarOnExampleGraphs {
 
     private boolean _runNodes10Random = false; // TODO Parse Nodes10
     private boolean _runNodes11OutTree = false; // May take a long time or run out of memory
+    private boolean _run20Independent = false; // May take a long time or run out of memory
     // **************************************************
 
     private String[] _args;
@@ -111,6 +112,15 @@ public class testAStarOnExampleGraphs {
         _args = new String[]{"src/main/resources/Nodes_11_OutTree.dot", "4"};
 
         assertEquals(227, getAStarSolutionFor(_args));
+    }
+
+    @Test
+    public void test20independent_4P() throws IOException {
+        Assume.assumeTrue(_run20Independent);
+
+        _args = new String[]{"src/main/resources/20independent.dot", "4"};
+
+        getAStarSolutionFor(_args);
     }
 
     private int getAStarSolutionFor(String[] args) throws IOException {

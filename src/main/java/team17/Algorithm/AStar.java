@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class AStar extends Algorithm {
     private final Queue<PartialSolution> _open;
-    private final List<PartialSolution> _closed;
+    private final Set<PartialSolution> _closed;
     private int openCount = 0; // todo: this is for testing only(remove later)
     private PartialSolution _completePartialSolution;
     private boolean _foundComplete = false;

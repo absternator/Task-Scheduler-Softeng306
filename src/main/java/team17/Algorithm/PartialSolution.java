@@ -83,6 +83,16 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
         return idleTime;
     }
 
+    public int getEndTime(){
+        int end = 0;
+        for (ScheduledTask task : this) {
+            if (task.getFinishTime() > end) {
+                end = task.getFinishTime();
+            }
+        }
+        return end;
+    }
+
     /**
      * This method checks if a complete schedule is return
      *
