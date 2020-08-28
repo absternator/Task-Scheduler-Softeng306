@@ -31,7 +31,7 @@ public class Main extends Application {
         //args = new String[]{"../../src/main/resources/graph.dot", "2"};
 
         //Run in IDE
-        args = new String[]{"src/main/resources/graph3.dot", "3", "-v"};
+        args = new String[]{"src/main/resources/graph4.dot", "2", "-v"};
         //args = new String[]{"src/main/resources/graph.dot", "3"};
 
         _config = new CLI(args);
@@ -87,7 +87,7 @@ public class Main extends Application {
             mainController.setAlgorithmState(_algorithmState);
             mainController.init();
 
-            // run Astar
+
             Thread thread = new Thread(){
                 public void run(){
                     startAlgorithm();

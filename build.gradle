@@ -10,9 +10,6 @@ repositories {
     mavenCentral()
 }
 
-///configurations {
-    //extraLibs
-//}
 
 dependencies {
     // https://mvnrepository.com/artifact/commons-cli/commons-cli

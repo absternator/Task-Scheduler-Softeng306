@@ -96,6 +96,10 @@ public class MainController {
             usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
             usedMemory = usedMemory / 1000000;
             memoryUsageTile.setValue(usedMemory);
+            //update gantt chart
+            if (_algorithmState.getCompleteSolution() != null) {
+                _gch.updateGanttChart(_algorithmState.getCompleteSolution().fullSchedule());
+            }
             if (_algorithmState.getFinished()) {
                 _algorithmState.setFinished(false);
                 setUpOutputFileName();
@@ -103,10 +107,6 @@ public class MainController {
                 UpdateStatus();
                 //stop timing
                 timing=false;
-                //update gantt chart
-                if (_algorithmState.getCompleteSolution() != null) {
-                    _gch.updateGanttChart(_algorithmState.getCompleteSolution().fullSchedule());
-                }
             }
         });
         tm.setCycleCount(Timeline.INDEFINITE);
