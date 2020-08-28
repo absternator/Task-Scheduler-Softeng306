@@ -8,49 +8,52 @@ import java.util.List;
 
 public class KnapsackScheduler {
     private Graph _graph;
+
     public KnapsackScheduler(Graph graph) {
         _graph = graph;
     }
 
     /**
-     * Based on pseudocode by Patrick at
+     * Distributes node evenly across processors, based on pseudocode by Patrick at
      * https://stackoverflow.com/questions/3009146/splitting-values-into-groups-evenly
      *
-     * @return
+     * @return the evenly distributed partial solution
      */
     public PartialSolution getSchedule() {
         PartialSolution solution = new PartialSolution(null, null);
-        ArrayList<Node> remainingNodes = new ArrayList<>(_graph.getNodeList());
+        ArrayList<Node> remainingNodes = new ArrayList<>(_graph.getNodeList()); // the unscheduled nodes
 
-        Node endNode = remainingNodes.get(remainingNodes.size()-1);
+        // save the "end" node for last
+        Node endNode = remainingNodes.get(remainingNodes.size() - 1);
         remainingNodes.remove(endNode);
 
+        // sort by largest to smallest weights
         remainingNodes.sort((n1, n2) -> {
-
             int w1 = n1.getWeight();
             int w2 = n2.getWeight();
-
-            /*For descending order*/
-            return w2-w1;
+            return w2 - w1;
         });
 
-        double remainingWeight;
-        double targetWeight;
+        // schedule the nodes evenly
         for (int i = AlgorithmConfig.getNumOfProcessors(); i > 0; i--) {
-            remainingWeight = 0;
+            double remainingWeight = 0;
             for (Node node : remainingNodes) {
                 remainingWeight += node.getWeight();
             }
-            targetWeight = Math.ceil(remainingWeight / i);
-            ArrayList<Node> nodesForThisProcessor = knapsack((int)targetWeight,remainingNodes);
+            // try to get nodes that add up to the target weight for this processor
+            double targetWeight = Math.ceil(remainingWeight / i);
+            ArrayList<Node> nodesForThisProcessor = knapsack((int) targetWeight, remainingNodes);
+
+            // schedule nodes
             remainingNodes.removeAll(nodesForThisProcessor);
             int startTime = 0;
-            for(Node node: nodesForThisProcessor){
-                solution = new PartialSolution(solution, new ScheduledTask(i,node,startTime));
-                startTime+=node.getWeight();
+            for (Node node : nodesForThisProcessor) {
+                solution = new PartialSolution(solution, new ScheduledTask(i, node, startTime));
+                startTime += node.getWeight();
             }
         }
-        solution  = new PartialSolution(solution, new ScheduledTask(1,endNode,solution.getEndTime()));
+        // add the end node
+        solution = new PartialSolution(solution, new ScheduledTask(1, endNode, solution.getEndTime()));
 
         return solution;
     }
