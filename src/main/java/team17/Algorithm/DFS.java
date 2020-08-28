@@ -10,11 +10,14 @@ public class DFS extends Algorithm {
     PartialSolution _bestSchedule;
     int _upperBound;
     Stack<PartialSolution> _open = new Stack<>();
+    private final AlgorithmState _algorithmState;
 
-    public DFS(Graph graph) {
+    public DFS(Graph graph, AlgorithmState algorithmState) {
         final PartialSolution _root = new PartialSolution(null, null);
         _ls = new ListScheduling(graph);
         _bestSchedule = _ls.getSchedule();
+        _algorithmState = algorithmState;
+        _algorithmState.setCompleteSolution(_bestSchedule);
         _upperBound = _bestSchedule.getCostUnderestimate();
         _open.push(_root);
     }
@@ -32,6 +35,9 @@ public class DFS extends Algorithm {
             if (partialSolution.isCompleteSchedule() && costSoFar < _upperBound) { //TODO && !bestSchedule.equals(partialSolution)
                 _upperBound = costSoFar;
                 _bestSchedule = partialSolution;
+                if (_algorithmState != null) {
+                    _algorithmState.setCompleteSolution(_bestSchedule);
+                }
             }
             return partialSolution;
         } else {

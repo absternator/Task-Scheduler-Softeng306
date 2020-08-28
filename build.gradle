@@ -4,25 +4,28 @@ plugins {
 
 group 'org.example'
 version '1.0-SNAPSHOT'
-
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 repositories {
     mavenCentral()
 }
 
-configurations {
-    extraLibs
-}
 
 dependencies {
     // https://mvnrepository.com/artifact/commons-cli/commons-cli
-    extraLibs group: 'commons-cli', name: 'commons-cli', version: '1.4'
+    implementation group: 'commons-cli', name: 'commons-cli', version: '1.4'
 
-    configurations.compile.extendsFrom(configurations.extraLibs)
+    //configurations.compile.extendsFrom(configurations.extraLibs)
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
 
     // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
+
+    // https://mvnrepository.com/artifact/eu.hansolo/tilesfx
+    implementation group: 'eu.hansolo', name: 'tilesfx', version: '1.5.6'
+
+
 }
 
 jar {
@@ -32,9 +35,9 @@ jar {
         )
     }
     from {
-        configurations.extraLibs.collect { it.isDirectory() ? it : zipTree(it) }
-        configurations.compile.collect {zipTree it}
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
+
 
 mainClassName = 'team17.Main'

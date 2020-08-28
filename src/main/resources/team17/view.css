@@ -1,0 +1,14 @@
+#background{
+    -fx-background-color:aliceblue;
+}
+#statisticsPane{
+    -fx-background-color: cadetblue;
+    -fx-opacity: 0.8;
+    -fx-background-radius: 15 15 15 15;
+
+}
+#StatusPane{
+    -fx-background-color: rgb(229, 195, 36);
+    -fx-background-radius: 7 7 7 7;
+}
+

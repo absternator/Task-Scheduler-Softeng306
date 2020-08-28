@@ -2,8 +2,6 @@ import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import team17.Algorithm.AStar;
-import team17.Algorithm.DFS;
-import team17.Algorithm.PartialSolution;
 import team17.DAG.Graph;
 import team17.IO.CLI;
 import team17.IO.FileReadWriter;
@@ -11,7 +9,6 @@ import team17.IO.FileReadWriter;
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 public class testAStarOnExampleGraphs {
 
@@ -82,7 +79,6 @@ public class testAStarOnExampleGraphs {
         Assume.assumeTrue(_runNodes10Random);
         _args = new String[]{"src/main/resources/Nodes_10_Random.dot", "2"};
 
-
         assertEquals(50, getAStarSolutionFor(_args));
     }
 
@@ -117,7 +113,7 @@ public class testAStarOnExampleGraphs {
         CLI cli = new CLI(args);
         FileReadWriter frw = new FileReadWriter(cli);
         Graph graph = frw.readDotFile();
-        AStar aStar = new AStar(graph);
+        AStar aStar = new AStar(graph, null);
         return aStar.getOptimalSchedule(graph).getScheduledTask().getStartTime();
     }
 }

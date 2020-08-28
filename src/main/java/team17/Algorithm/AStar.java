@@ -16,18 +16,18 @@ public class AStar extends Algorithm {
 
     private PartialSolution _completePartialSolution;
     private boolean _foundComplete = false;
+    private AlgorithmState _algorithmState;
 
-    public AStar(Graph graph) {
+    public AStar(Graph graph, AlgorithmState algorithmState) {
         final PartialSolution _root = new PartialSolution(null, null);
         _open = new PriorityQueue<>(expandRoot(_root, graph));
-
         _closed = new HashSet<>();
         // Adds list schedule as upperBound
         ListScheduling ls = new ListScheduling(graph);
         PartialSolution _upperBoundListSchedule = ls.getSchedule();
         _open.add(_upperBoundListSchedule);
         _upperBound = _upperBoundListSchedule.getScheduledTask().getStartTime();
-
+        _algorithmState = algorithmState;
     }
 
     @Override
@@ -158,6 +158,9 @@ public class AStar extends Algorithm {
             if (partialSolution.isCompleteSchedule()) {
                 _foundComplete = true;
                 _completePartialSolution = partialSolution;
+                if (_algorithmState != null) {
+                    _algorithmState.setCompleteSolution(_completePartialSolution);
+                }
                 return null;
             }
 
