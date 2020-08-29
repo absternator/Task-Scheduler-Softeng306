@@ -1,7 +1,7 @@
 package team17.Algorithm;
 
-import team17.DAG.Graph;
-import team17.DAG.Node;
+import team17.DAG.DAGGraph;
+import team17.DAG.DAGNode;
 
 import java.util.*;
 
@@ -20,7 +20,28 @@ public abstract class Algorithm {
      * @param graph the input graph of tasks
      * @return a collection of scheduled tasks representing the optimal solution
      */
-    public abstract PartialSolution getOptimalSchedule(Graph graph);
+    public abstract PartialSolution getOptimalSchedule(DAGGraph graph);
+
+    /**
+     * This method expands the state space tree getting children. It adds tasks to processors.
+     *
+     * @return A set of partial solutions are returns. These are the children of the current solution.
+     */
+    protected abstract Set<PartialSolution> expandSearch(PartialSolution partialSolution, DAGGraph graph);
+
+    /**
+     * Gets the next partial solution, this is a synchronised method
+     *
+     * @return The next partial solution in the queue/stack, or null if there is none
+     */
+    protected abstract PartialSolution getNextPartialSolution();
+
+    /**
+     * Adds children to open, this is a synchronised method
+     *
+     * @param children The children needed to be added to open
+     */
+    protected abstract void openAddChildren(Set<PartialSolution> children);
 
     /**
      * Method to return the optimal solution for a given graph input for multiple cores
@@ -29,7 +50,7 @@ public abstract class Algorithm {
      * @param nCores Number of cores specified for parallelisation
      * @return The complete partial solution which is optimal
      */
-    public PartialSolution getOptimalScheduleParallel(Graph graph, int nCores) {
+    public PartialSolution getOptimalScheduleParallel(DAGGraph graph, int nCores) {
         List<NThreads> nThreads = new ArrayList<>();
         for (int i = 0; i < nCores; i++) {
             NThreads thread = new NThreads(this, graph);
@@ -62,36 +83,15 @@ public abstract class Algorithm {
     }
 
     /**
-     * This method expands the state space tree getting children. It adds tasks to processors.
-     *
-     * @return A set of partial solutions are returns. These are the children of the current solution.
-     */
-    protected abstract Set<PartialSolution> expandSearch(PartialSolution partialSolution, Graph graph);
-
-    /**
-     * Gets the next partial solution, this is a synchronised method
-     *
-     * @return The next partial solution in the queue/stack, or null if there is none
-     */
-    protected abstract PartialSolution getNextPartialSolution();
-
-    /**
-     * Adds children to open, this is a synchronised method
-     *
-     * @param children The children needed to be added to open
-     */
-    protected abstract void openAddChildren(Set<PartialSolution> children);
-
-    /**
      * This expands the root and assigns the first task to the first processor
      *
      * @return Set of Partial solutions where first node is placed on first processor
      */
-    protected Set<PartialSolution> expandRoot(PartialSolution partialSolution, Graph graph) {
+    protected Set<PartialSolution> expandRoot(PartialSolution partialSolution, DAGGraph graph) {
         Set<PartialSolution> children = new HashSet<>();
-        Set<Node> notEligible = new HashSet<>();
-        List<Node> freeNodes = new ArrayList<>();
-        for (Node node : graph.getNodeList()) {
+        Set<DAGNode> notEligible = new HashSet<>();
+        List<DAGNode> freeNodes = new ArrayList<>();
+        for (DAGNode node : graph.getNodeList()) {
             if (node.getDependencies().size() == 0) {
                 freeNodes.add(node);
             }
@@ -99,7 +99,7 @@ public abstract class Algorithm {
         // Check if free tasks meet criteria. IF yes return node to be ordered next.
         fixedTaskOrder(partialSolution, notEligible, freeNodes);
 
-        for (Node node : freeNodes) {
+        for (DAGNode node : freeNodes) {
             children.add(new PartialSolution(partialSolution, new ScheduledTask(1, node, 0)));
         }
         if (_algorithmState != null) {
@@ -115,10 +115,10 @@ public abstract class Algorithm {
      * @param notEligible     null set used to transfer contents from freeNodes and then remove later in method
      * @param freeNodes       Nodes that are eligible to  be scheduled
      */
-    protected void fixedTaskOrder(PartialSolution partialSolution, Set<Node> notEligible, List<Node> freeNodes) {
-        Node fixedTask = forkJoin(freeNodes, partialSolution);
+    protected void fixedTaskOrder(PartialSolution partialSolution, Set<DAGNode> notEligible, List<DAGNode> freeNodes) {
+        DAGNode fixedTask = forkJoin(freeNodes, partialSolution);
         if (fixedTask != null) {
-            for (Node notFixedNode : freeNodes) {
+            for (DAGNode notFixedNode : freeNodes) {
                 if (!notFixedNode.equals(fixedTask)) {
                     notEligible.add(notFixedNode);
                 }
@@ -131,14 +131,14 @@ public abstract class Algorithm {
         }
     }
 
-    protected static Node forkJoin(List<Node> freeNodes, PartialSolution partialSolution) {
+    protected static DAGNode forkJoin(List<DAGNode> freeNodes, PartialSolution partialSolution) {
         if (freeNodes.isEmpty()) return null;
-        Set<Node> sameChild = new HashSet<>();
+        Set<DAGNode> sameChild = new HashSet<>();
         Set<Integer> sameParentProcessor = new HashSet<>();
-        Map<Node, Integer> dataReadyMap = new HashMap<>();
-        for (Node node : freeNodes) {
-            Set<Node> dependencies = node.getDependencies();
-            Set<Node> dependents = node.getDependants();
+        Map<DAGNode, Integer> dataReadyMap = new HashMap<>();
+        for (DAGNode node : freeNodes) {
+            Set<DAGNode> dependencies = node.getDependencies();
+            Set<DAGNode> dependents = node.getDependants();
             // check if node has at max 1 parent and 1 child
             if (dependencies.size() > 1 || dependents.size() > 1) {
                 return null;
@@ -177,11 +177,11 @@ public abstract class Algorithm {
                 int secondNodeOutgoing = 0;
                 //if has child, then order by decreasing communication cost. Else =0.
                 if (!o1.getDependants().isEmpty()) {
-                    Node first = o1.getDependants().iterator().next();
+                    DAGNode first = o1.getDependants().iterator().next();
                     firstNodeOutgoing = first.getIncomingEdges().get(o1);
                 }
                 if (!o2.getDependants().isEmpty()) {
-                    Node second = o2.getDependants().iterator().next();
+                    DAGNode second = o2.getDependants().iterator().next();
                     secondNodeOutgoing = second.getIncomingEdges().get(o2);
                 }
                 return secondNodeOutgoing - firstNodeOutgoing;
@@ -191,9 +191,9 @@ public abstract class Algorithm {
         });
         //check if free nodes sorted by decreasing outgoing edge weights
         int maxValue = Integer.MAX_VALUE;
-        for (Node node : freeNodes) {
+        for (DAGNode node : freeNodes) {
             int value = 0;
-            for (Node item : node.getDependants()) {
+            for (DAGNode item : node.getDependants()) {
                 value = item.getIncomingEdges().get(node);
             }
             if (value <= maxValue) {

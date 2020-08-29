@@ -1,8 +1,6 @@
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import team17.Algorithm.Algorithm;
-import team17.DAG.Graph;
+import team17.DAG.DAGGraph;
 import team17.IO.CLI;
 import team17.IO.FileReadWriter;
 
@@ -11,7 +9,7 @@ import java.io.IOException;
 import static org.junit.Assert.*;
 
 public class testNode {
-    private static Graph _graph;
+    private static DAGGraph _graph;
     private static FileReadWriter _frw;
 
     @BeforeClass
@@ -60,14 +58,14 @@ public class testNode {
 
     @Test
     public void testIsEquivalentSameEqId() throws IOException {
-        Graph graph = _frw.readDotFile();
+        DAGGraph graph = _frw.readDotFile();
         graph.setEquivalentNodes();
         assertTrue(graph.getNode("b").isEquivalent(graph.getNode("c")));
     }
 
     @Test
     public void testIsEquivalentDifferentEqId() throws IOException {
-        Graph graph = _frw.readDotFile();
+        DAGGraph graph = _frw.readDotFile();
         graph.setEquivalentNodes();
         assertFalse(graph.getNode("b").isEquivalent(graph.getNode("d")));
     }

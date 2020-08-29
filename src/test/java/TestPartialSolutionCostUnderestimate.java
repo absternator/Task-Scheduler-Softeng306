@@ -4,7 +4,7 @@ import org.junit.Test;
 import team17.Algorithm.AlgorithmConfig;
 import team17.Algorithm.PartialSolution;
 import team17.Algorithm.ScheduledTask;
-import team17.DAG.Graph;
+import team17.DAG.DAGGraph;
 
 import static org.junit.Assert.*;
 
@@ -12,14 +12,14 @@ import static org.junit.Assert.*;
  * These test getCostUnderestimate and getIdleTime in PartialSolution.
  */
 public class TestPartialSolutionCostUnderestimate {
-    private static Graph _graph;
+    private static DAGGraph _graph;
     private static PartialSolution _root;
     private static PartialSolution _ps;
     private static ScheduledTask _st;
 
     @BeforeClass
     public static void setUpClass() throws Exception {
-        _graph = new Graph();
+        _graph = new DAGGraph();
         _graph.addNode("A", 3);
         _graph.addNode("B", 2);
         _graph.addNode("C", 4);

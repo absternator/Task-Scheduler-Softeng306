@@ -1,0 +1,62 @@
+/* For reference only, real stylesheet is in GraphVisualisation */
+
+graph {
+    text-size: 10px;
+}
+
+node {
+    text-style: bold;
+    text-alignment: center;
+    size: 25px, 25px;
+    fill-color: lightgrey;
+    stroke-mode: plain;
+    stroke-color: darkgrey;
+}
+
+edge {
+    fill-color: darkgrey;
+    text-style: bold-italic;
+    text-alignment: along;
+}
+
+/* Node Colours */
+
+node.p1 {
+    fill-color: #babade;
+    stroke-color: #8686c5;
+}
+
+node.p2 {
+    fill-color: #ccbade;
+    stroke-color: #a686c5;
+}
+
+node.p3 {
+    fill-color: #baccde;
+    stroke-color: #86a6c5;
+}
+
+node.p4 {
+    fill-color: #debade;
+    stroke-color: #c586c5;
+}
+
+node.p5 {
+    fill-color: #dedeba;
+    stroke-color: #c5c586;
+}
+
+node.p6 {
+    fill-color: #badecc;
+    stroke-color: #86c5a6;
+}
+
+node.p7 {
+    fill-color: #deccba;
+    stroke-color: #c5a686;
+}
+
+node.p8 {
+    fill-color: #badede;
+    stroke-color: #86c5c5;
+}

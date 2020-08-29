@@ -26,7 +26,7 @@ public class AlgorithmState {
         this._isFinished = isFinished;
     }
 
-    public boolean getFinished() {
+    public boolean isFinished() {
         return _isFinished;
     }
 
