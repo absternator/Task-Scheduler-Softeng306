@@ -18,8 +18,6 @@ public abstract class Algorithm {
      * @param graph the input graph of tasks
      * @return a collection of scheduled tasks representing the optimal solution
      */
-    public PartialSolution getOptimalSchedule(Graph graph) {
-        int count = 0;
     public PartialSolution getOptimalSchedule(DAGGraph graph) {
         int count = 0;
         while (true) {

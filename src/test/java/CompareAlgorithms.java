@@ -5,7 +5,7 @@ import sun.util.resources.cldr.sah.CalendarData_sah_RU;
 import team17.Algorithm.AStar;
 import team17.Algorithm.AlgorithmState;
 import team17.Algorithm.DFS;
-import team17.DAG.Graph;
+import team17.DAG.DAGGraph;
 import team17.IO.CLI;
 import team17.IO.FileReadWriter;
 
@@ -14,7 +14,11 @@ import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 
 public class CompareAlgorithms {
+    // ******************** SET TO TRUE IF YOU WANNA RUN THIS ***********************
     private static boolean _runComparisons = true;
+    private boolean _runSlowGraphs = false; // these graphs are pretty slow, run at own risk
+    // ******************************************************************************
+
     private String[] _args;
 
     @BeforeClass
@@ -77,21 +81,24 @@ public class CompareAlgorithms {
         _args = new String[]{"src/main/resources/Nodes_10_Random.dot", "4"};
         compareAlgorithmsFor(_args);
     }
+
     @Test
     public void compareNodes11_2P() throws IOException {
 
         _args = new String[]{"src/main/resources/Nodes_11_OutTree.dot", "2"};
         compareAlgorithmsFor(_args);
     }
+
     @Test
     public void compareNodes11_4P() throws IOException {
 
         _args = new String[]{"src/main/resources/Nodes_11_OutTree.dot", "4"};
         compareAlgorithmsFor(_args);
     }
+
     @Test
     public void compareINPUT1_3P() throws IOException {
-
+        Assume.assumeTrue(_runSlowGraphs);
         _args = new String[]{"src/main/resources/INPUT1.dot", "3"};
         compareAlgorithmsFor(_args);
     }
@@ -99,7 +106,7 @@ public class CompareAlgorithms {
     private void compareAlgorithmsFor(String[] args) throws IOException {
         CLI cli = new CLI(args);
         FileReadWriter frw = new FileReadWriter(cli);
-        Graph graph = frw.readDotFile();
+        DAGGraph graph = frw.readDotFile();
         AStar aStar = new AStar(graph, new AlgorithmState());
         DFS dfs = new DFS(graph, new AlgorithmState());
 

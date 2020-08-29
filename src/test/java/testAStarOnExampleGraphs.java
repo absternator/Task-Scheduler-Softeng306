@@ -119,7 +119,6 @@ public class testAStarOnExampleGraphs {
 
         @Test
     public void testGraph4_2P() throws IOException {
-        Assume.assumeTrue(_runGraph4);
 
         _args = new String[]{"src/main/resources/Graph4.dot", "2"};
 
