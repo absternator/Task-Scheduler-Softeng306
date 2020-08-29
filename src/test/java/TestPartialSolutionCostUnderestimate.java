@@ -29,11 +29,11 @@ public class TestPartialSolutionCostUnderestimate {
         _graph.addFinishNode();
         _graph.setBottomLevel();
         _graph.calculateTotalNodeWeight();
-        _root = new PartialSolution(null, null);
+        _root = new PartialSolution(null, null, 0);
 
         _st = new ScheduledTask(1, _graph.getNode("A"), 0);
 
-        _ps = new PartialSolution(_root, _st);
+        _ps = new PartialSolution(_root, _st, 4);
     }
 
     @Before
@@ -43,49 +43,49 @@ public class TestPartialSolutionCostUnderestimate {
 
     @Test
     public void testGetIdleTimeNone() {
-        PartialSolution ps = new PartialSolution(_ps, new ScheduledTask(1, _graph.getNode("B"), 3));
+        PartialSolution ps = new PartialSolution(_ps, new ScheduledTask(1, _graph.getNode("B"), 3), 1);
         assertEquals(0, ps.getIdleTime());
     }
 
     @Test
     public void testGetIdleTime_4p() {
         AlgorithmConfig.setNumOfProcessors(4);
-        PartialSolution ps = new PartialSolution(_ps, new ScheduledTask(3, _graph.getNode("B"), 3));
+        PartialSolution ps = new PartialSolution(_ps, new ScheduledTask(3, _graph.getNode("B"), 3), 2);
         assertEquals(3, ps.getIdleTime());
     }
 
     @Test
     public void testGetIdleTime() {
         AlgorithmConfig.setNumOfProcessors(4);
-        PartialSolution ps = new PartialSolution(_ps, new ScheduledTask(1, _graph.getNode("B"), 13));
+        PartialSolution ps = new PartialSolution(_ps, new ScheduledTask(1, _graph.getNode("B"), 13), 2);
         assertEquals(10, ps.getIdleTime());
     }
 
     @Test
     public void testGetCostUnderestimateNoIdleTime() {
-        PartialSolution ps = new PartialSolution(_ps, new ScheduledTask(1, _graph.getNode("B"), 3));
+        PartialSolution ps = new PartialSolution(_ps, new ScheduledTask(1, _graph.getNode("B"), 3), 2);
         assertEquals(9, ps.getCostUnderestimate());
     }
 
     @Test
     public void testGetCostUnderestimateWithIdleTime() {
-        PartialSolution ps = new PartialSolution(_ps, new ScheduledTask(1, _graph.getNode("B"), 5));
+        PartialSolution ps = new PartialSolution(_ps, new ScheduledTask(1, _graph.getNode("B"), 5), 2);
         assertEquals(10, ps.getCostUnderestimate());
     }
 
     @Test
     public void testGetCostUnderestimateNoIdleTime_4p() {
         AlgorithmConfig.setNumOfProcessors(4);
-        PartialSolution ps = new PartialSolution(_ps, new ScheduledTask(1, _graph.getNode("B"), 3));
-        PartialSolution ps2 = new PartialSolution(ps, new ScheduledTask(4, _graph.getNode("D"), 0));
+        PartialSolution ps = new PartialSolution(_ps, new ScheduledTask(1, _graph.getNode("B"), 3), 2);
+        PartialSolution ps2 = new PartialSolution(ps, new ScheduledTask(4, _graph.getNode("D"), 0), 2);
         assertEquals(9, ps2.getCostUnderestimate());
     }
 
     @Test
     public void testGetCostUnderestimateWithIdleTime_3p() {
         AlgorithmConfig.setNumOfProcessors(3);
-        PartialSolution ps = new PartialSolution(_ps, new ScheduledTask(1, _graph.getNode("B"), 15));
-        PartialSolution ps2 = new PartialSolution(ps, new ScheduledTask(3, _graph.getNode("C"), 10));
+        PartialSolution ps = new PartialSolution(_ps, new ScheduledTask(1, _graph.getNode("B"), 15), 2);
+        PartialSolution ps2 = new PartialSolution(ps, new ScheduledTask(3, _graph.getNode("C"), 10), 2);
         assertEquals(17, ps2.getCostUnderestimate());
     }
 }

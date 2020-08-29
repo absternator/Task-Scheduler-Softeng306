@@ -75,7 +75,7 @@ public class ListScheduling {
         int numProcessors = AlgorithmConfig.getNumOfProcessors();
         ScheduledTask[] processors = new ScheduledTask[numProcessors]; // latest task of each processor
         List<DAGNode> nodes = getTopologicalOrder();
-        PartialSolution schedule = new PartialSolution(null,null);
+        PartialSolution schedule = new PartialSolution(null,null,0);
 
         int earliestStart; // the earliest start time for a node
         int processor; // the processor to add the next node to
@@ -146,7 +146,7 @@ public class ListScheduling {
 
             }
             scheduledTask = new ScheduledTask(processor + 1, node, earliestStart);
-            schedule = new PartialSolution(schedule,scheduledTask);
+            schedule = new PartialSolution(schedule,scheduledTask,_graph.getNodeList().size() + 1);
             processors[processor] = scheduledTask;
         }
 

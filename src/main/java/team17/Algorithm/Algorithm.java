@@ -28,9 +28,9 @@ public abstract class Algorithm {
                 Set<PartialSolution> children = expandSearch(partialSolution, graph);
                 this.openAddChildren(children);
                 count ++;
-//                if(count%1000==0){
-//                    System.out.print("\r dfs popped solutions:" + count);
-//                }
+                if(count%1000==0){
+                    System.out.print("\r dfs popped solutions:" + count);
+                }
             }
         }
         System.out.print("DFS: popped solutions:" + count);
@@ -92,7 +92,7 @@ public abstract class Algorithm {
         fixedTaskOrder(partialSolution, notEligible, freeNodes);
 
         for (DAGNode node : freeNodes) {
-            children.add(new PartialSolution(partialSolution, new ScheduledTask(1, node, 0)));
+            children.add(new PartialSolution(partialSolution, new ScheduledTask(1, node, 0),partialSolution.get_numofTasks() +1 ));
         }
         return children;
     }
@@ -180,7 +180,7 @@ public abstract class Algorithm {
                         eligibleStartTime = Math.max(eligibleStartTime, scheduledTask.getFinishTime() + communicationTime);
                     }
                 }
-                children.add(new PartialSolution(partialSolution, new ScheduledTask(i, node, eligibleStartTime)));
+                children.add(new PartialSolution(partialSolution, new ScheduledTask(i, node, eligibleStartTime),partialSolution.get_numofTasks() + 1));
             }
         }
         return children;

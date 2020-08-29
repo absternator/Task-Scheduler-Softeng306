@@ -35,23 +35,23 @@ public class TestPartialSolution {
         _graph.addEdge("A", "C", 5);
         _graph.addFinishNode();
         _graph.setBottomLevel();
-        _root = new PartialSolution(null, null);
+        _root = new PartialSolution(null, null, 0);
 
         _st = new ScheduledTask(1, _graph.getNode("A"), 0);
 
-        _ps = new PartialSolution(_root, _st);
+        _ps = new PartialSolution(_root, _st, 0);
     }
 
     @Test
     public void testEquals() {
-        PartialSolution ps2 = new PartialSolution(_root, _st);
+        PartialSolution ps2 = new PartialSolution(_root, _st, 0);
         assertTrue(_ps.equals(ps2));
     }
 
     @Test
     public void testEqualsContent() {
         ScheduledTask st2 = new ScheduledTask(1, _graph.getNode("A"), 0);
-        PartialSolution ps2 = new PartialSolution(_root, st2);
+        PartialSolution ps2 = new PartialSolution(_root, st2, 0);
 
         assertTrue(_ps.equals(ps2));
     }
@@ -60,7 +60,7 @@ public class TestPartialSolution {
     public void testNotEqualsNode() {
 
         ScheduledTask st2 = new ScheduledTask(1, _graph.getNode("B"), 0);
-        PartialSolution ps2 = new PartialSolution(_root, st2);
+        PartialSolution ps2 = new PartialSolution(_root, st2, 0);
 
         assertFalse(_ps.equals(ps2));
     }
@@ -69,7 +69,7 @@ public class TestPartialSolution {
     public void testNotEqualsStartTime() {
 
         ScheduledTask st2 = new ScheduledTask(1, _graph.getNode("A"), 3);
-        PartialSolution ps2 = new PartialSolution(_root, st2);
+        PartialSolution ps2 = new PartialSolution(_root, st2, 0);
 
         assertFalse(_ps.equals(ps2));
     }

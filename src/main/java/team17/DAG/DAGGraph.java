@@ -139,6 +139,13 @@ public class DAGGraph {
 
         }
     }
+    public void setBottomLoad() {
+        LinkedList<DAGNode> remaining = new LinkedList<>(_nodeList);
+        for (Iterator<DAGNode> it = remaining.descendingIterator(); it.hasNext(); ) {
+            DAGNode node = it.next();
+            node.setBottomLoad();
+        }
+    }
 
     /**
      * This calculates the total weight of all the nodes in the graph and sets it in AlgorithmConfig
