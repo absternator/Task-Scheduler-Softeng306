@@ -88,11 +88,20 @@ public class Node {
     }
 
     public void setBottomLoad() {
-        _bottomLoad = _weight;
-        for(Node n: _dependants) {
-            _bottomLoad += n.getBottomLoad();
+        _bottomLoad = 0;
+        Set<Node> children = getChildren();
+        for(Node child: children) {
+            _bottomLoad += child.getWeight();
         }
-        System.out.println(_id + ": " + _bottomLoad);
+    }
+
+    public Set<Node> getChildren() {
+        Set<Node> children = new HashSet<>();
+        children.addAll(_dependants);
+        for(Node child: _dependants) {
+            children.addAll(child.getChildren());
+        }
+        return children;
     }
 
     public int getBottomLoad() {
