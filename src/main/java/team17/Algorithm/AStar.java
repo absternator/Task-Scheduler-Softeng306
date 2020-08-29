@@ -11,7 +11,6 @@ import java.util.*;
 public class AStar extends Algorithm {
     private final  Queue<PartialSolution> _open;
     private final  Set<PartialSolution> _closed;
-    private final PartialSolution _upperBoundListSchedule;
     private final int _upperBound;
     private int maxOpenCount = 0; // todo: this is for testing only(remove later)
 
@@ -25,7 +24,7 @@ public class AStar extends Algorithm {
         _closed = new HashSet<>();
         // Adds list schedule as upperBound
         ListScheduling ls = new ListScheduling(graph);
-        _upperBoundListSchedule = ls.getSchedule();
+        PartialSolution _upperBoundListSchedule = ls.getSchedule();
         _open.add(_upperBoundListSchedule);
         _upperBound = _upperBoundListSchedule.getScheduledTask().getStartTime();
         _algorithmState = algorithmState;
@@ -38,7 +37,6 @@ public class AStar extends Algorithm {
 
       @Override
     public PartialSolution getOptimalSchedule(Graph graph) {
-        long startTime = System.currentTimeMillis();
         while (true) {
             PartialSolution partialSolution = this.getNextPartialSolution();
             if (partialSolution == null) {
@@ -52,12 +50,6 @@ public class AStar extends Algorithm {
 //                if(maxOpenCount%100==0){
 //                    System.out.print("\radded to queue: " + maxOpenCount+"\tstill in queue: "+_open.size());
 //                }
-                if(System.currentTimeMillis()-startTime>120000){
-                    System.out.print("A*: timed out, forcing stop");
-                    System.out.print("\tleft in queue: "+_open.size());
-                    System.out.print("\t\tadded to queue: "+maxOpenCount);
-                    return _upperBoundListSchedule;
-                }
             }
 
         }
