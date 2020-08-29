@@ -96,7 +96,7 @@
                               <AnchorPane fx:id="ganttChartContainer" prefHeight="132.0" prefWidth="649.0" />
                               <TextFlow prefHeight="287.0" prefWidth="234.0" textAlignment="CENTER">
                                  <children>
-                                    <Label text="Best Cost So Far:">
+                                    <Label text="Current Schedule Length:">
                                        <padding>
                                           <Insets right="10.0" />
                                        </padding>
