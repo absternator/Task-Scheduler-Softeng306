@@ -32,11 +32,11 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         //Run from command line
-        args = new String[]{"../../src/main/resources/graph.dot", "2", "-v"};
+//        args = new String[]{"../../src/main/resources/graph.dot", "2", "-v"};
 
         //Run in IDE
 //        args = new String[]{"src/main/resources/INPUT0.dot", "2", "-v"};
-//        args = new String[]{"src/main/resources/graph.dot", "3", "-v"};
+        args = new String[]{"src/main/resources/graph.dot", "3", "-v"};
 
         _config = new CLI(args);
 
@@ -61,7 +61,7 @@ public class Main extends Application {
         List<ScheduledTask> schedule;
         Algorithm algorithm;
 
-        if (false) {
+        if (true) {
             algorithm = new DFS(_graph, _algorithmState); //TODO remove graph parameter
             schedule = algorithm.getOptimalSchedule(_graph).fullSchedule();// Returns list of Schedule
         } else {
@@ -72,25 +72,25 @@ public class Main extends Application {
             } else {
                 schedule = algorithm.getOptimalScheduleParallel(_graph, _config.getCores() - 1).fullSchedule();
             }
+        }
 
-            try {
-                _frw.writeOutput(schedule);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            _frw.writeOutput(schedule);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-            if (_algorithmState != null) {
-                _algorithmState.setFinished(true);
-            }
+        if (_algorithmState != null) {
+            _algorithmState.setFinished(true);
+        }
 
-            // Sets algorithm state as nonactive
-            _algoActive = false;
+        // Sets algorithm state as nonactive
+        _algoActive = false;
 
-            // Check if GUI is still active, if not, exit the program
-            if (!_guiActive) {
-                Platform.exit();
-                System.exit(0);
-            }
+        // Check if GUI is still active, if not, exit the program
+        if (!_guiActive) {
+            Platform.exit();
+            System.exit(0);
         }
     }
 
