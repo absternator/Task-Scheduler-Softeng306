@@ -10,6 +10,7 @@ public class Node {
     private Set<Node> _dependencies;
     private Set<Node> _dependants;
     private int _eqId;
+    private int _bottomLoad;
 
     /**
      * This is a Node constructor which adds weight and id.
@@ -84,6 +85,18 @@ public class Node {
 
     public void setEquivalenceId(int eqId) {
         _eqId = eqId;
+    }
+
+    public void setBottomLoad() {
+        _bottomLoad = _weight;
+        for(Node n: _dependants) {
+            _bottomLoad += n.getBottomLoad();
+        }
+        System.out.println(_id + ": " + _bottomLoad);
+    }
+
+    public int getBottomLoad() {
+        return _bottomLoad;
     }
 
     @Override

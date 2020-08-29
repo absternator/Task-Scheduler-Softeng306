@@ -140,12 +140,15 @@ public class Graph {
         }
     }
 
+    /**
+     * Calculates the weight of the node's child - the bottom load for the heuristic
+     */
     public void setBottomLoad() {
         LinkedList<Node> remaining = new LinkedList<>(_nodeList);
-        while (!remaining.isEmpty()) {
-            for (Iterator<Node> it = remaining.descendingIterator(); it.hasNext(); ) {
-                Node node = it.next();
-            }
+        for (Iterator<Node> it = remaining.descendingIterator(); it.hasNext(); ) {
+            Node node = it.next();
+            node.setBottomLoad();
+            node.getBottomLoad();
         }
     }
 
