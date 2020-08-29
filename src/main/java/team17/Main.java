@@ -28,10 +28,10 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         //Run from command line
-        //args = new String[]{"../../src/main/resources/graph.dot", "2"};
+        args = new String[]{"../../src/main/resources/graph.dot", "2", "-v"};
 
         //Run in IDE
-        args = new String[]{"src/main/resources/graph4.dot", "2", "-v"};
+//        args = new String[]{"src/main/resources/INPUT0.dot", "2", "-v"};
         //args = new String[]{"src/main/resources/graph.dot", "3"};
 
         _config = new CLI(args);
