@@ -72,6 +72,7 @@ public class DAGGraph {
         setBottomLevel();
         setEquivalentNodes();
         calculateTotalNodeWeight();
+        setBottomLoad();
     }
 
     public void addFinishNode() {

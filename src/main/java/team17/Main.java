@@ -51,7 +51,6 @@ public class Main extends Application {
             launch();
         } else {
             startAlgorithm();
-//            Platform.exit();
         }
     }
 

@@ -16,7 +16,7 @@
 
 <AnchorPane prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane id="statisticsPane" layoutX="650.0" prefHeight="759.0" prefWidth="352.0">
+      <AnchorPane id="statisticsPane" layoutX="655.0" layoutY="6.0" prefHeight="745.0" prefWidth="344.0">
          <children>
             <Text fill="#0d0d0d" fontSmoothingType="LCD" layoutX="80.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Statistics" textAlignment="CENTER">
                <font>
@@ -73,18 +73,18 @@
                </children>
             </Pane>
             <Pane fx:id="memoryPane" layoutX="52.0" layoutY="470.0" prefHeight="269.0" prefWidth="287.0" />
-            <Text fx:id="runningTime" layoutY="326.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0m00s" textAlignment="CENTER" wrappingWidth="349.7126961503076">
-               <font>
-                  <Font size="32.0" />
-               </font>
-            </Text>
          </children>
       </AnchorPane>
       <VBox prefHeight="759.0" prefWidth="649.0">
          <children>
-            <AnchorPane id="graphPane" layoutX="7.0" layoutY="417.0" prefHeight="322.0" prefWidth="583.0">
+            <AnchorPane id="graphPane" layoutX="7.0" layoutY="422.0" prefHeight="330.0" prefWidth="583.0">
                <children>
                   <SwingNode id="GraphPane" fx:id="graphPane" layoutX="34.0" layoutY="29.0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node Tree" x="200.0" y="40.0">
+                     <font>
+                        <Font size="38.0" />
+                     </font>
+                  </Text>
                </children>
             </AnchorPane>
             <AnchorPane fx:id="ganttChartPane" prefHeight="132.0" prefWidth="649.0">
