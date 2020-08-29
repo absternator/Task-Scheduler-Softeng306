@@ -52,7 +52,7 @@ public class GraphVisualisation {
      */
     public Graph convertToGraphStream() {
         Graph graph = new SingleGraph("Visualise Graph");
-        graph.addAttribute("ui.stylesheet", "url(file:src/main/resources/team17/GUI/graph.css)");
+        graph.addAttribute("ui.stylesheet", getStyle());
 
         List<DAGNode> dagNodes = _graph.getNodeList();
 
@@ -78,5 +78,69 @@ public class GraphVisualisation {
             }
         }
         return graph;
+    }
+
+    public String getStyle() {
+        String s = "graph {\n" +
+                "    text-size: 10px;\n" +
+                "}\n" +
+                "\n" +
+                "node {\n" +
+                "    text-style: bold;\n" +
+                "    text-alignment: center;\n" +
+                "    size: 25px, 25px;\n" +
+                "    fill-color: lightgrey;\n" +
+                "    stroke-mode: plain;\n" +
+                "    stroke-color: darkgrey;\n" +
+                "}\n" +
+                "\n" +
+                "edge {\n" +
+                "    fill-color: darkgrey;\n" +
+                "    text-style: bold-italic;\n" +
+                "    text-alignment: along;\n" +
+                "}\n" +
+                "\n" +
+                "/* Node Colours */\n" +
+                "\n" +
+                "node.p1 {\n" +
+                "    fill-color: #babade;\n" +
+                "    stroke-color: #8686c5;\n" +
+                "}\n" +
+                "\n" +
+                "node.p2 {\n" +
+                "    fill-color: #ccbade;\n" +
+                "    stroke-color: #a686c5;\n" +
+                "}\n" +
+                "\n" +
+                "node.p3 {\n" +
+                "    fill-color: #baccde;\n" +
+                "    stroke-color: #86a6c5;\n" +
+                "}\n" +
+                "\n" +
+                "node.p4 {\n" +
+                "    fill-color: #debade;\n" +
+                "    stroke-color: #c586c5;\n" +
+                "}\n" +
+                "\n" +
+                "node.p5 {\n" +
+                "    fill-color: #dedeba;\n" +
+                "    stroke-color: #c5c586;\n" +
+                "}\n" +
+                "\n" +
+                "node.p6 {\n" +
+                "    fill-color: #badecc;\n" +
+                "    stroke-color: #86c5a6;\n" +
+                "}\n" +
+                "\n" +
+                "node.p7 {\n" +
+                "    fill-color: #deccba;\n" +
+                "    stroke-color: #c5a686;\n" +
+                "}\n" +
+                "\n" +
+                "node.p8 {\n" +
+                "    fill-color: #badede;\n" +
+                "    stroke-color: #86c5c5;\n" +
+                "}";
+        return s;
     }
 }
