@@ -1,0 +1,20 @@
+digraph "example" {
+a         [Weight=2];
+b         [Weight=3];
+a -> b    [Weight=1];
+c         [Weight=3];
+a -> c    [Weight=2];
+d         [Weight=2];
+b -> d    [Weight=2];
+c -> d    [Weight=1];
+e         [Weight=2];
+b -> e    [Weight=5];
+f         [Weight=2];
+g         [Weight=2];
+f -> g    [Weight=4];
+h         [Weight=2];
+e -> h    [Weight=1];
+i         [Weight=9];
+j         [Weight=1];
+i -> j    [Weight=1];
+}

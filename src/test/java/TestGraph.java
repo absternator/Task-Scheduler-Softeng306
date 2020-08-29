@@ -1,15 +1,15 @@
 import org.junit.Before;
 import org.junit.Test;
-import team17.DAG.Graph;
+import team17.DAG.DAGGraph;
 
 import static org.junit.Assert.*;
 
 public class TestGraph {
-    Graph _graph;
+    DAGGraph _graph;
 
     @Before
     public void setUp() {
-        _graph = new Graph();
+        _graph = new DAGGraph();
     }
 
     @Test
