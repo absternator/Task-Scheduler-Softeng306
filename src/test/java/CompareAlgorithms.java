@@ -1,7 +1,6 @@
 import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import sun.util.resources.cldr.sah.CalendarData_sah_RU;
 import team17.Algorithm.AStar;
 import team17.Algorithm.AlgorithmState;
 import team17.Algorithm.DFS;
@@ -10,8 +9,6 @@ import team17.IO.CLI;
 import team17.IO.FileReadWriter;
 
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 public class CompareAlgorithms {
     // ******************** SET TO TRUE IF YOU WANNA RUN THIS ***********************
@@ -100,6 +97,12 @@ public class CompareAlgorithms {
     public void compareINPUT1_3P() throws IOException {
         Assume.assumeTrue(_runSlowGraphs);
         _args = new String[]{"src/main/resources/INPUT1.dot", "3"};
+        compareAlgorithmsFor(_args);
+    }
+
+    @Test
+    public void compareINPUT2_8P() throws IOException {
+        _args = new String[]{"src/main/resources/INPUT2.dot", "8"};
         compareAlgorithmsFor(_args);
     }
 
