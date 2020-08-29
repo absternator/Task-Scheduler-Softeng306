@@ -87,6 +87,9 @@ public class DAGNode {
         _eqId = eqId;
     }
 
+    /**
+     * This method calculates the sum of weights of the node's children
+     */
     public void setBottomLoad() {
         _bottomLoad = 0;
         Set<DAGNode> children = getChildren();
@@ -95,6 +98,10 @@ public class DAGNode {
         }
     }
 
+    /**
+     * Gets the children of the node without duplicate
+     * @return Set of child nodes
+     */
     public Set<DAGNode> getChildren() {
         Set<DAGNode> children = new HashSet<>();
         children.addAll(_dependants);

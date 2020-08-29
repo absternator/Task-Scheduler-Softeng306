@@ -148,7 +148,6 @@ public class DAGGraph {
         for (Iterator<DAGNode> it = remaining.descendingIterator(); it.hasNext(); ) {
             DAGNode node = it.next();
             node.setBottomLoad();
-            node.getBottomLoad();
         }
     }
 
