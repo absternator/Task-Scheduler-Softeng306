@@ -59,7 +59,7 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
         int loadBalance = ((AlgorithmConfig.getTotalNodeWeight() + getIdleTime()) / AlgorithmConfig.getNumOfProcessors());
         for (ScheduledTask scheduledTask : this) {
             costUnderestimate = Math.max(costUnderestimate, scheduledTask.getStartTime() + scheduledTask.getNode().getBottomLevel());
-            bottomLoad = scheduledTask.getNode().getBottomLoad()/AlgorithmConfig.getNumOfProcessors() + scheduledTask.getFinishTime();
+            bottomLoad = Math.max(bottomLoad, scheduledTask.getNode().getBottomLoad()/AlgorithmConfig.getNumOfProcessors() + scheduledTask.getFinishTime());
         }
         return Math.max(costUnderestimate, Math.max(loadBalance, bottomLoad));
     }
