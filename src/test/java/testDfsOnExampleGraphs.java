@@ -15,8 +15,6 @@ public class testDfsOnExampleGraphs {
 
     // *** SET TO TRUE IF YOU WANT TO RUN THESE TESTS ***
     private static boolean _RunThisTestSuite = true;
-
-    private boolean _runNodes10Random = false;
     // **************************************************
 
     private String[] _args;
@@ -76,7 +74,6 @@ public class testDfsOnExampleGraphs {
 
     @Test
     public void testNodes10Random_2P() throws IOException {
-        Assume.assumeTrue(_runNodes10Random);
         _args = new String[]{"src/main/resources/Nodes_10_Random.dot", "2"};
 
         assertEquals(50, getDfsSolutionFor(_args));
@@ -84,8 +81,6 @@ public class testDfsOnExampleGraphs {
 
     @Test
     public void testNodes10Random_4P() throws IOException {
-        Assume.assumeTrue(_runNodes10Random);
-
         _args = new String[]{"src/main/resources/Nodes_10_Random.dot", "4"};
         assertEquals(50, getDfsSolutionFor(_args));
     }
