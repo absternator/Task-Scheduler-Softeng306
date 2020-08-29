@@ -142,9 +142,15 @@ public abstract class Algorithm {
         // Check if free tasks meet criteria. IF yes return node to be ordered next.
         fixedTaskOrder(partialSolution, notEligible, freeNodes);
 
-
-
+        AddNode:
         for (Node node : freeNodes) {
+
+            // if a sibling has already scheduled an equivalent node
+            for (PartialSolution child:children){
+                if(child.getScheduledTask().getNode().isEquivalent(node)){
+                    continue AddNode;
+                }
+            }
             //Node can be placed on Processor now
             for (int i = 1; i < AlgorithmConfig.getNumOfProcessors() + 1; i++) {
                 int eligibleStartTime = 0;

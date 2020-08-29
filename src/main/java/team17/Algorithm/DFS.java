@@ -15,7 +15,7 @@ public class DFS extends Algorithm {
         final PartialSolution _root = new PartialSolution(null, null);
         ListScheduling ls = new ListScheduling(graph);
         _bestSchedule = ls.getSchedule();
-        _upperBound = _bestSchedule.getCostUnderestimate();
+        _upperBound = _bestSchedule.getScheduledTask().getStartTime();
         // Place first task on first processor and add to stack.
         Set<PartialSolution> children = expandRoot(_root, graph);
         children.forEach(_open::push); //this was lost? cause runtime to get longer

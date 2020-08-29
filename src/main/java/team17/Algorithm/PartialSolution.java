@@ -183,7 +183,7 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
             if(task.getFinishTime() > otherProcessorEndTimes[task.getProcessorNum()-1]){
                 otherProcessorEndTimes[task.getProcessorNum() - 1] = task.getFinishTime();
             }
-            //while building other solution if if adding task is in THIS solution,return false if not else keep adding.
+            //while building other solution if adding task is in THIS solution,return false else keep adding.
             if (!thisSolution.contains(task)){
                 return false;
             }
