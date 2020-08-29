@@ -80,12 +80,10 @@ public class FileReadWriter {
      * @param solution the set of scheduled tasks in the final optimal solution
      */
     public void writeOutput(List<ScheduledTask> solution) throws IOException {
-        String outputFileName = StringUtils.isBlank(_cli.getOutput()) ? StringUtils.substringBefore(_cli.getInput(), ".dot") + "-output" : _cli.getOutput();
-
-        //Puts the list in alphabetical order to match the input.
+          //Puts the list in alphabetical order to match the input.
         Collections.sort(solution);
 
-        File file = new File(outputFileName + ".dot");
+        File file = new File(_cli.getOutput());
         PrintWriter pw = new PrintWriter(new FileWriter(file));
 
         pw.println("digraph \"output" + StringUtils.capitalize(_digraphName) + "\" {");

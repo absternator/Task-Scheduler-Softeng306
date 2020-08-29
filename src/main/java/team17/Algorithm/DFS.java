@@ -17,6 +17,9 @@ public class DFS extends Algorithm {
         _ls = new ListScheduling(graph);
         _bestSchedule = _ls.getSchedule();
         _algorithmState = algorithmState;
+        if (_algorithmState != null) {
+            _algorithmState.setCompleteSolution(_bestSchedule);
+        }
         _upperBound = _bestSchedule.getCostUnderestimate();
         _open.push(_root);
     }
@@ -34,6 +37,9 @@ public class DFS extends Algorithm {
             if (partialSolution.isCompleteSchedule() && costSoFar < _upperBound) { //TODO && !bestSchedule.equals(partialSolution)
                 _upperBound = costSoFar;
                 _bestSchedule = partialSolution;
+                if (_algorithmState != null) {
+                    _algorithmState.setCompleteSolution(_bestSchedule);
+                }
             }
             return partialSolution;
         } else {

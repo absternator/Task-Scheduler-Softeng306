@@ -40,7 +40,7 @@ public class GraphVisualisation {
 
 //        DefaultView view = new DefaultView(viewer, Viewer.DEFAULT_VIEW_ID, Viewer.newGraphRenderer());
         DefaultView view = (DefaultView) viewer.addDefaultView(false);
-        view.setMinimumSize(new Dimension(600,400));
+        view.setMinimumSize(new Dimension(600,300));
 
         SwingUtilities.invokeLater(() -> sn.setContent(view));
     }
@@ -73,7 +73,7 @@ public class GraphVisualisation {
                 for (Map.Entry<DAGNode, Integer> entry : map.entrySet()) {
                     Edge e = graph.addEdge(entry.getKey().getId() + dagNode.getId(), entry.getKey().getId(),
                             dagNode.getId(), true);
-                    e.addAttribute("ui.label", "Weight=" + entry.getValue());
+                    e.addAttribute("ui.label", entry.getValue());
                 }
             }
         }

@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  *
- * Code modified from https://stackoverflow.com/questions/27975898/gantt-chart-from-scratch
+ * Modified code written by user Roland from https://stackoverflow.com/questions/27975898/gantt-chart-from-scratch
  * @param <X>
  * @param <Y>
  */
@@ -81,7 +81,6 @@ public class GanttChart<X,Y> extends XYChart<X,Y> {
                         taskIdText.setTranslateX(ellipse.getWidth()/2);
                         taskIdText.setTranslateY(ellipse.getHeight()/2);
                         region.getChildren().add(taskIdText);
-
 
                         // Note: workaround for RT-7689 - saw this in ProgressControlSkin
                         // The region doesn't update itself when the shape is mutated in place, so we

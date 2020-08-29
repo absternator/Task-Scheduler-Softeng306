@@ -49,6 +49,7 @@ public class AStar extends Algorithm {
                 this.openAddChildren(children);
             }
         }
+
         System.out.println("left in queue: "+_open.size()); //todo: for testing only(remove later)
         System.out.println("added to queue: "+maxOpenCount);
         return _completePartialSolution;
@@ -81,7 +82,15 @@ public class AStar extends Algorithm {
             skipNodes = false;
         }
 
+        AddNode:
         for (DAGNode node : freeNodes) {
+
+            // if a sibling has already scheduled an equivalent node
+            for (PartialSolution child:children){
+                if(child.getScheduledTask().getNode().isEquivalent(node)){
+                    continue AddNode;
+                }
+            }
             // skip to the last scheduled node from a previous partial expansion
             if (skipNodes) {
                 if (node.getId().equals(partialSolution.getLastPartialExpansionNodeId())) {
