@@ -140,6 +140,15 @@ public class Graph {
         }
     }
 
+    public void setBottomLoad() {
+        LinkedList<Node> remaining = new LinkedList<>(_nodeList);
+        while (!remaining.isEmpty()) {
+            for (Iterator<Node> it = remaining.descendingIterator(); it.hasNext(); ) {
+                Node node = it.next();
+            }
+        }
+    }
+
     /**
      * This calculates the total weight of all the nodes in the graph and sets it in AlgorithmConfig
      */
