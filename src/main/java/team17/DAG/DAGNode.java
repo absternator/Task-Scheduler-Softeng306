@@ -10,6 +10,7 @@ public class DAGNode {
     private Set<DAGNode> _dependencies;
     private Set<DAGNode> _dependants;
     private int _eqId;
+    private int _bottomLoad;
 
     /**
      * This is a Node constructor which adds weight and id.
@@ -84,6 +85,34 @@ public class DAGNode {
 
     public void setEquivalenceId(int eqId) {
         _eqId = eqId;
+    }
+
+    /**
+     * This method calculates the sum of weights of the node's children
+     */
+    public void setBottomLoad() {
+        _bottomLoad = 0;
+        Set<DAGNode> children = getChildren();
+        for(DAGNode child: children) {
+            _bottomLoad += child.getWeight();
+        }
+    }
+
+    /**
+     * Gets the children of the node without duplicate
+     * @return Set of child nodes
+     */
+    public Set<DAGNode> getChildren() {
+        Set<DAGNode> children = new HashSet<>();
+        children.addAll(_dependants);
+        for(DAGNode child: _dependants) {
+            children.addAll(child.getChildren());
+        }
+        return children;
+    }
+
+    public int getBottomLoad() {
+        return _bottomLoad;
     }
 
     @Override

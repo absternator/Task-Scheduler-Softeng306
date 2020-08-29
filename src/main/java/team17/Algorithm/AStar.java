@@ -12,7 +12,7 @@ public class AStar extends Algorithm {
     private final  Queue<PartialSolution> _open;
     private final  Set<PartialSolution> _closed;
     private final int _upperBound;
-    private int maxOpenCount = 0; // todo: this is for testing only(remove later)
+    private int _maxOpenCount = 0; // todo: this is for testing only(remove later)
 
     private PartialSolution _completePartialSolution;
     private boolean _foundComplete = false;
@@ -24,9 +24,9 @@ public class AStar extends Algorithm {
         _closed = new HashSet<>();
         // Adds list schedule as upperBound
         ListScheduling ls = new ListScheduling(graph);
-        PartialSolution _upperBoundListSchedule = ls.getSchedule();
-        _open.add(_upperBoundListSchedule);
-        _upperBound = _upperBoundListSchedule.getScheduledTask().getStartTime();
+        PartialSolution upperBoundListSchedule = ls.getSchedule();
+        _open.add(upperBoundListSchedule);
+        _upperBound = upperBoundListSchedule.getScheduledTask().getStartTime();
         _algorithmState = algorithmState;
     }
 
@@ -183,8 +183,8 @@ public class AStar extends Algorithm {
 //        maxOpenCount += children.size();
 //        _open.addAll(children);
         for (PartialSolution child : children) {
-            if (!_closed.contains(child)  && child.getCostUnderestimate() < _upperBound) {
-                maxOpenCount++;
+            if (!_closed.contains(child) && child.getCostUnderestimate() < _upperBound) {
+                _maxOpenCount++;
                 _open.offer(child);
             }
         }

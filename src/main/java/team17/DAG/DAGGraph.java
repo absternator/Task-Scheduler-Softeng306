@@ -141,6 +141,15 @@ public class DAGGraph {
     }
 
     /**
+     * Calculates the weight of the node's child - the bottom load for the heuristic
+     */
+    public void setBottomLoad() {
+        for(DAGNode node: _nodeList) {
+            node.setBottomLoad();
+        }
+    }
+
+    /**
      * This calculates the total weight of all the nodes in the graph and sets it in AlgorithmConfig
      */
     public void calculateTotalNodeWeight() {
