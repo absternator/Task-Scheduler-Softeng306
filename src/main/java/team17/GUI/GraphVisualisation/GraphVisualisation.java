@@ -52,7 +52,7 @@ public class GraphVisualisation {
      */
     public Graph convertToGraphStream() {
         Graph graph = new SingleGraph("Visualise Graph");
-        graph.addAttribute("ui.stylesheet", getStyle());
+        graph.addAttribute("ui.stylesheet", "url('" + this.getClass().getResource("graph.css").toString() + "')");
 
         List<DAGNode> dagNodes = _graph.getNodeList();
 
