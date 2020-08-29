@@ -1,7 +1,7 @@
 package team17.Algorithm;
 
-import team17.DAG.Graph;
-import team17.DAG.Node;
+import team17.DAG.DAGGraph;
+import team17.DAG.DAGNode;
 
 import java.util.*;
 
@@ -18,7 +18,7 @@ public class AStar extends Algorithm {
     private boolean _foundComplete = false;
     private AlgorithmState _algorithmState;
 
-    public AStar(Graph graph, AlgorithmState algorithmState) {
+    public AStar(DAGGraph graph, AlgorithmState algorithmState) {
         final PartialSolution _root = new PartialSolution(null, null);
         _open = new PriorityQueue<>(expandRoot(_root, graph));
         _closed = new HashSet<>();
@@ -35,8 +35,8 @@ public class AStar extends Algorithm {
         return _completePartialSolution;
     }
 
-      @Override
-    public PartialSolution getOptimalSchedule(Graph graph) {
+    @Override
+    public PartialSolution getOptimalSchedule(DAGGraph graph) {
         while (true) {
             PartialSolution partialSolution = this.getNextPartialSolution();
             if (partialSolution == null) {
@@ -48,7 +48,6 @@ public class AStar extends Algorithm {
                 Set<PartialSolution> children = expandSearch(partialSolution, graph);
                 this.openAddChildren(children);
             }
-
         }
 
         System.out.println("left in queue: "+_open.size()); //todo: for testing only(remove later)
@@ -56,35 +55,35 @@ public class AStar extends Algorithm {
         return _completePartialSolution;
     }
 
-      @Override
-    public Set<PartialSolution> expandSearch(PartialSolution partialSolution, Graph graph) {
-          Set<PartialSolution> children = new HashSet<>();
-          Set<Node> nodesInSchedule = new HashSet<>();
-          List<Node> freeNodes = new ArrayList<>(graph.getNodeList()); //nodes that are eligible to be scheduled
-          Set<Node> notEligible = new HashSet<>();
-          //Go through and remove indelible nodes
-          for (ScheduledTask scheduledTask : partialSolution) {
-              nodesInSchedule.add(scheduledTask.getNode());
-              freeNodes.remove(scheduledTask.getNode());
-          }
-          for (Node node : freeNodes) {
-              for (Node dependency : node.getDependencies()) {
-                  if (!nodesInSchedule.contains(dependency)) {
-                      notEligible.add(node);
-                  }
-              }
-          }
-          freeNodes.removeAll(notEligible);
-          // Check if free tasks meet criteria. IF yes return node to be ordered next.!!
-          fixedTaskOrder(partialSolution, notEligible, freeNodes);
-          // skip the nodes for children that were already made in the previous expansion
+    @Override
+    public Set<PartialSolution> expandSearch(PartialSolution partialSolution, DAGGraph graph) {
+        Set<PartialSolution> children = new HashSet<>();
+        Set<DAGNode> nodesInSchedule = new HashSet<>();
+        List<DAGNode> freeNodes = new ArrayList<>(graph.getNodeList()); //nodes that are eligible to be scheduled
+        Set<DAGNode> notEligible = new HashSet<>();
+        //Go through and remove indelible nodes
+        for (ScheduledTask scheduledTask : partialSolution) {
+            nodesInSchedule.add(scheduledTask.getNode());
+            freeNodes.remove(scheduledTask.getNode());
+        }
+        for (DAGNode node : freeNodes) {
+            for (DAGNode dependency : node.getDependencies()) {
+                if (!nodesInSchedule.contains(dependency)) {
+                    notEligible.add(node);
+                }
+            }
+        }
+        freeNodes.removeAll(notEligible);
+        // Check if free tasks meet criteria. IF yes return node to be ordered next.!!
+        fixedTaskOrder(partialSolution, notEligible, freeNodes);
+        // skip the nodes for children that were already made in the previous expansion
         boolean skipNodes = true;
         if (partialSolution.getLastPartialExpansionNodeId().equals("")) {
             skipNodes = false;
         }
 
         AddNode:
-        for (Node node : freeNodes) {
+        for (DAGNode node : freeNodes) {
 
             // if a sibling has already scheduled an equivalent node
             for (PartialSolution child:children){
@@ -100,16 +99,12 @@ public class AStar extends Algorithm {
                     continue;
                 }
             }
-
-
             //Node can be placed on Processor now
             for (int i = 1; i < AlgorithmConfig.getNumOfProcessors() + 1; i++) {
-
                 // skip past the previously scheduled processors from the previous partial expansion
                 if (i <= partialSolution.getLastPartialExpansionProcessor() && node.getId().equals(partialSolution.getLastPartialExpansionNodeId())) {
                     continue;
                 }
-
                 int eligibleStartTime = 0;
                 // Start time based on  last task on this processor
                 for (ScheduledTask scheduledTask : partialSolution) {
@@ -123,7 +118,7 @@ public class AStar extends Algorithm {
                     if (scheduledTask.getProcessorNum() != i) {
                         boolean dependantFound = false;
                         int communicationTime = 0;
-                        for (Node edge : node.getIncomingEdges().keySet()) {
+                        for (DAGNode edge : node.getIncomingEdges().keySet()) {
                             if (edge.equals(scheduledTask.getNode())) {
                                 dependantFound = true;
                                 communicationTime = node.getIncomingEdges().get(edge);
@@ -155,7 +150,6 @@ public class AStar extends Algorithm {
 
     @Override
     public synchronized PartialSolution getNextPartialSolution(){
-
         PartialSolution partialSolution = _open.poll();
         _closed.add(partialSolution);
         if (_foundComplete) {
@@ -185,7 +179,7 @@ public class AStar extends Algorithm {
         // This is to add all children at once(not preferred)
 //        maxOpenCount += children.size();
 //        _open.addAll(children);
-       for (PartialSolution child : children) {
+        for (PartialSolution child : children) {
             if (!_closed.contains(child)  && child.getCostUnderestimate() < _upperBound) {
                 maxOpenCount++;
                 _open.offer(child);

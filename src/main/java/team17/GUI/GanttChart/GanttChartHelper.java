@@ -33,7 +33,7 @@ public class GanttChartHelper {
                 processorTasks.put(st.getProcessorNum(), list);
             }
         }
-        for (int i = 0; i < _numProcessors; i++) {
+        for (int i = 0; i < processorTasks.size(); i++) {
             String processor = "Processor " + String.valueOf(i + 1);
             // Create new series for each processorTasks
             XYChart.Series<Number, String> series = new XYChart.Series();
