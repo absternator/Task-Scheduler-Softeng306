@@ -61,36 +61,36 @@ public class Main extends Application {
         List<ScheduledTask> schedule;
         Algorithm algorithm;
 
-        if (false) {
+        if (true) {
             algorithm = new DFS(_graph, _algorithmState); //TODO remove graph parameter
-            schedule = algorithm.getOptimalSchedule(_graph).fullSchedule();// Returns list of Schedule
         } else {
             // for small graphs, use the A* algorithm
             algorithm = new AStar(_graph, _algorithmState); //TODO remove graph parameter
-            if (_config.getCores() < 2) {
-                schedule = algorithm.getOptimalSchedule(_graph).fullSchedule(); // Returns list of Schedule
-            } else {
-                schedule = algorithm.getOptimalScheduleParallel(_graph, _config.getCores() - 1).fullSchedule();
-            }
+        }
 
-            try {
-                _frw.writeOutput(schedule);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if (_config.getCores() < 2) {
+            schedule = algorithm.getOptimalSchedule(_graph).fullSchedule(); // Returns list of Schedule
+        } else {
+            schedule = algorithm.getOptimalScheduleParallel(_graph, _config.getCores() - 1).fullSchedule();
+        }
 
-            if (_algorithmState != null) {
-                _algorithmState.setFinished(true);
-            }
+        try {
+            _frw.writeOutput(schedule);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-            // Sets algorithm state as nonactive
-            _algoActive = false;
+        if (_algorithmState != null) {
+            _algorithmState.setFinished(true);
+        }
 
-            // Check if GUI is still active, if not, exit the program
-            if (!_guiActive) {
-                Platform.exit();
-                System.exit(0);
-            }
+        // Sets algorithm state as nonactive
+        _algoActive = false;
+
+        // Check if GUI is still active, if not, exit the program
+        if (!_guiActive) {
+            Platform.exit();
+            System.exit(0);
         }
     }
 
@@ -121,11 +121,7 @@ public class Main extends Application {
             });
 
             // run Astar
-            Thread thread = new Thread(){
-                public void run(){
-                    startAlgorithm();
-                }
-            };
+            Thread thread = new Thread(Main::startAlgorithm);
             thread.start();
 
             Scene scene = new Scene(root, 1010, 750);
