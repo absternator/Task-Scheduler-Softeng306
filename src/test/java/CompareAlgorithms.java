@@ -89,6 +89,12 @@ public class CompareAlgorithms {
         _args = new String[]{"src/main/resources/Nodes_11_OutTree.dot", "4"};
         compareAlgorithmsFor(_args);
     }
+    @Test
+    public void compareINPUT1_3P() throws IOException {
+
+        _args = new String[]{"src/main/resources/INPUT1.dot", "3"};
+        compareAlgorithmsFor(_args);
+    }
 
     private void compareAlgorithmsFor(String[] args) throws IOException {
         CLI cli = new CLI(args);
