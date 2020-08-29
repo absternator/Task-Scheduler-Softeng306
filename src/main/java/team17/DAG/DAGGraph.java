@@ -64,6 +64,16 @@ public class DAGGraph {
         toNode.setDependencies(fromNode);
     }
 
+    /**
+     * Set up necessary heuristic values and finish node
+     */
+    public void initialise() {
+        addFinishNode();
+        setBottomLevel();
+        setEquivalentNodes();
+        calculateTotalNodeWeight();
+    }
+
     public void addFinishNode() {
         DAGNode finish = new DAGNode("end", 0);
         _nodeList.add(finish);
@@ -150,4 +160,5 @@ public class DAGGraph {
         }
         AlgorithmConfig.setTotalNodeWeight(totalWeight);
     }
+
 }
