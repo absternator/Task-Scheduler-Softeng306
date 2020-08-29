@@ -19,6 +19,7 @@ public abstract class Algorithm {
      * @return a collection of scheduled tasks representing the optimal solution
      */
     public PartialSolution getOptimalSchedule(Graph graph) {
+        int count = 0;
         while (true) {
             PartialSolution partialSolution = this.getNextPartialSolution();
             if (partialSolution == null) {
@@ -26,8 +27,13 @@ public abstract class Algorithm {
             } else {
                 Set<PartialSolution> children = expandSearch(partialSolution, graph);
                 this.openAddChildren(children);
+                count ++;
+//                if(count%1000==0){
+//                    System.out.print("\r dfs popped solutions:" + count);
+//                }
             }
         }
+        System.out.print("DFS: popped solutions:" + count);
         return getSolution();
     }
 
