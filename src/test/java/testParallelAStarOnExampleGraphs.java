@@ -31,7 +31,7 @@ public class testParallelAStarOnExampleGraphs {
 
         _args = new String[]{"src/main/resources/Nodes_7_OutTree.dot", "2", "-p", "2"};
 
-        assertEquals(28,getAStarSolutionFor(_args));
+        assertEquals(28, getAStarSolutionFor(_args));
     }
 
     @Test
@@ -39,7 +39,7 @@ public class testParallelAStarOnExampleGraphs {
 
         _args = new String[]{"src/main/resources/Nodes_7_OutTree.dot", "4", "-p", "2"};
 
-        assertEquals(22,getAStarSolutionFor(_args));
+        assertEquals(22, getAStarSolutionFor(_args));
     }
 
     @Test
@@ -47,7 +47,7 @@ public class testParallelAStarOnExampleGraphs {
 
         _args = new String[]{"src/main/resources/Nodes_7_OutTree.dot", "2", "-p", "4"};
 
-        assertEquals(28,getAStarSolutionFor(_args));
+        assertEquals(28, getAStarSolutionFor(_args));
     }
 
     @Test
@@ -55,7 +55,7 @@ public class testParallelAStarOnExampleGraphs {
 
         _args = new String[]{"src/main/resources/Nodes_7_OutTree.dot", "4", "-p", "4"};
 
-        assertEquals(22,getAStarSolutionFor(_args));
+        assertEquals(22, getAStarSolutionFor(_args));
     }
 
     @Test
@@ -63,7 +63,7 @@ public class testParallelAStarOnExampleGraphs {
 
         _args = new String[]{"src/main/resources/Nodes_8_Random.dot", "2", "-p", "2"};
 
-        assertEquals(581,getAStarSolutionFor(_args));
+        assertEquals(581, getAStarSolutionFor(_args));
     }
 
     @Test
@@ -71,7 +71,7 @@ public class testParallelAStarOnExampleGraphs {
 
         _args = new String[]{"src/main/resources/Nodes_8_Random.dot", "4", "-p", "2"};
 
-        assertEquals(581,getAStarSolutionFor(_args));
+        assertEquals(581, getAStarSolutionFor(_args));
     }
 
     @Test
@@ -79,7 +79,7 @@ public class testParallelAStarOnExampleGraphs {
 
         _args = new String[]{"src/main/resources/Nodes_8_Random.dot", "2", "-p", "4"};
 
-        assertEquals(581,getAStarSolutionFor(_args));
+        assertEquals(581, getAStarSolutionFor(_args));
     }
 
     @Test
@@ -87,7 +87,7 @@ public class testParallelAStarOnExampleGraphs {
 
         _args = new String[]{"src/main/resources/Nodes_8_Random.dot", "4", "-p", "4"};
 
-        assertEquals(581,getAStarSolutionFor(_args));
+        assertEquals(581, getAStarSolutionFor(_args));
     }
 
     @Test
@@ -199,6 +199,6 @@ public class testParallelAStarOnExampleGraphs {
         FileReadWriter frw = new FileReadWriter(cli);
         Graph graph = frw.readDotFile();
         AStar aStar = new AStar(graph);
-        return aStar.getOptimalSchedule(graph).getScheduledTask().getStartTime();
+        return aStar.getOptimalScheduleParallel(graph, cli.getCores() - 1).getScheduledTask().getStartTime();
     }
 }

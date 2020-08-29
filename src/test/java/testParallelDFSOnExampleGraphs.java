@@ -199,6 +199,6 @@ public class testParallelDFSOnExampleGraphs {
         FileReadWriter frw = new FileReadWriter(cli);
         Graph graph = frw.readDotFile();
         DFS dfs = new DFS(graph);
-        return dfs.getOptimalSchedule(graph).getScheduledTask().getStartTime();
+        return dfs.getOptimalScheduleParallel(graph, cli.getCores() - 1).getScheduledTask().getStartTime();
     }
 }
