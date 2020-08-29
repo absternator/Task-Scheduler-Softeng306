@@ -4,13 +4,11 @@ import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.TileBuilder;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
@@ -51,6 +49,9 @@ public class MainController {
     @FXML
     private Text prunedText;
 
+    @FXML
+    private Text bestCostText;
+
     private Tile memoryUsageTile;
     private double maxMemory;
     private double usedMemory;
@@ -75,10 +76,11 @@ public class MainController {
     }
 
     /**
-     * This method initialise the setting for GUI
+     * This method initialise the settings for GUI
      */
     public void init() {
         setUpGanttChart();
+
         //read and set the input file name
         setUpInputFileName();
 
@@ -93,7 +95,7 @@ public class MainController {
         memoryUsageTile.setValue(0);
 
         //start polling
-        timing=true;
+        timing = true;
         startTime = System.currentTimeMillis();
         startTiming();
         updateGUI();
@@ -111,14 +113,15 @@ public class MainController {
             //update gantt chart
             if (_algorithmState.getCompleteSolution() != null) {
                 _gch.updateGanttChart(_algorithmState.getCompleteSolution().fullSchedule());
+                bestCostText.setText(String.valueOf(_algorithmState.getCompleteSolution().getScheduledTask().getStartTime()));
             }
             if (_algorithmState.getFinished()) {
                 _algorithmState.setFinished(false);
                 setUpOutputFileName();
                 //change the status from "running" to "done"
-                UpdateStatus();
+                updateStatus();
                 //stop timing
-                timing=false;
+                timing = false;
             }
 
             updateSolutionStats();
@@ -128,6 +131,9 @@ public class MainController {
         tm.play();
     }
 
+    /**
+     * Updates the statistics relating to the search
+     */
     private void updateSolutionStats() {
         completeText.setText(String.valueOf(_algorithmState.getNumCompleteSolutions()));
         expandedText.setText(String.valueOf(_algorithmState.getNumExpandedPartialSolutions()));
@@ -168,7 +174,7 @@ public class MainController {
         ProcessorsNumberText.getChildren().add(pText);
     }
 
-    public void UpdateStatus() {
+    public void updateStatus() {
         StatusText.setText("Done");
     }
 
@@ -179,10 +185,10 @@ public class MainController {
             if (timing != false) {
                 // the sort is still running so keep updating the timer
                 double currentTime = System.currentTimeMillis();
-                duration = (currentTime - startTime)/1000; // in second
-                int min = (int) (duration/60);
-                double sec = duration-min*60;
-                String str = String.valueOf(min) + "m" + String.valueOf(sec)+ "s";
+                duration = (currentTime - startTime) / 1000; // in second
+                int min = (int) (duration / 60);
+                double sec = duration - min * 60;
+                String str = String.valueOf(min) + "m" + String.valueOf(sec) + "s";
                 runningTime.setText(String.valueOf(str));
             }
 
@@ -210,33 +216,18 @@ public class MainController {
     }
 
     private void setUpGanttChart() {
-        String[] processors = new String[_config.getProcessors()];
-        for(int i = 0; i < _config.getProcessors(); i++) {
-            processors[i] = "Processor " + String.valueOf(i+1);
-        }
 
         final NumberAxis xAxis = new NumberAxis();
         final CategoryAxis yAxis = new CategoryAxis();
 
         final GanttChart<Number, String> chart = new GanttChart<Number, String>(xAxis, yAxis);
-        xAxis.setLabel("");
-        xAxis.setTickLabelFill(Color.CHOCOLATE);
-        xAxis.setMinorTickCount(4);
-        xAxis.setAnimated(false);
-
-        yAxis.setLabel("");
-        yAxis.setTickLabelFill(Color.CHOCOLATE);
-        yAxis.setTickLabelGap(10);
-        yAxis.setCategories(FXCollections.<String>observableArrayList(processors));
-
-        chart.setTitle("Current Schedule");
-        chart.setLegendVisible(false);
-        chart.setBlockHeight(20);
-        chart.setVerticalGridLinesVisible(false);
-
-        chart.getStylesheets().add(getClass().getResource("ganttchart.css").toExternalForm());
 
         _gch = new GanttChartHelper(chart, _config.getProcessors());
+
+        //Set up axis, title and other details of the chart
+        _gch.initialise();
+
+        chart.getStylesheets().add(getClass().getResource("ganttchart.css").toExternalForm());
 
         ganttChartContainer.getChildren().add(chart);
     }

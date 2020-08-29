@@ -1,16 +1,18 @@
 package team17.Algorithm;
 
-public class AlgorithmState{
-    private PartialSolution _completeSolution;
-    private boolean _isFinished;
+/**
+ * This class stores the state of the running algorithm
+ * this state is used for visualisation
+ */
+public class AlgorithmState {
+    private PartialSolution _completeSolution; // current best complete schedule
+    private boolean _isFinished = false;
     private int _numExpandedPartialSolutions = 0; // size of closed
-    private int _numUnexpandedPartialSolutions = 0; // size of open
+    private int _numUnexpandedPartialSolutions = 0; // size of open + closed
     private int _numCompleteSolutionsFound = 0; // number of complete solutions checked
     private int _numPruned = 0; // number of pruned of solutions
 
-    public AlgorithmState() {
-        _isFinished=false;
-    }
+    public AlgorithmState() {}
 
     public void setCompleteSolution(PartialSolution completeSolution) {
         this._completeSolution = completeSolution;
@@ -23,7 +25,8 @@ public class AlgorithmState{
     public void setFinished(boolean isFinished) {
         this._isFinished = isFinished;
     }
-    public boolean getFinished(){
+
+    public boolean getFinished() {
         return _isFinished;
     }
 

@@ -83,7 +83,7 @@
                </children>
             </AnchorPane>
             <AnchorPane fx:id="ganttChartContainer" prefHeight="362.0" prefWidth="649.0" />
-            <TextFlow prefHeight="84.0" prefWidth="649.0" textAlignment="CENTER">
+            <TextFlow prefHeight="52.0" prefWidth="649.0" textAlignment="CENTER">
                <children>
                   <Label text="Best Cost So Far:">
                      <padding>
