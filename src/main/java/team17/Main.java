@@ -36,7 +36,7 @@ public class Main extends Application {
 
         //Run in IDE
 //        args = new String[]{"src/main/resources/INPUT0.dot", "2", "-v"};
-       args = new String[]{"src/main/resources/graph4.dot", "2", "-v"};
+       args = new String[]{"src/main/resources/graph2.dot", "2", "-v"};
 
         _config = new CLI(args);
 
@@ -128,7 +128,7 @@ public class Main extends Application {
             };
             thread.start();
 
-            Scene scene = new Scene(root, 1000, 750);
+            Scene scene = new Scene(root, 1010, 750);
             scene.getStylesheets().add(getClass().getResource("view.css").toExternalForm());
             primaryStage.setScene(scene);
 

@@ -20,3 +20,8 @@
     -fx-effect: dropshadow(three-pass-box, rgba(106, 104, 104, 0.20), 2, 2, 2, 2);
 }
 
+#graphPane{
+    -fx-background-color: rgb(255, 255, 255);
+    -fx-background-radius: 20 20 20 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(106, 104, 104, 0.20), 2, 2, 2, 2);
+}
