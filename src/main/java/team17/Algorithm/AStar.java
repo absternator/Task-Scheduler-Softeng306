@@ -14,7 +14,6 @@ public class AStar extends Algorithm {
     private final int _upperBound;
     private int maxOpenCount = 0; // todo: this is for testing only(remove later)
 
-    private PartialSolution _bestCompletePartialSolution;
     private boolean _foundComplete = false;
 
     public AStar(Graph graph, AlgorithmState algorithmState) {

@@ -6,7 +6,6 @@ import team17.DAG.Node;
 import java.util.*;
 
 public class DFS extends Algorithm {
-    PartialSolution _bestCompletePartialSolution;
     int _upperBound;
     Stack<PartialSolution> _open = new Stack<>();
 

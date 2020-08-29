@@ -8,7 +8,7 @@ import java.util.*;
 public abstract class Algorithm {
 
     protected AlgorithmState _algorithmState;
-    private PartialSolution _bestCompletePartialSolution;
+    protected PartialSolution _bestCompletePartialSolution;
 
     public Algorithm(AlgorithmState algorithmState) {
         _algorithmState = algorithmState;
