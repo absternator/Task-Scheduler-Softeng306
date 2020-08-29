@@ -36,7 +36,7 @@ public class AlgorithmState{
     }
 
     public int getNumUnexpandedPartialSolutions() {
-        return _numUnexpandedPartialSolutions;
+        return _numUnexpandedPartialSolutions - _numExpandedPartialSolutions;
     }
 
     public void updateNumUnexpandedPartialSolutions(int numUnexpandedPartialSolutions) {

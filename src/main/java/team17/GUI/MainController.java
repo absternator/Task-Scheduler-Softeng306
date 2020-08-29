@@ -66,7 +66,7 @@ public class MainController {
      * This method initialise the setting for GUI
      */
     public void init() {
-        createGanttChart();
+        setUpGanttChart();
         //read and set the input file name
         setUpInputFileName();
 
@@ -188,7 +188,7 @@ public class MainController {
         MemoryPane.getChildren().addAll(memoryUsageTile);
     }
 
-    private void createGanttChart() {
+    private void setUpGanttChart() {
         String[] processors = new String[_config.getProcessors()];
         for(int i = 0; i < _config.getProcessors(); i++) {
             processors[i] = "Processor " + String.valueOf(i+1);

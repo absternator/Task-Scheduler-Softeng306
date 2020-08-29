@@ -14,7 +14,7 @@ public class AStar extends Algorithm {
     private final int _upperBound;
     private int maxOpenCount = 0; // todo: this is for testing only(remove later)
 
-    private PartialSolution _completePartialSolution;
+    private PartialSolution _bestCompletePartialSolution;
     private boolean _foundComplete = false;
 
     public AStar(Graph graph, AlgorithmState algorithmState) {
@@ -35,11 +35,6 @@ public class AStar extends Algorithm {
     }
 
     @Override
-    public PartialSolution getSolution() {
-        return _completePartialSolution;
-    }
-
-    @Override
     public PartialSolution getOptimalSchedule(Graph graph) {
         while (true) {
             PartialSolution partialSolution = this.getNextPartialSolution();
@@ -52,12 +47,11 @@ public class AStar extends Algorithm {
                 Set<PartialSolution> children = expandSearch(partialSolution, graph);
                 this.openAddChildren(children);
             }
-
         }
 
         System.out.println("left in queue: " + _open.size()); //todo: for testing only(remove later)
         System.out.println("added to queue: " + maxOpenCount);
-        return _completePartialSolution;
+        return _bestCompletePartialSolution;
     }
 
     @Override
@@ -93,6 +87,9 @@ public class AStar extends Algorithm {
             // if a sibling has already scheduled an equivalent node
             for (PartialSolution child:children){
                 if(child.getScheduledTask().getNode().isEquivalent(node)){
+                    if(_algorithmState != null) {
+                        _algorithmState.updateNumPruned(1);
+                    }
                     continue AddNode;
                 }
             }
@@ -163,7 +160,6 @@ public class AStar extends Algorithm {
 
     @Override
     public synchronized PartialSolution getNextPartialSolution() {
-
         PartialSolution partialSolution = _open.poll();
         _closed.add(partialSolution);
         if (_algorithmState != null) {
@@ -175,9 +171,9 @@ public class AStar extends Algorithm {
         if (partialSolution != null) {
             if (partialSolution.isCompleteSchedule()) {
                 _foundComplete = true;
-                _completePartialSolution = partialSolution;
+                _bestCompletePartialSolution = partialSolution;
                 if (_algorithmState != null) {
-                    _algorithmState.setCompleteSolution(_completePartialSolution);
+                    _algorithmState.setCompleteSolution(_bestCompletePartialSolution);
                 }
                 return null;
             }
@@ -191,6 +187,7 @@ public class AStar extends Algorithm {
      *
      * @param children Set of partial solution children not in closed
      */
+    @Override
     public synchronized void openAddChildren(Set<PartialSolution> children) {
         // TODO: 26/08/20 will be updated further
         // This is to add all children at once(not preferred)

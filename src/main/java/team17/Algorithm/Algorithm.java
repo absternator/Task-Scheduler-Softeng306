@@ -8,6 +8,7 @@ import java.util.*;
 public abstract class Algorithm {
 
     protected AlgorithmState _algorithmState;
+    private PartialSolution _bestCompletePartialSolution;
 
     public Algorithm(AlgorithmState algorithmState) {
         _algorithmState = algorithmState;
@@ -19,18 +20,7 @@ public abstract class Algorithm {
      * @param graph the input graph of tasks
      * @return a collection of scheduled tasks representing the optimal solution
      */
-    public PartialSolution getOptimalSchedule(Graph graph) {
-        while (true) {
-            PartialSolution partialSolution = this.getNextPartialSolution();
-            if (partialSolution == null) {
-                break;
-            } else {
-                Set<PartialSolution> children = expandSearch(partialSolution, graph);
-                this.openAddChildren(children);
-            }
-        }
-        return getSolution();
-    }
+    public abstract PartialSolution getOptimalSchedule(Graph graph);
 
     /**
      * Method to return the optimal solution for a given graph input for multiple cores
@@ -67,14 +57,37 @@ public abstract class Algorithm {
      *
      * @return The complete partial solution
      */
-    protected abstract PartialSolution getSolution();
+    protected PartialSolution getSolution() {
+        return _bestCompletePartialSolution;
+    }
+
+    /**
+     * This method expands the state space tree getting children. It adds tasks to processors.
+     *
+     * @return A set of partial solutions are returns. These are the children of the current solution.
+     */
+    protected abstract Set<PartialSolution> expandSearch(PartialSolution partialSolution, Graph graph);
+
+    /**
+     * Gets the next partial solution, this is a synchronised method
+     *
+     * @return The next partial solution in the queue/stack, or null if there is none
+     */
+    protected abstract PartialSolution getNextPartialSolution();
+
+    /**
+     * Adds children to open, this is a synchronised method
+     *
+     * @param children The children needed to be added to open
+     */
+    protected abstract void openAddChildren(Set<PartialSolution> children);
 
     /**
      * This expands the root and assigns the first task to the first processor
      *
      * @return Set of Partial solutions where first node is placed on first processor
      */
-    public Set<PartialSolution> expandRoot(PartialSolution partialSolution, Graph graph) {
+    protected Set<PartialSolution> expandRoot(PartialSolution partialSolution, Graph graph) {
         Set<PartialSolution> children = new HashSet<>();
         Set<Node> notEligible = new HashSet<>();
         List<Node> freeNodes = new ArrayList<>();
@@ -110,78 +123,12 @@ public abstract class Algorithm {
                     notEligible.add(notFixedNode);
                 }
             }
-            freeNodes.removeAll(notEligible); //remove all expect node to be scheduled
+            freeNodes.removeAll(notEligible); //remove all except node to be scheduled
+            if(_algorithmState != null) {
+                _algorithmState.updateNumPruned(notEligible.size());
+            }
             notEligible.clear();
         }
-    }
-
-    /**
-     * This method expands the state space tree getting children. It adds tasks to processors.
-     *
-     * @return A set of partial solutions are returns. These are the children of the current solution.
-     */
-    public Set<PartialSolution> expandSearch(PartialSolution partialSolution, Graph graph) {
-        Set<PartialSolution> children = new HashSet<>();
-        Set<Node> nodesInSchedule = new HashSet<>();
-        List<Node> freeNodes = new ArrayList<>(graph.getNodeList()); //nodes that are eligible to be scheduled
-        Set<Node> notEligible = new HashSet<>();
-        //Go through and remove indelible nodes
-        for (ScheduledTask scheduledTask : partialSolution) {
-            nodesInSchedule.add(scheduledTask.getNode());
-            freeNodes.remove(scheduledTask.getNode());
-        }
-        for (Node node : freeNodes) {
-            for (Node dependency : node.getDependencies()) {
-                if (!nodesInSchedule.contains(dependency)) {
-                    notEligible.add(node);
-                }
-            }
-        }
-        freeNodes.removeAll(notEligible);
-        notEligible.clear();
-        // Check if free tasks meet criteria. IF yes return node to be ordered next.
-        fixedTaskOrder(partialSolution, notEligible, freeNodes);
-
-        AddNode:
-        for (Node node : freeNodes) {
-
-            // if a sibling has already scheduled an equivalent node
-            for (PartialSolution child:children){
-                if(child.getScheduledTask().getNode().isEquivalent(node)){
-                    continue AddNode;
-                }
-            }
-            //Node can be placed on Processor now
-            for (int i = 1; i < AlgorithmConfig.getNumOfProcessors() + 1; i++) {
-                int eligibleStartTime = 0;
-                // Start time based on  last task on this processor
-                for (ScheduledTask scheduledTask : partialSolution) {
-                    if (scheduledTask.getProcessorNum() == i) {
-                        eligibleStartTime = scheduledTask.getFinishTime();
-                        break;
-                    }
-                }
-                //Start time based on dependencies on  OtherProcessors
-                for (ScheduledTask scheduledTask : partialSolution) {
-                    if (scheduledTask.getProcessorNum() != i) {
-                        boolean dependantFound = false;
-                        int communicationTime = 0;
-                        for (Node edge : node.getIncomingEdges().keySet()) {
-                            if (edge.equals(scheduledTask.getNode())) {
-                                dependantFound = true;
-                                communicationTime = node.getIncomingEdges().get(edge);
-                            }
-                        }
-                        if (!dependantFound) {
-                            continue;
-                        }
-                        eligibleStartTime = Math.max(eligibleStartTime, scheduledTask.getFinishTime() + communicationTime);
-                    }
-                }
-                children.add(new PartialSolution(partialSolution, new ScheduledTask(i, node, eligibleStartTime)));
-            }
-        }
-        return children;
     }
 
     protected static Node forkJoin(List<Node> freeNodes, PartialSolution partialSolution) {
@@ -258,17 +205,4 @@ public abstract class Algorithm {
         return freeNodes.get(0);
     }
 
-    /**
-     * Gets the next partial solution, this is a synchronised method
-     *
-     * @return The next partial solution in the queue/stack, or null if there is none
-     */
-    public abstract PartialSolution getNextPartialSolution();
-
-    /**
-     * Adds children to open, this is a synchronised method
-     *
-     * @param children The children needed to be added to open
-     */
-    public abstract void openAddChildren(Set<PartialSolution> children);
 }
