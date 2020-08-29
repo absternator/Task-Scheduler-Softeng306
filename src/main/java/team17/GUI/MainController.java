@@ -154,7 +154,9 @@ public class MainController {
     public void setUpInputFileName() {
         inputFile = _config.getInput();
         // remove the path "src/main..."
-        inputFile = inputFile.substring(inputFile.lastIndexOf('/') + 1);
+        if(inputFile.contains("/")){
+            inputFile = inputFile.substring(inputFile.lastIndexOf('/') + 1);
+        }
         inputFile = "  " + inputFile;
         Text iText = new Text(inputFile);
         iText.setStyle("-fx-font: 20 System;");
@@ -163,9 +165,11 @@ public class MainController {
 
     public void setUpOutputFileName() {
         outputFile = _config.getOutput();
-        //OutputFile = "src/main/graphout.dot";
         // remove the path "src/main..."
-        outputFile = outputFile.substring(outputFile.lastIndexOf('/') + 1);
+        if(outputFile.contains("/")){
+            outputFile = outputFile.substring(outputFile.lastIndexOf('/') + 1);
+        }
+
         outputFile = "  " + outputFile;
         Text oText = new Text(outputFile);
         oText.setStyle("-fx-font: 20 System;");
