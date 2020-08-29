@@ -7,11 +7,13 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
+<?import javafx.embed.swing.SwingNode?>
+
 <AnchorPane prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane layoutY="387.0" prefHeight="372.0" prefWidth="649.0">
          <children>
-            <Button layoutX="142.0" layoutY="87.0" mnemonicParsing="false" text="Button" />
+             <SwingNode id="GraphPane" fx:id="GraphPane" layoutX="34.0" layoutY="29.0" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="ganttChartContainer" prefHeight="362.0" prefWidth="631.0" />

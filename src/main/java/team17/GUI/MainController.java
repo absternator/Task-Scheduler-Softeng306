@@ -5,6 +5,7 @@ import eu.hansolo.tilesfx.TileBuilder;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
+import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -14,7 +15,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
+
 import team17.Algorithm.AlgorithmState;
+import team17.DAG.DAGGraph;
+import team17.GUI.GraphVisualisation.GraphVisualisation;
 import team17.GUI.GanttChart.GanttChart;
 import team17.GUI.GanttChart.GanttChartHelper;
 import team17.IO.CLI;
@@ -35,6 +39,8 @@ public class MainController {
     @FXML
     private Text StatusText;
     @FXML
+    private SwingNode GraphPane;
+    @FXML
     private Text runningTime;
     @FXML
     private Pane StatusPane;
@@ -48,14 +54,14 @@ public class MainController {
     private double duration;
     private double startTime;
     private boolean timing;
-
-
     private CLI _config;
+    private DAGGraph _graph;
     private AlgorithmState _algorithmState;
     private GanttChartHelper _gch;
 
-    public MainController(CLI config) {
+    public MainController(CLI config, DAGGraph graph) {
         _config = config;
+        _graph = graph;
     }
 
     public void setAlgorithmState(AlgorithmState algorithmState) {
@@ -69,6 +75,9 @@ public class MainController {
         createGanttChart();
         //read and set the input file name
         setUpInputFileName();
+
+        //embed input graph to GraphPane
+        setUpGraphPane();
 
         //read and set the number of processor
         setUpNumberOfProcessors();
@@ -86,6 +95,20 @@ public class MainController {
         startTiming();
         updateGUI();
     }
+
+//    /**
+//     * using polling to read the memory usage
+//     * period = 1 seconds
+//     */
+//    private void readMemory() {
+//        Timeline tm = new Timeline(new KeyFrame(Duration.millis(1000), event -> {
+//            double usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+//            usedMemory = usedMemory / 1000000;
+//            memoryUsageTile.setValue(usedMemory);
+//            //determine whether the overall sorting is finished or not
+//
+//
+//    }
 
     /**
      * Method to read the memory usage from the system periodically and update the corresponding GUI element
@@ -171,7 +194,6 @@ public class MainController {
         tm.play();
     }
 
-
     private void setUpMemoryPane() {
         this.memoryUsageTile = TileBuilder.create()
                 .skinType(Tile.SkinType.GAUGE)
@@ -186,6 +208,11 @@ public class MainController {
                 .prefHeight(MemoryPane.getHeight())
                 .build();
         MemoryPane.getChildren().addAll(memoryUsageTile);
+    }
+
+    private void setUpGraphPane() {
+        GraphVisualisation gv = new GraphVisualisation(_graph);
+        gv.createSwingGraph(GraphPane);
     }
 
     private void createGanttChart() {
@@ -219,5 +246,4 @@ public class MainController {
 
         ganttChartContainer.getChildren().add(chart);
     }
-
 }
