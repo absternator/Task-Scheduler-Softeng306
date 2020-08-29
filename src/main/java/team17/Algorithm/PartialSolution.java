@@ -64,20 +64,15 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
      * @return The underestimate cost to finish the schedule
      */
     public int getCostUnderestimate() {
-//        int costUnderestimate = 0;
-//        int loadBalance = ((AlgorithmConfig.getTotalNodeWeight() + getIdleTime()) / AlgorithmConfig.getNumOfProcessors());
-//        for (ScheduledTask scheduledTask : this) {
-//            costUnderestimate = Math.max(costUnderestimate, scheduledTask.getStartTime() + scheduledTask.getNode().getBottomLevel());
-//        }
-//        return loadBalance;
-//        int bottomLoad = 0;
-        int loadBalance = ((AlgorithmConfig.getTotalNodeWeight() + getIdleTime())/AlgorithmConfig.getNumOfProcessors());
+        int costUnderestimate = 0;
         int bottomLoad = 0;
-        for (ScheduledTask task : this) {
-            bottomLoad = Math.max(bottomLoad,task.getNode().getBottomLoad()/AlgorithmConfig.getNumOfProcessors() + task.getFinishTime());
+        int loadBalance = ((AlgorithmConfig.getTotalNodeWeight() + getIdleTime()) / AlgorithmConfig.getNumOfProcessors());
+        for (ScheduledTask scheduledTask : this) {
+            costUnderestimate = Math.max(costUnderestimate, scheduledTask.getStartTime() + scheduledTask.getNode().getBottomLevel());
+            bottomLoad = Math.max(bottomLoad,scheduledTask.getNode().getBottomLoad()/AlgorithmConfig.getNumOfProcessors() + scheduledTask.getFinishTime());
         }
 
-        return Math.max(loadBalance,bottomLoad);
+        return Math.max(costUnderestimate, Math.max(loadBalance,bottomLoad));
     }
 
     public int getIdleTime() {

@@ -29,7 +29,7 @@ public class testAStarOnExampleGraphs {
 
         _args = new String[]{"src/main/resources/Nodes_7_OutTree.dot", "2"};
 
-        assertEquals(28,getAStarSolutionFor(_args));
+        assertEquals(28, getAStarSolutionFor(_args));
     }
 
     @Test
@@ -37,7 +37,7 @@ public class testAStarOnExampleGraphs {
 
         _args = new String[]{"src/main/resources/Nodes_7_OutTree.dot", "4"};
 
-        assertEquals(22,getAStarSolutionFor(_args));
+        assertEquals(22, getAStarSolutionFor(_args));
     }
 
     @Test
@@ -45,7 +45,7 @@ public class testAStarOnExampleGraphs {
 
         _args = new String[]{"src/main/resources/Nodes_8_Random.dot", "2"};
 
-        assertEquals(581,getAStarSolutionFor(_args));
+        assertEquals(581, getAStarSolutionFor(_args));
     }
 
     @Test
@@ -53,7 +53,7 @@ public class testAStarOnExampleGraphs {
 
         _args = new String[]{"src/main/resources/Nodes_8_Random.dot", "4"};
 
-        assertEquals(581,getAStarSolutionFor(_args));
+        assertEquals(581, getAStarSolutionFor(_args));
     }
 
     @Test
@@ -110,18 +110,18 @@ public class testAStarOnExampleGraphs {
 
     @Test
     public void testInput1_2P() throws IOException {
-
         _args = new String[]{"src/main/resources/INPUT1.dot", "8"};
-
         assertEquals(469, getAStarSolutionFor(_args));
-
+    }
+    @Test
+    public void testInput2_3P() throws IOException {
+        _args = new String[]{"src/main/resources/INPUT2.dot", "3"};
+        assertEquals(469, getAStarSolutionFor(_args));
     }
 
-        @Test
+    @Test
     public void testGraph4_2P() throws IOException {
-
         _args = new String[]{"src/main/resources/Graph4.dot", "2"};
-
         assertEquals(5644, getAStarSolutionFor(_args));
     }
 
