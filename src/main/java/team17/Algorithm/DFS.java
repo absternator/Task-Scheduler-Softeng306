@@ -14,7 +14,7 @@ public class DFS extends Algorithm {
         final PartialSolution _root = new PartialSolution(null, null);
         ListScheduling ls = new ListScheduling(graph);
         _bestCompletePartialSolution = ls.getSchedule();
-        _upperBound = _bestCompletePartialSolution.getScheduledTask().getStartTime();
+        _upperBound = _bestCompletePartialSolution.getScheduledTask().getFinishTime();
         // Place first task on first processor and add to stack.
         Set<PartialSolution> children = expandRoot(_root, graph);
         children.forEach(_open::push); //this was lost? cause runtime to get longer
@@ -65,9 +65,9 @@ public class DFS extends Algorithm {
         for (DAGNode node : freeNodes) {
 
             // if a sibling has already scheduled an equivalent node
-            for (PartialSolution child:children){
-                if(child.getScheduledTask().getNode().isEquivalent(node)){
-                    if(_algorithmState != null) {
+            for (PartialSolution child : children) {
+                if (child.getScheduledTask().getNode().isEquivalent(node)) {
+                    if (_algorithmState != null) {
                         _algorithmState.updateNumPruned(1);
                     }
                     continue AddNode;
@@ -114,7 +114,7 @@ public class DFS extends Algorithm {
             if (_algorithmState != null) {
                 _algorithmState.updateNumExpandedPartialSolutions(1);
             }
-            int costSoFar = partialSolution.getCostUnderestimate();
+            int costSoFar = partialSolution.getScheduledTask().getFinishTime();
             if (partialSolution.isCompleteSchedule() && costSoFar < _upperBound && !_bestCompletePartialSolution.equals(partialSolution)) {
                 _upperBound = costSoFar;
                 _bestCompletePartialSolution = partialSolution;

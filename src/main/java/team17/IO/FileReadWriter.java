@@ -40,7 +40,7 @@ public class FileReadWriter {
         }
         graph.initialise();
 
-        AlgorithmConfig.setNumOfProcessors(_cli.getProcessors());// Test : number of processors to run on
+        AlgorithmConfig.setNumOfProcessors(_cli.getProcessors());
 
         return graph;
     }

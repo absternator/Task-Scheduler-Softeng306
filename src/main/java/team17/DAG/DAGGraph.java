@@ -80,7 +80,6 @@ public class DAGGraph {
         _nodeLookup.put("end", finish);
         for (DAGNode node : _nodeList) {
             if (node.getDependants().size() == 0 && !node.equals(finish)) {
-
                 node.setDependants(finish);
                 finish.setIncomingEdges(node, 0);
                 finish.setDependencies(node);

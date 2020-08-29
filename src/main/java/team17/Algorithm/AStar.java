@@ -25,7 +25,7 @@ public class AStar extends Algorithm {
         ListScheduling ls = new ListScheduling(graph);
         PartialSolution upperBoundListSchedule = ls.getSchedule();
         _open.add(upperBoundListSchedule);
-        _upperBound = upperBoundListSchedule.getScheduledTask().getStartTime();
+        _upperBound = upperBoundListSchedule.getScheduledTask().getFinishTime();
         if (_algorithmState != null) {
             _algorithmState.setCompleteSolution(upperBoundListSchedule);
             _algorithmState.updateNumCompleteSolutions(1);
@@ -86,9 +86,9 @@ public class AStar extends Algorithm {
         for (DAGNode node : freeNodes) {
 
             // if a sibling has already scheduled an equivalent node
-            for (PartialSolution child:children){
-                if(child.getScheduledTask().getNode().isEquivalent(node)){
-                    if(_algorithmState != null) {
+            for (PartialSolution child : children) {
+                if (child.getScheduledTask().getNode().isEquivalent(node)) {
+                    if (_algorithmState != null) {
                         _algorithmState.updateNumPruned(1);
                     }
                     continue AddNode;
@@ -196,13 +196,13 @@ public class AStar extends Algorithm {
                 _open.offer(child);
                 if (_algorithmState != null) {
                     _algorithmState.updateNumUnexpandedPartialSolutions(1);
-                    if(child.isCompleteSchedule()) {
+                    if (child.isCompleteSchedule()) {
                         _algorithmState.updateNumCompleteSolutions(1);
                     }
                 }
             } else if (_algorithmState != null) {
                 _algorithmState.updateNumPruned(1);
-                if(child.isCompleteSchedule()) {
+                if (child.isCompleteSchedule()) {
                     _algorithmState.updateNumCompleteSolutions(1);
                 }
             }

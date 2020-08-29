@@ -30,14 +30,16 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
         return _node;
     }
 
+    /**
+     * Gets the finish time for the scheduled task for this particular partial solution
+     * NOTE: This is not the finish time of the partial solution, unless the partial solution is complete
+     */
     public int getFinishTime(){
         return _startTime + _node.getWeight();
     }
 
     @Override
     public boolean equals(Object other) {
-        
-        
         ScheduledTask that = (ScheduledTask) other;
         return _startTime == that._startTime &&
                 Objects.equals(_node, that._node);

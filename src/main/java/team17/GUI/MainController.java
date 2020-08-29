@@ -128,7 +128,7 @@ public class MainController {
             //update gantt chart
             if (_algorithmState.getCompleteSolution() != null) {
                 _gch.updateGanttChart(_algorithmState.getCompleteSolution().fullSchedule());
-                bestCostText.setText(String.valueOf(_algorithmState.getCompleteSolution().getScheduledTask().getStartTime()));
+                bestCostText.setText(String.valueOf(_algorithmState.getCompleteSolution().getScheduledTask().getFinishTime()));
             }
 
             updateSolutionStats();
@@ -148,7 +148,7 @@ public class MainController {
         Timeline tm = new Timeline();
         KeyFrame frame = new KeyFrame(Duration.millis(1), event -> {
             //check whether the sorting is finished
-            if (_timing != false) {
+            if (_timing) {
                 // the sort is still running so keep updating the timer
                 double currentTime =  System.currentTimeMillis();
                 _duration = (currentTime - _startTime)/1000; // in second
@@ -240,7 +240,7 @@ public class MainController {
         final NumberAxis xAxis = new NumberAxis();
         final CategoryAxis yAxis = new CategoryAxis();
 
-        final GanttChart<Number, String> chart = new GanttChart<Number, String>(xAxis, yAxis);
+        final GanttChart<Number, String> chart = new GanttChart<>(xAxis, yAxis);
 
         _gch = new GanttChartHelper(chart, _config.getProcessors());
 
