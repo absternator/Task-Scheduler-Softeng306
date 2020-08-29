@@ -26,8 +26,8 @@ public class Main extends Application {
     private static AlgorithmState _algorithmState;
     private static DAGGraph _graph;
     private static FileReadWriter _frw;
-    private static volatile boolean _guiActive = false;
-    private static volatile boolean _algoActive = false;
+//    private static volatile boolean _guiActive = false;
+//    private static volatile boolean _algoActive = false;
 
 
     public static void main(String[] args) {
@@ -36,7 +36,7 @@ public class Main extends Application {
 
         //Run in IDE
 //        args = new String[]{"src/main/resources/INPUT0.dot", "2", "-v"};
-       args = new String[]{"src/main/resources/graph2.dot", "2", "-v"};
+       args = new String[]{"src/main/resources/graph4.dot", "2", "-v"};
 
         _config = new CLI(args);
 
@@ -51,12 +51,10 @@ public class Main extends Application {
             launch();
         } else {
             startAlgorithm();
-//            Platform.exit();
         }
     }
 
     private static void startAlgorithm() {
-        _algoActive = true;
 
         List<ScheduledTask> schedule;
         Algorithm algorithm;
@@ -83,21 +81,11 @@ public class Main extends Application {
         if (_algorithmState != null) {
             _algorithmState.setFinished(true);
         }
-
-        // Sets algorithm state as nonactive
-        _algoActive = false;
-
-        // Check if GUI is still active, if not, exit the program
-        if (!_guiActive) {
-            Platform.exit();
-            System.exit(0);
-        }
     }
 
     @Override
     public void start(Stage primaryStage) {
         try {
-            _guiActive = true;
 
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("view.fxml"));
@@ -112,12 +100,7 @@ public class Main extends Application {
             // To make sure application stops
             primaryStage.setOnCloseRequest(e -> {
                 Platform.exit();
-                _guiActive = false; // Sets GUI to nonactive
-
-                // Checks if algorithm is still running, if not then exit the program
-                if (!_algoActive) {
-                    System.exit(0);
-                }
+                System.exit(0);
             });
 
             // run Astar

@@ -5,6 +5,9 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.layout.Layout;
+import org.graphstream.ui.layout.springbox.implementations.LinLog;
+import org.graphstream.ui.layout.springbox.implementations.SpringBox;
 import org.graphstream.ui.swingViewer.DefaultView;
 import org.graphstream.ui.view.Viewer;
 import team17.DAG.DAGGraph;
@@ -63,6 +66,7 @@ public class GraphVisualisation {
             if(!id.equals("end")) {
                 Node n = graph.addNode(id);
                 n.addAttribute("ui.label", id);
+                n.addAttribute("layout.weight", 0.1);
             }
         }
 
