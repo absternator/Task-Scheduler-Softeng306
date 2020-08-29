@@ -11,7 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import team17.Algorithm.*;
-import team17.DAG.Graph;
+import team17.DAG.DAGGraph;
 import team17.GUI.MainController;
 import team17.IO.CLI;
 import team17.IO.FileReadWriter;
@@ -23,7 +23,7 @@ public class Main extends Application {
 
     private static CLI _config;
     private static AlgorithmState _algorithmState;
-    private static Graph _graph;
+    private static DAGGraph _graph;
     private static FileReadWriter _frw;
     private static volatile boolean _guiActive = false;
     private static volatile boolean _algoActive = false;

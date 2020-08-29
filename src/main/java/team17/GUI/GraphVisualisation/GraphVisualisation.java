@@ -7,6 +7,8 @@ import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.swingViewer.DefaultView;
 import org.graphstream.ui.view.Viewer;
+import team17.DAG.DAGGraph;
+import team17.DAG.DAGNode;
 
 import javax.swing.*;
 import java.awt.Dimension;
@@ -17,9 +19,9 @@ import java.util.Map;
  * This class visualises the graph using graphstream and embeds it into SwingNode
  */
 public class GraphVisualisation {
-    team17.DAG.Graph _graph;
+    DAGGraph _graph;
 
-    public GraphVisualisation(team17.DAG.Graph graph) {
+    public GraphVisualisation(DAGGraph graph) {
         // Set default graph renderer
         System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
         _graph = graph;
@@ -52,11 +54,11 @@ public class GraphVisualisation {
         Graph graph = new SingleGraph("Visualise Graph");
         graph.addAttribute("ui.stylesheet", "url(file:src/main/resources/team17/GUI/graph.css)");
 
-        List<team17.DAG.Node> dagNodes = _graph.getNodeList();
+        List<DAGNode> dagNodes = _graph.getNodeList();
 
         // Add all the nodes and ids
         // To change node colour: n.addAttribute("ui.class", "p+processorNum")
-         for(team17.DAG.Node dagNode: dagNodes) {
+         for(DAGNode dagNode: dagNodes) {
             String id = dagNode.getId();
             if(!id.equals("end")) {
                 Node n = graph.addNode(id);
@@ -65,10 +67,10 @@ public class GraphVisualisation {
         }
 
         // Add all the edges and weights
-        for(team17.DAG.Node dagNode: dagNodes) {
+        for(DAGNode dagNode: dagNodes) {
             if(!dagNode.getId().equals("end")) {
-                Map<team17.DAG.Node, Integer> map = dagNode.getIncomingEdges();
-                for (Map.Entry<team17.DAG.Node, Integer> entry : map.entrySet()) {
+                Map<DAGNode, Integer> map = dagNode.getIncomingEdges();
+                for (Map.Entry<DAGNode, Integer> entry : map.entrySet()) {
                     Edge e = graph.addEdge(entry.getKey().getId() + dagNode.getId(), entry.getKey().getId(),
                             dagNode.getId(), true);
                     e.addAttribute("ui.label", "Weight=" + entry.getValue());

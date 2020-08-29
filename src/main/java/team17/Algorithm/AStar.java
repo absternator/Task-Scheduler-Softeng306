@@ -1,7 +1,7 @@
 package team17.Algorithm;
 
-import team17.DAG.Graph;
-import team17.DAG.Node;
+import team17.DAG.DAGGraph;
+import team17.DAG.DAGNode;
 
 import java.util.*;
 
@@ -18,7 +18,7 @@ public class AStar extends Algorithm {
     private boolean _foundComplete = false;
     private AlgorithmState _algorithmState;
 
-    public AStar(Graph graph, AlgorithmState algorithmState) {
+    public AStar(DAGGraph graph, AlgorithmState algorithmState) {
         final PartialSolution _root = new PartialSolution(null, null);
         _open = new PriorityQueue<>(expandRoot(_root, graph));
         _closed = new HashSet<>();
@@ -36,7 +36,7 @@ public class AStar extends Algorithm {
     }
 
     @Override
-    public PartialSolution getOptimalSchedule(Graph graph) {
+    public PartialSolution getOptimalSchedule(DAGGraph graph) {
         while (true) {
             PartialSolution partialSolution = this.getNextPartialSolution();
             if (partialSolution == null) {
@@ -55,18 +55,18 @@ public class AStar extends Algorithm {
     }
 
     @Override
-    public Set<PartialSolution> expandSearch(PartialSolution partialSolution, Graph graph) {
+    public Set<PartialSolution> expandSearch(PartialSolution partialSolution, DAGGraph graph) {
         Set<PartialSolution> children = new HashSet<>();
-        Set<Node> nodesInSchedule = new HashSet<>();
-        List<Node> freeNodes = new ArrayList<>(graph.getNodeList()); //nodes that are eligible to be scheduled
-        Set<Node> notEligible = new HashSet<>();
+        Set<DAGNode> nodesInSchedule = new HashSet<>();
+        List<DAGNode> freeNodes = new ArrayList<>(graph.getNodeList()); //nodes that are eligible to be scheduled
+        Set<DAGNode> notEligible = new HashSet<>();
         //Go through and remove indelible nodes
         for (ScheduledTask scheduledTask : partialSolution) {
             nodesInSchedule.add(scheduledTask.getNode());
             freeNodes.remove(scheduledTask.getNode());
         }
-        for (Node node : freeNodes) {
-            for (Node dependency : node.getDependencies()) {
+        for (DAGNode node : freeNodes) {
+            for (DAGNode dependency : node.getDependencies()) {
                 if (!nodesInSchedule.contains(dependency)) {
                     notEligible.add(node);
                 }
@@ -81,7 +81,7 @@ public class AStar extends Algorithm {
             skipNodes = false;
         }
 
-        for (Node node : freeNodes) {
+        for (DAGNode node : freeNodes) {
             // skip to the last scheduled node from a previous partial expansion
             if (skipNodes) {
                 if (node.getId().equals(partialSolution.getLastPartialExpansionNodeId())) {
@@ -109,7 +109,7 @@ public class AStar extends Algorithm {
                     if (scheduledTask.getProcessorNum() != i) {
                         boolean dependantFound = false;
                         int communicationTime = 0;
-                        for (Node edge : node.getIncomingEdges().keySet()) {
+                        for (DAGNode edge : node.getIncomingEdges().keySet()) {
                             if (edge.equals(scheduledTask.getNode())) {
                                 dependantFound = true;
                                 communicationTime = node.getIncomingEdges().get(edge);

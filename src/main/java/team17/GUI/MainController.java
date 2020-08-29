@@ -13,7 +13,7 @@ import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
 
 import team17.Algorithm.AlgorithmState;
-import team17.DAG.Graph;
+import team17.DAG.DAGGraph;
 import team17.GUI.GraphVisualisation.GraphVisualisation;
 import team17.IO.CLI;
 
@@ -38,10 +38,10 @@ public class MainController {
     private String inputFile;
     private String outputFile;
     private CLI _config;
-    private Graph _graph;
+    private DAGGraph _graph;
     private AlgorithmState _algorithmState;
 
-    public MainController(CLI config, Graph graph) {
+    public MainController(CLI config, DAGGraph graph) {
         _config = config;
         _graph = graph;
     }
