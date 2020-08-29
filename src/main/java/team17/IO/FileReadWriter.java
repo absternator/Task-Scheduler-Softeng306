@@ -38,6 +38,7 @@ public class FileReadWriter {
                 parse(graph,line);
             }
         }
+
         graph.initialise();
 
         AlgorithmConfig.setNumOfProcessors(_cli.getProcessors());

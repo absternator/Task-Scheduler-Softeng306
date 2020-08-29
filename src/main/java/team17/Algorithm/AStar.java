@@ -12,7 +12,7 @@ public class AStar extends Algorithm {
     private final Queue<PartialSolution> _open;
     private final Set<PartialSolution> _closed;
     private final int _upperBound;
-    private int maxOpenCount = 0; // todo: this is for testing only(remove later)
+    private int _maxOpenCount = 0; // todo: this is for testing only(remove later)
 
     private boolean _foundComplete = false;
 
@@ -45,11 +45,14 @@ public class AStar extends Algorithm {
                 }
                 Set<PartialSolution> children = expandSearch(partialSolution, graph);
                 this.openAddChildren(children);
+//                if(maxOpenCount%100==0){
+//                    System.out.print("\radded to queue: " + maxOpenCount+"\tstill in queue: "+_open.size());
+//                }
             }
         }
 
         System.out.println("left in queue: " + _open.size()); //todo: for testing only(remove later)
-        System.out.println("added to queue: " + maxOpenCount);
+        System.out.println("added to queue: " + _maxOpenCount);
         return _bestCompletePartialSolution;
     }
 
@@ -192,7 +195,7 @@ public class AStar extends Algorithm {
 //        _open.addAll(children);
         for (PartialSolution child : children) {
             if (!_closed.contains(child) && child.getCostUnderestimate() < _upperBound) {
-                maxOpenCount++;
+                _maxOpenCount++;
                 _open.offer(child);
                 if (_algorithmState != null) {
                     _algorithmState.updateNumUnexpandedPartialSolutions(1);

@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 public class testAStarOnExampleGraphs {
 
     // *** SET TO TRUE IF YOU WANT TO RUN THESE TESTS ***
-    private static boolean _RunThisTestSuite = true;
+    private static boolean _RunThisTestSuite = false;
     // **************************************************
 
     private String[] _args;
@@ -98,6 +98,31 @@ public class testAStarOnExampleGraphs {
         _args = new String[]{"src/main/resources/Nodes_11_OutTree.dot", "4"};
 
         assertEquals(227, getAStarSolutionFor(_args));
+    }
+
+    @Test
+    public void testInput0_2P() throws IOException {
+
+        _args = new String[]{"src/main/resources/INPUT0.dot", "2"};
+
+        assertEquals(5644, getAStarSolutionFor(_args));
+    }
+
+    @Test
+    public void testInput1_2P() throws IOException {
+
+        _args = new String[]{"src/main/resources/INPUT1.dot", "8"};
+
+        assertEquals(469, getAStarSolutionFor(_args));
+
+    }
+
+        @Test
+    public void testGraph4_2P() throws IOException {
+
+        _args = new String[]{"src/main/resources/Graph4.dot", "2"};
+
+        assertEquals(5644, getAStarSolutionFor(_args));
     }
 
     private int getAStarSolutionFor(String[] args) throws IOException {
