@@ -47,11 +47,14 @@ public class AStar extends Algorithm {
                 }
                 Set<PartialSolution> children = expandSearch(partialSolution, graph);
                 this.openAddChildren(children);
+//                if(maxOpenCount%100==0){
+//                    System.out.print("\radded to queue: " + maxOpenCount+"\tstill in queue: "+_open.size());
+//                }
             }
         }
 
-        System.out.println("left in queue: " + _open.size()); //todo: for testing only(remove later)
-        System.out.println("added to queue: " + _maxOpenCount);
+        System.out.print("A*: left in queue: "+_open.size()); //todo: for testing only(remove later)
+        System.out.print("\t\tadded to queue: "+maxOpenCount);
         return _completePartialSolution;
     }
 

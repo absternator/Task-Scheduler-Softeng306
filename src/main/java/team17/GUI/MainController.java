@@ -231,7 +231,7 @@ public class MainController {
         yAxis.setTickLabelGap(10);
         yAxis.setCategories(FXCollections.<String>observableArrayList(processors));
 
-        chart.setTitle("Current Schedule");
+        chart.setTitle("    ");
         chart.setLegendVisible(false);
         chart.setBlockHeight(20);
         chart.setVerticalGridLinesVisible(false);
