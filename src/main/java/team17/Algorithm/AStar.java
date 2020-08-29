@@ -18,9 +18,8 @@ public class AStar extends Algorithm {
     private boolean _foundComplete = false;
 
     public AStar(Graph graph) {
-        final PartialSolution _root = new PartialSolution(null, null);
+        final PartialSolution _root = new PartialSolution(null, null,0);
         _open = new PriorityQueue<>(expandRoot(_root, graph));
-
         _closed = new HashSet<>();
         // Adds list schedule as upperBound
         ListScheduling ls = new ListScheduling(graph);
@@ -55,101 +54,104 @@ public class AStar extends Algorithm {
         System.out.println("added to queue: "+maxOpenCount);
         return _completePartialSolution;
     }
-
-      @Override
-    public Set<PartialSolution> expandSearch(PartialSolution partialSolution, Graph graph) {
-          Set<PartialSolution> children = new HashSet<>();
-          Set<Node> nodesInSchedule = new HashSet<>();
-          List<Node> freeNodes = new ArrayList<>(graph.getNodeList()); //nodes that are eligible to be scheduled
-          Set<Node> notEligible = new HashSet<>();
-          //Go through and remove indelible nodes
-          for (ScheduledTask scheduledTask : partialSolution) {
-              nodesInSchedule.add(scheduledTask.getNode());
-              freeNodes.remove(scheduledTask.getNode());
-          }
-          for (Node node : freeNodes) {
-              for (Node dependency : node.getDependencies()) {
-                  if (!nodesInSchedule.contains(dependency)) {
-                      notEligible.add(node);
-                  }
-              }
-          }
-          freeNodes.removeAll(notEligible);
-          // Check if free tasks meet criteria. IF yes return node to be ordered next.!!
-          fixedTaskOrder(partialSolution, notEligible, freeNodes);
-          // skip the nodes for children that were already made in the previous expansion
-        boolean skipNodes = true;
-        if (partialSolution.getLastPartialExpansionNodeId().equals("")) {
-            skipNodes = false;
-        }
-
-        for (Node node : freeNodes) {
-
-            // skip to the last scheduled node from a previous partial expansion
-            if (skipNodes) {
-                if (node.getId().equals(partialSolution.getLastPartialExpansionNodeId())) {
-                    skipNodes = false;
-                } else {
-                    continue;
-                }
-            }
-
-
-            //Node can be placed on Processor now
-            for (int i = 1; i < AlgorithmConfig.getNumOfProcessors() + 1; i++) {
-
-                // skip past the previously scheduled processors from the previous partial expansion
-                if (i <= partialSolution.getLastPartialExpansionProcessor() && node.getId().equals(partialSolution.getLastPartialExpansionNodeId())) {
-                    continue;
-                }
-
-                int eligibleStartTime = 0;
-                // Start time based on  last task on this processor
-                for (ScheduledTask scheduledTask : partialSolution) {
-                    if (scheduledTask.getProcessorNum() == i) {
-                        eligibleStartTime = scheduledTask.getFinishTime();
-                        break;
-                    }
-                }
-                //Start time based on dependencies on  OtherProcessors
-                for (ScheduledTask scheduledTask : partialSolution) {
-                    if (scheduledTask.getProcessorNum() != i) {
-                        boolean dependantFound = false;
-                        int communicationTime = 0;
-                        for (Node edge : node.getIncomingEdges().keySet()) {
-                            if (edge.equals(scheduledTask.getNode())) {
-                                dependantFound = true;
-                                communicationTime = node.getIncomingEdges().get(edge);
-                            }
-                        }
-                        if (!dependantFound) {
-                            continue;
-                        }
-                        eligibleStartTime = Math.max(eligibleStartTime, scheduledTask.getFinishTime() + communicationTime);
-                    }
-                }
-                PartialSolution child = new PartialSolution(partialSolution, new ScheduledTask(i, node, eligibleStartTime));
-                children.add(child);
-                // check if it should do partial expansion
-                if (child.getCostUnderestimate() <= partialSolution.getCostUnderestimate()) {
-                    partialSolution.setLastPartialExpansionNodeId(node.getId());
-                    partialSolution.setLastPartialExpansionProcessor(i);
-
-                    // add parent back into queue
-                    _open.offer(partialSolution);
-                    _closed.remove(partialSolution);
-
-                    return children;
-                }
-            }
-        }
-        return children;
-    }
+//
+//      @Override
+//    public Set<PartialSolution> expandSearch(PartialSolution partialSolution, Graph graph) {
+//          Set<PartialSolution> children = new HashSet<>();
+//          Set<Node> nodesInSchedule = new HashSet<>();
+//          List<Node> freeNodes = new ArrayList<>(graph.getNodeList()); //nodes that are eligible to be scheduled
+//          Set<Node> notEligible = new HashSet<>();
+//          //Go through and remove indelible nodes
+//          for (ScheduledTask scheduledTask : partialSolution) {
+//              nodesInSchedule.add(scheduledTask.getNode());
+//              freeNodes.remove(scheduledTask.getNode());
+//          }
+//          for (Node node : freeNodes) {
+//              for (Node dependency : node.getDependencies()) {
+//                  if (!nodesInSchedule.contains(dependency)) {
+//                      notEligible.add(node);
+//                  }
+//              }
+//          }
+//          freeNodes.removeAll(notEligible);
+//          // Check if free tasks meet criteria. IF yes return node to be ordered next.!!
+//          fixedTaskOrder(partialSolution, notEligible, freeNodes);
+//          // skip the nodes for children that were already made in the previous expansion
+//        boolean skipNodes = true;
+//        if (partialSolution.getLastPartialExpansionNodeId().equals("")) {
+//            skipNodes = false;
+//        }
+//
+//        for (Node node : freeNodes) {
+//
+//            // skip to the last scheduled node from a previous partial expansion
+//            if (skipNodes) {
+//                if (node.getId().equals(partialSolution.getLastPartialExpansionNodeId())) {
+//                    skipNodes = false;
+//                } else {
+//                    continue;
+//                }
+//            }
+//
+//
+//            //Node can be placed on Processor now
+//            for (int i = 1; i < AlgorithmConfig.getNumOfProcessors() + 1; i++) {
+//
+//                // skip past the previously scheduled processors from the previous partial expansion
+//                if (i <= partialSolution.getLastPartialExpansionProcessor() && node.getId().equals(partialSolution.getLastPartialExpansionNodeId())) {
+//                    continue;
+//                }
+//
+//                int eligibleStartTime = 0;
+//                // Start time based on  last task on this processor
+//                for (ScheduledTask scheduledTask : partialSolution) {
+//                    if (scheduledTask.getProcessorNum() == i) {
+//                        eligibleStartTime = scheduledTask.getFinishTime();
+//                        break;
+//                    }
+//                }
+//                //Start time based on dependencies on  OtherProcessors
+//                for (ScheduledTask scheduledTask : partialSolution) {
+//                    if (scheduledTask.getProcessorNum() != i) {
+//                        boolean dependantFound = false;
+//                        int communicationTime = 0;
+//                        for (Node edge : node.getIncomingEdges().keySet()) {
+//                            if (edge.equals(scheduledTask.getNode())) {
+//                                dependantFound = true;
+//                                communicationTime = node.getIncomingEdges().get(edge);
+//                            }
+//                        }
+//                        if (!dependantFound) {
+//                            continue;
+//                        }
+//                        eligibleStartTime = Math.max(eligibleStartTime, scheduledTask.getFinishTime() + communicationTime);
+//                    }
+//                }
+//                PartialSolution child = new PartialSolution(partialSolution, new ScheduledTask(i, node, eligibleStartTime),partialSolution.get_numofTasks()+1);
+//                children.add(child);
+//                // check if it should do partial expansion
+//                if (child.getCostUnderestimate() <= partialSolution.getCostUnderestimate()) {
+//                    partialSolution.setLastPartialExpansionNodeId(node.getId());
+//                    partialSolution.setLastPartialExpansionProcessor(i);
+//
+//                    // add parent back into queue
+//                    _open.offer(partialSolution);
+//                    _closed.remove(partialSolution);
+//
+//                    return children;
+//                }
+//            }
+//        }
+//        return children;
+//    }
 
     @Override
     public synchronized PartialSolution getNextPartialSolution(){
-
         PartialSolution partialSolution = _open.poll();
+        System.out.println(_closed.size());
+        if (_closed.size() == 1000000){
+            System.out.println("hi");
+        }
         _closed.add(partialSolution);
         if (_foundComplete) {
             return null;
@@ -175,8 +177,9 @@ public class AStar extends Algorithm {
         // This is to add all children at once(not preferred)
 //        maxOpenCount += children.size();
 //        _open.addAll(children);
+
        for (PartialSolution child : children) {
-            if (!_closed.contains(child)  && child.getCostUnderestimate() < _upperBound) {
+            if (!_closed.contains(child) && child.getCostUnderestimate() < _upperBound) {
                 maxOpenCount++;
                 _open.offer(child);
             }

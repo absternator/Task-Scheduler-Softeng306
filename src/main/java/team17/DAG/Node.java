@@ -1,5 +1,7 @@
 package team17.DAG;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import java.util.*;
 
 public class Node {
@@ -10,6 +12,7 @@ public class Node {
     private Set<Node> _dependencies;
     private Set<Node> _dependants;
     private int _eqId;
+    private int _bottomLoad;
 
     /**
      * This is a Node constructor which adds weight and id.
@@ -52,7 +55,25 @@ public class Node {
         return _incomingEdges;
     }
 
+    public int getBottomLoad() {
+        return _bottomLoad;
+    }
 
+    public void setBottomLoad() {
+        _bottomLoad = 0;
+        Set<Node> children = getChildren();
+        for(Node child: children) {
+            _bottomLoad += child.getWeight();
+        }
+
+    }
+    public Set<Node> getChildren() {
+        Set<Node> children = new HashSet<>(_dependants);
+        for( Node child: _dependants) {
+            children.addAll(child.getChildren());
+        }
+        return children;
+    }
     public Set<Node> getDependencies() {
         return _dependencies;
     }
@@ -114,7 +135,7 @@ public class Node {
 
     @Override
     public int hashCode() {
-        return _id.hashCode();
+        return new HashCodeBuilder().append(_id).toHashCode();
     }
 
     @Override

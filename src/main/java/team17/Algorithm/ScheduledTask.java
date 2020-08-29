@@ -1,5 +1,6 @@
 package team17.Algorithm;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import team17.DAG.Node;
 
 import java.util.Objects;
@@ -36,17 +37,16 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
 
     @Override
     public boolean equals(Object other) {
-        
-        
         ScheduledTask that = (ScheduledTask) other;
         return _startTime == that._startTime &&
-                Objects.equals(_node, that._node);
+                _node.equals(that._node);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_node, _startTime);
+        return new HashCodeBuilder().append(_node).append(_startTime).toHashCode();
     }
+
 
     @Override
     public String toString() {

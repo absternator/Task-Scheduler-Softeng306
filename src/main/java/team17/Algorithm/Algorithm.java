@@ -86,7 +86,7 @@ public abstract class Algorithm {
         fixedTaskOrder(partialSolution, notEligible, freeNodes);
 
         for (Node node : freeNodes) {
-            children.add(new PartialSolution(partialSolution, new ScheduledTask(1, node, 0)));
+            children.add(new PartialSolution(partialSolution, new ScheduledTask(1, node, 0),partialSolution.get_numofTasks() +1 ));
         }
         return children;
     }
@@ -138,8 +138,6 @@ public abstract class Algorithm {
         // Check if free tasks meet criteria. IF yes return node to be ordered next.
         fixedTaskOrder(partialSolution, notEligible, freeNodes);
 
-
-
         for (Node node : freeNodes) {
             //Node can be placed on Processor now
             for (int i = 1; i < AlgorithmConfig.getNumOfProcessors() + 1; i++) {
@@ -168,7 +166,7 @@ public abstract class Algorithm {
                         eligibleStartTime = Math.max(eligibleStartTime, scheduledTask.getFinishTime() + communicationTime);
                     }
                 }
-                children.add(new PartialSolution(partialSolution, new ScheduledTask(i, node, eligibleStartTime)));
+                children.add(new PartialSolution(partialSolution, new ScheduledTask(i, node, eligibleStartTime),partialSolution.get_numofTasks() + 1));
             }
         }
         return children;

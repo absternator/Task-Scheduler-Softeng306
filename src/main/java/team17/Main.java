@@ -16,7 +16,7 @@ public class Main {
 
         //Run in IDE
 
-        args = new String[]{"src/main/resources/graph.dot", "2"};
+        args = new String[]{"src/main/resources/Nodes_11_OutTree.dot", "2"};
 
 
         CLI cli = new CLI(args);
