@@ -124,7 +124,7 @@ public class Main extends Application {
             Thread thread = new Thread(Main::startAlgorithm);
             thread.start();
 
-            Scene scene = new Scene(root, 1010, 750);
+            Scene scene = new Scene(root, 1015, 760);
             scene.getStylesheets().add(getClass().getResource("view.css").toExternalForm());
             primaryStage.setScene(scene);
 
