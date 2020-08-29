@@ -65,6 +65,7 @@ public class MainController {
     private double _usedMemory;
     private double _duration;
     private double _startTime;
+    private boolean _timing;
     private final CLI _config;
     private final DAGGraph _graph;
     private AlgorithmState _algorithmState;
@@ -85,8 +86,9 @@ public class MainController {
     public void init() {
         setUpGanttChart();
 
-        //read and set the input file name
+        //read and set the input and output file names
         setUpInputFileName();
+        setUpOutputFileName();
 
         //embed input graph to GraphPane
         setUpGraphPane();
@@ -101,6 +103,7 @@ public class MainController {
         setUpMemoryPane();
 
         //start polling
+        _timing=true;
         _startTime = System.currentTimeMillis();
         startTiming();
         updateGUI();
@@ -132,10 +135,8 @@ public class MainController {
 
             if (_algorithmState.isFinished()) {
                 _algorithmState.setFinished(false);
-                setUpOutputFileName();
                 //change the status from "running" to "done"
                 updateStatus();
-
             }
         });
         tm.setCycleCount(Timeline.INDEFINITE);
@@ -147,10 +148,14 @@ public class MainController {
         Timeline tm = new Timeline();
         KeyFrame frame = new KeyFrame(Duration.millis(1), event -> {
             //check whether the sorting is finished
-            if (!_algorithmState.isFinished()) {
+            if (_timing != false) {
                 // the sort is still running so keep updating the timer
                 double currentTime =  System.currentTimeMillis();
                 _duration = (currentTime - _startTime)/1000; // in second
+            }
+            if (_algorithmState.isFinished()) {
+                //stop timing
+                _timing=false;
             }
         });
         tm.setCycleCount(Timeline.INDEFINITE);
