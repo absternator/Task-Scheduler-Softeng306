@@ -54,16 +54,12 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
      * @return The underestimate cost to finish the schedule
      */
     public int getCostUnderestimate() {
-        int bottomLoad;
-        if(_scheduledTask==null) {
-            bottomLoad = 0;
-        } else {
-            bottomLoad = _scheduledTask.getNode().getBottomLoad()/AlgorithmConfig.getNumOfProcessors() + _scheduledTask.getFinishTime();
-        }
+        int bottomLoad = 0;
         int costUnderestimate = 0;
         int loadBalance = ((AlgorithmConfig.getTotalNodeWeight() + getIdleTime()) / AlgorithmConfig.getNumOfProcessors());
         for (ScheduledTask scheduledTask : this) {
             costUnderestimate = Math.max(costUnderestimate, scheduledTask.getStartTime() + scheduledTask.getNode().getBottomLevel());
+            bottomLoad = scheduledTask.getNode().getBottomLoad()/AlgorithmConfig.getNumOfProcessors() + scheduledTask.getFinishTime();
         }
         return Math.max(costUnderestimate, Math.max(loadBalance, bottomLoad));
     }
