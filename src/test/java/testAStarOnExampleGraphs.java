@@ -3,9 +3,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import team17.Algorithm.AStar;
 import team17.Algorithm.AlgorithmState;
-import team17.Algorithm.DFS;
-import team17.Algorithm.PartialSolution;
-import team17.DAG.Graph;
+import team17.DAG.DAGGraph;
 import team17.IO.CLI;
 import team17.IO.FileReadWriter;
 
@@ -117,7 +115,7 @@ public class testAStarOnExampleGraphs {
     private int getAStarSolutionFor(String[] args) throws IOException {
         CLI cli = new CLI(args);
         FileReadWriter frw = new FileReadWriter(cli);
-        Graph graph = frw.readDotFile();
+        DAGGraph graph = frw.readDotFile();
         AStar aStar = new AStar(graph, new AlgorithmState());
         return aStar.getOptimalSchedule(graph).getScheduledTask().getStartTime();
     }
