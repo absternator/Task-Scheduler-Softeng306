@@ -9,17 +9,29 @@
 
 <AnchorPane id="background" prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane id="graphPane" layoutX="7.0" layoutY="417.0" prefHeight="330.0" prefWidth="583.0">
+      <AnchorPane id="graphPane" layoutX="7.0" layoutY="422.0" prefHeight="330.0" prefWidth="583.0">
          <children>
              <SwingNode id="GraphPane" fx:id="GraphPane" layoutX="34.0" layoutY="29.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node Tree" x="200.0" y="40.0">
+               <font>
+                  <Font size="38.0" />
+               </font>
+            </Text>
          </children>
       </AnchorPane>
-      <AnchorPane id="ganttChartPane" fx:id="ganttChartContainer" layoutX="9.0" layoutY="8.0" prefHeight="329.0" prefWidth="629.0" />
-      <AnchorPane id="statisticsPane" layoutX="650.0" layoutY="6.0" prefHeight="742.0" prefWidth="344.0">
+      <AnchorPane id="ganttChartPane" fx:id="ganttChartContainer" layoutX="9.0" layoutY="8.0" prefHeight="329.0" prefWidth="630.0">
          <children>
-            <Text fill="#0d0d0d" fontSmoothingType="LCD" layoutX="85.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Statistics" textAlignment="CENTER">
+            <Text layoutX="160.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current Schedule">
                <font>
-                  <Font size="45.0" />
+                  <Font size="36.0" />
+               </font>
+            </Text>
+         </children></AnchorPane>
+      <AnchorPane id="statisticsPane" layoutX="655.0" layoutY="6.0" prefHeight="745.0" prefWidth="344.0">
+         <children>
+            <Text fill="#0d0d0d" fontSmoothingType="LCD" layoutX="80.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Statistics" textAlignment="CENTER">
+               <font>
+                  <Font size="38.0" />
                </font>
             </Text>
             <Pane layoutY="90.0" prefHeight="185.0" prefWidth="334.0">
