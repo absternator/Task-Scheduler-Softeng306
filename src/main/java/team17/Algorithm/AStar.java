@@ -199,9 +199,15 @@ public class AStar extends Algorithm {
                 _open.offer(child);
                 if (_algorithmState != null) {
                     _algorithmState.updateNumUnexpandedPartialSolutions(1);
+                    if(child.isCompleteSchedule()) {
+                        _algorithmState.updateNumCompleteSolutions(1);
+                    }
                 }
             } else if (_algorithmState != null) {
                 _algorithmState.updateNumPruned(1);
+                if(child.isCompleteSchedule()) {
+                    _algorithmState.updateNumCompleteSolutions(1);
+                }
             }
         }
     }

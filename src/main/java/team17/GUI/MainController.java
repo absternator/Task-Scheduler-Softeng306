@@ -39,6 +39,18 @@ public class MainController {
     @FXML
     private Pane StatusPane;
 
+    @FXML
+    private Text completeText;
+
+    @FXML
+    private Text expandedText;
+
+    @FXML
+    private Text unexpandedText;
+
+    @FXML
+    private Text prunedText;
+
     private Tile memoryUsageTile;
     private double maxMemory;
     private double usedMemory;
@@ -108,10 +120,19 @@ public class MainController {
                 //stop timing
                 timing=false;
             }
+
+            updateSolutionStats();
         });
         tm.setCycleCount(Timeline.INDEFINITE);
         tm.getKeyFrames().add(frame);
         tm.play();
+    }
+
+    private void updateSolutionStats() {
+        completeText.setText(String.valueOf(_algorithmState.getNumCompleteSolutions()));
+        expandedText.setText(String.valueOf(_algorithmState.getNumExpandedPartialSolutions()));
+        unexpandedText.setText(String.valueOf(_algorithmState.getNumUnexpandedPartialSolutions()));
+        prunedText.setText(String.valueOf(_algorithmState.getNumPruned()));
     }
 
     /**
