@@ -1,13 +1,13 @@
 package team17.Algorithm;
 
 import java.util.Set;
-import team17.DAG.Graph;
+import team17.DAG.DAGGraph;
 
 public class NThreads extends Thread{
     private final Algorithm _algo;
-    private final Graph _graph;
+    private final DAGGraph _graph;
 
-    public NThreads(Algorithm algo, Graph graph) {
+    public NThreads(Algorithm algo, DAGGraph graph) {
         _algo = algo;
         _graph = graph;
     }

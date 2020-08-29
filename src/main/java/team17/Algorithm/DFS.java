@@ -1,6 +1,6 @@
 package team17.Algorithm;
 
-import team17.DAG.Graph;
+import team17.DAG.DAGGraph;
 
 import java.util.Set;
 import java.util.Stack;
@@ -12,12 +12,14 @@ public class DFS extends Algorithm {
     Stack<PartialSolution> _open = new Stack<>();
     private final AlgorithmState _algorithmState;
 
-    public DFS(Graph graph, AlgorithmState algorithmState) {
+    public DFS(DAGGraph graph, AlgorithmState algorithmState) {
         final PartialSolution _root = new PartialSolution(null, null);
         _ls = new ListScheduling(graph);
         _bestSchedule = _ls.getSchedule();
         _algorithmState = algorithmState;
-        _algorithmState.setCompleteSolution(_bestSchedule);
+        if (_algorithmState != null) {
+            _algorithmState.setCompleteSolution(_bestSchedule);
+        }
         _upperBound = _bestSchedule.getCostUnderestimate();
         _open.push(_root);
     }

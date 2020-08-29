@@ -1,7 +1,7 @@
 package team17.Algorithm;
 
-import team17.DAG.Graph;
-import team17.DAG.Node;
+import team17.DAG.DAGGraph;
+import team17.DAG.DAGNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +10,9 @@ import java.util.List;
  * Class that contains methods associated with the list scheduling algorithm
  */
 public class ListScheduling {
-    private Graph _graph;
+    private DAGGraph _graph;
 
-    public ListScheduling(Graph graph) {
+    public ListScheduling(DAGGraph graph) {
         _graph = graph;
     }
 
@@ -22,23 +22,23 @@ public class ListScheduling {
      *
      * @return sorted list of nodes
      */
-    public List<Node> getTopologicalOrder() {
+    public List<DAGNode> getTopologicalOrder() {
         // get a copy of nodes for the unordered list
-        List<Node> unorderedNodes = new ArrayList<>();
-        for (Node node : _graph.getNodeList()) {
-                unorderedNodes.add(new Node(node));
+        List<DAGNode> unorderedNodes = new ArrayList<>();
+        for (DAGNode node : _graph.getNodeList()) {
+                unorderedNodes.add(new DAGNode(node));
         }
 
-        List<Node> orderedNodes = new ArrayList<>();
+        List<DAGNode> orderedNodes = new ArrayList<>();
 
         int largestWeight;
-        Node nextNode = unorderedNodes.get(0);
+        DAGNode nextNode = unorderedNodes.get(0);
 
         while (!unorderedNodes.isEmpty()) {
             largestWeight = -1;
 
             // add the largest node with no dependencies to the list.
-            for (Node node : unorderedNodes) {
+            for (DAGNode node : unorderedNodes) {
                 if (node.getDependencies().size() == 0 && node.getWeight() > largestWeight) {
                     largestWeight = node.getWeight();
                     nextNode = node;
@@ -50,15 +50,15 @@ public class ListScheduling {
             unorderedNodes.remove(nextNode);
 
             // remove that node as a dependency
-            for (Node node : unorderedNodes) {
+            for (DAGNode node : unorderedNodes) {
                 node.getDependencies().remove(nextNode);
             }
         }
 
         // return a list of the original nodes, using the topological order
-        List<Node> nodes = new ArrayList<>();
-        for (Node node : orderedNodes) {
-            for (Node graphNode : _graph.getNodeList()) {
+        List<DAGNode> nodes = new ArrayList<>();
+        for (DAGNode node : orderedNodes) {
+            for (DAGNode graphNode : _graph.getNodeList()) {
                 if (node.equals(graphNode)) {
                     nodes.add(graphNode);
                 }
@@ -74,7 +74,7 @@ public class ListScheduling {
     public PartialSolution getSchedule() {
         int numProcessors = AlgorithmConfig.getNumOfProcessors();
         ScheduledTask[] processors = new ScheduledTask[numProcessors]; // latest task of each processor
-        List<Node> nodes = getTopologicalOrder();
+        List<DAGNode> nodes = getTopologicalOrder();
         PartialSolution schedule = new PartialSolution(null,null);
 
         int earliestStart; // the earliest start time for a node
@@ -84,7 +84,7 @@ public class ListScheduling {
         int currentCommunicationTime;
         ScheduledTask scheduledTask;
 
-        for (Node node : nodes) {
+        for (DAGNode node : nodes) {
             earliestStart = Integer.MAX_VALUE;
             processor = 0;
 

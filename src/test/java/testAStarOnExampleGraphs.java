@@ -2,8 +2,7 @@ import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import team17.Algorithm.AStar;
-import team17.Algorithm.AlgorithmState;
-import team17.DAG.Graph;
+import team17.DAG.DAGGraph;
 import team17.IO.CLI;
 import team17.IO.FileReadWriter;
 
@@ -15,9 +14,6 @@ public class testAStarOnExampleGraphs {
 
     // *** SET TO TRUE IF YOU WANT TO RUN THESE TESTS ***
     private static boolean _RunThisTestSuite = true;
-
-    private boolean _runNodes10Random = true; // TODO Parse Nodes10
-    private boolean _runGraph4 = false; // May take a long time or run out of memory
     // **************************************************
 
     private String[] _args;
@@ -77,7 +73,6 @@ public class testAStarOnExampleGraphs {
 
     @Test
     public void testNodes10Random_2P() throws IOException {
-        Assume.assumeTrue(_runNodes10Random);
         _args = new String[]{"src/main/resources/Nodes_10_Random.dot", "2"};
 
         assertEquals(50, getAStarSolutionFor(_args));
@@ -85,10 +80,7 @@ public class testAStarOnExampleGraphs {
 
     @Test
     public void testNodes10Random_4P() throws IOException {
-        Assume.assumeTrue(_runNodes10Random);
-
         _args = new String[]{"src/main/resources/Nodes_10_Random.dot", "4"};
-
 
         assertEquals(50, getAStarSolutionFor(_args));
     }
@@ -102,7 +94,6 @@ public class testAStarOnExampleGraphs {
 
     @Test
     public void testNodes11OutTree_4P() throws IOException {
-
         _args = new String[]{"src/main/resources/Nodes_11_OutTree.dot", "4"};
 
         assertEquals(227, getAStarSolutionFor(_args));
@@ -118,8 +109,6 @@ public class testAStarOnExampleGraphs {
 
     @Test
     public void testGraph4_2P() throws IOException {
-        Assume.assumeTrue(_runGraph4);
-
         _args = new String[]{"src/main/resources/Graph4.dot", "2"};
 
         assertEquals(5644, getAStarSolutionFor(_args));
@@ -128,8 +117,8 @@ public class testAStarOnExampleGraphs {
     private int getAStarSolutionFor(String[] args) throws IOException {
         CLI cli = new CLI(args);
         FileReadWriter frw = new FileReadWriter(cli);
-        Graph graph = frw.readDotFile();
-        AStar aStar = new AStar(graph, new AlgorithmState());
+        DAGGraph graph = frw.readDotFile();
+        AStar aStar = new AStar(graph, null);
         return aStar.getOptimalSchedule(graph).getScheduledTask().getStartTime();
     }
 }

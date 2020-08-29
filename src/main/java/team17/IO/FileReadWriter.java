@@ -3,8 +3,8 @@ package team17.IO;
 import org.apache.commons.lang3.StringUtils;
 import team17.Algorithm.AlgorithmConfig;
 import team17.Algorithm.ScheduledTask;
-import team17.DAG.Graph;
-import team17.DAG.Node;
+import team17.DAG.DAGGraph;
+import team17.DAG.DAGNode;
 
 import java.io.*;
 import java.util.Collections;
@@ -27,8 +27,8 @@ public class FileReadWriter {
      *
      * @throws IOException Throw IO exception if file does not exist.
      */
-    public Graph readDotFile() throws IOException {
-        Graph graph = new Graph();
+    public DAGGraph readDotFile() throws IOException {
+        DAGGraph graph = new DAGGraph();
         File file = new File(_cli.getInput());
         BufferedReader br = new BufferedReader(new FileReader(file));
         String line = br.readLine();
@@ -51,7 +51,7 @@ public class FileReadWriter {
      * This parses the information in the input dot file to adds tasks to graph.
      * @param line Each line of the dot file is passed in.
      */
-    private void parse(Graph graph, String line) throws IOException {
+    private void parse(DAGGraph graph, String line) throws IOException {
         String entity = StringUtils.deleteWhitespace(StringUtils.substringBefore(line,"["));
         String weight = StringUtils.substringBetween(line,"Weight=","]");
 
@@ -88,12 +88,12 @@ public class FileReadWriter {
 
         pw.println("digraph \"output" + StringUtils.capitalize(_digraphName) + "\" {");
         for (ScheduledTask task : solution) {
-            Node node = task.getNode();
+            DAGNode node = task.getNode();
             pw.printf("\t%-10s[Weight=%d,Start=%d,Processor=%d];\n", node.getId(), node.getWeight(), task.getStartTime(), task.getProcessorNum());
 
             //Prints out the edges for the node using the dependencies
             if (!node.getDependencies().isEmpty()) {
-                for (Node incoming : node.getDependencies()) {
+                for (DAGNode incoming : node.getDependencies()) {
                     String entry = incoming.getId() + " -> " + node.getId();
                     pw.printf("\t%-10s[Weight=%d];\n", entry, node.getIncomingEdges().get(incoming));
                 }

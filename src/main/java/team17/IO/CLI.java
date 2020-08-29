@@ -54,7 +54,7 @@ public class CLI {
         try {
             cmd = parser.parse(options, args);
             _visualise = cmd.hasOption("v");
-            // getOptionValue returns null if no argument
+            // getOptionValue returns 0 if no argument
             if(cmd.getOptionValue("p")!=null) {
                 _nCores = Integer.parseInt(cmd.getOptionValue("p"));
             }
