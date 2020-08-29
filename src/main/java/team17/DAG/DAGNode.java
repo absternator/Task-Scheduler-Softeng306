@@ -89,16 +89,16 @@ public class DAGNode {
 
     public void setBottomLoad() {
         _bottomLoad = 0;
-        Set<Node> children = getChildren();
-        for(Node child: children) {
+        Set<DAGNode> children = getChildren();
+        for(DAGNode child: children) {
             _bottomLoad += child.getWeight();
         }
     }
 
-    public Set<Node> getChildren() {
-        Set<Node> children = new HashSet<>();
+    public Set<DAGNode> getChildren() {
+        Set<DAGNode> children = new HashSet<>();
         children.addAll(_dependants);
-        for(Node child: _dependants) {
+        for(DAGNode child: _dependants) {
             children.addAll(child.getChildren());
         }
         return children;

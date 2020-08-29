@@ -144,9 +144,9 @@ public class DAGGraph {
      * Calculates the weight of the node's child - the bottom load for the heuristic
      */
     public void setBottomLoad() {
-        LinkedList<Node> remaining = new LinkedList<>(_nodeList);
-        for (Iterator<Node> it = remaining.descendingIterator(); it.hasNext(); ) {
-            Node node = it.next();
+        LinkedList<DAGNode> remaining = new LinkedList<>(_nodeList);
+        for (Iterator<DAGNode> it = remaining.descendingIterator(); it.hasNext(); ) {
+            DAGNode node = it.next();
             node.setBottomLoad();
             node.getBottomLoad();
         }
