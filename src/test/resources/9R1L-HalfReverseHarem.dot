@@ -9,14 +9,7 @@ digraph "graph" {
     h         [Weight=25];
     i         [Weight=33];
     j         [Weight=2];
-    a -> b    [Weight=4];
-    a -> c    [Weight=3];
-    a -> d    [Weight=45];
-    a -> e    [Weight=6];
-    a -> f    [Weight=9];
-    a -> g    [Weight=13];
-    a -> h    [Weight=7];
-    a -> i    [Weight=8];
+    a -> j    [Weight=4];
     b -> j    [Weight=3];
     c -> j    [Weight=45];
     d -> j    [Weight=6];
