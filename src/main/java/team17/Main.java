@@ -16,6 +16,7 @@ import team17.DAG.DAGGraph;
 import team17.GUI.MainController;
 import team17.IO.CLI;
 import team17.IO.FileReadWriter;
+import team17.IO.IncorrectCLIInputException;
 
 import java.io.IOException;
 import java.util.List;
@@ -39,6 +40,14 @@ public class Main extends Application {
        args = new String[]{"src/main/resources/Nodes_11_OutTree.dot", "2"};
 
         _config = new CLI(args);
+        try {
+            _config.readCLI();
+        } catch (IncorrectCLIInputException e) {
+            System.out.println(e.getMessage());
+            System.out.println();
+            _config.printHelpFormatter();
+            System.exit(1);
+        }
 
         _frw = new FileReadWriter(_config);
         try {
