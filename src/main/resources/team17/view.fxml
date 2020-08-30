@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="750.0" prefWidth="1000.0"  xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane id="GanttChartPane" fx:id="ganttChartPane" layoutX="5" layoutY="370.0" prefHeight="380.0" prefWidth="635.0">
+      <AnchorPane id="GanttChartPane" fx:id="ganttChartPane" layoutX="5" layoutY="370.0" prefHeight="380.0" prefWidth="637.0">
          <children>
             <AnchorPane fx:id="ganttChartContainer" layoutY="35.0" prefHeight="301.0" prefWidth="619.0" />
             <TextFlow layoutX="160.0" layoutY="352.0" prefHeight="30.0" prefWidth="350.0" textAlignment="CENTER">
@@ -20,12 +20,12 @@
                         <Insets right="10.0" />
                      </padding>
                      <font>
-                        <Font size="20.0" />
+                        <Font size="18.0" />
                      </font>
                   </Label>
                   <Text fx:id="bestCostText" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
                      <font>
-                        <Font size="20.0" />
+                        <Font size="18.0" />
                      </font></Text>
                </children>
             </TextFlow>
@@ -172,7 +172,7 @@
             </Text>
          </children>
       </AnchorPane>
-      <AnchorPane id="MemoryPane" layoutX="378.0" layoutY="9.0" prefHeight="350.0" prefWidth="253.0">
+      <AnchorPane id="MemoryPane" layoutX="376.0" layoutY="9.0" prefHeight="350.0" prefWidth="253.0">
          <children>
             <Pane fx:id="memoryPane" layoutX="15.0" layoutY="50.0" prefHeight="293.0" prefWidth="253.0" />
             <Text layoutX="-2.0" layoutY="3.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Memory" x="70.0" y="30.0">
