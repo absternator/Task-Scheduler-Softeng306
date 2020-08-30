@@ -5,6 +5,9 @@ import team17.DAG.DAGNode;
 
 import java.util.*;
 
+/**
+ * Abstract class for the algorithms
+ */
 public abstract class Algorithm {
 
     protected AlgorithmState _algorithmState;

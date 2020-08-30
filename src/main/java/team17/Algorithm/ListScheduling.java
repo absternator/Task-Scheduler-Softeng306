@@ -26,7 +26,7 @@ public class ListScheduling {
         // get a copy of nodes for the unordered list
         List<DAGNode> unorderedNodes = new ArrayList<>();
         for (DAGNode node : _graph.getNodeList()) {
-                unorderedNodes.add(new DAGNode(node));
+            unorderedNodes.add(new DAGNode(node));
         }
 
         List<DAGNode> orderedNodes = new ArrayList<>();

@@ -80,6 +80,7 @@ public class GraphVisualisation {
         return graph;
     }
 
+    // Gotta delete
     public String getStyle() {
         String s = "graph {\n" +
                 "    text-size: 10px;\n" +

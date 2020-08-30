@@ -18,6 +18,7 @@ public class AlgorithmConfig {
     public static void setNumOfProcessors(int num){
         _numOfProcessors = num;
     }
+
     public static int getNumOfProcessors(){
         return _numOfProcessors;
     }
