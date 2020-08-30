@@ -117,9 +117,9 @@ public class DFS extends Algorithm {
             }
 
             if (partialSolution.isCompleteSchedule()) { //TODO && !bestSchedule.equals(partialSolution)
-                int costSoFar = partialSolution.getScheduledTask().getStartTime();
-                if (costSoFar < _upperBound) {
-                    _upperBound = costSoFar;
+                int fullSolutionCost = partialSolution.getScheduledTask().getStartTime();
+                if (fullSolutionCost < _upperBound) {
+                    _upperBound = fullSolutionCost;
                     _bestCompletePartialSolution = partialSolution;
                     if (_algorithmState != null) {
                         _algorithmState.setCompleteSolution(_bestCompletePartialSolution);

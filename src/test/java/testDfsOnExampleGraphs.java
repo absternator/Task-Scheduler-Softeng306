@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 public class testDfsOnExampleGraphs {
 
     // *** SET TO TRUE IF YOU WANT TO RUN THESE TESTS ***
-    private static boolean _RunThisTestSuite = true;
+    private static boolean _RunThisTestSuite = false;
     // **************************************************
 
     private String[] _args;
