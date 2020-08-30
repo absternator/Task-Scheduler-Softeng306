@@ -35,8 +35,8 @@ public class Main extends Application {
 //        args = new String[]{"../../src/main/resources/graph.dot", "2", "-v"};
 
         //Run in IDE
-//        args = new String[]{"src/main/resources/INPUT0.dot", "2", "-v"};
-       args = new String[]{"src/main/resources/Nodes_11_OutTree.dot", "2"};
+       args = new String[]{"src/main/resources/INPUT0.dot", "2", "-v"};
+       //args = new String[]{"src/main/resources/Nodes_11_OutTree.dot", "2"};
 
         _config = new CLI(args);
 
