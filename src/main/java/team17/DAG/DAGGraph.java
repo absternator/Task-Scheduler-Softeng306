@@ -47,11 +47,11 @@ public class DAGGraph {
      * @param from       Task from in string format
      * @param to         Task to task in string format
      * @param edgeWeight Communication time from 2 tasks
-     * @throws Exception Thrown if task not in graph already and edge is tried to be added.
+     * @throws InvalidGraphException Thrown if task not in graph already and edge is tried to be added.
      */
-    public void addEdge(String from, String to, int edgeWeight) throws Exception {
+    public void addEdge(String from, String to, int edgeWeight) throws InvalidGraphException {
         if (!_nodeLookup.containsKey(from) || !_nodeLookup.containsKey(to)) {
-            throw new Exception("ERROR: Node has to be instantiated before adding edge!");
+            throw new InvalidGraphException("Node not instantiated before adding edge");
         }
         DAGNode fromNode = _nodeLookup.get(from);
         DAGNode toNode = _nodeLookup.get(to);
@@ -114,8 +114,9 @@ public class DAGGraph {
 
     /**
      * This sets the bottom level for each task. Will be used as heuristic for algorithm.
+     * @throws InvalidGraphException When a cycle of task dependencies are detected
      */
-    public void setBottomLevel() {
+    public void setBottomLevel() throws InvalidGraphException {
         boolean progress = false;
         HashSet<DAGNode> completed = new HashSet<>();
         LinkedList<DAGNode> remaining = new LinkedList<>(_nodeList);
@@ -135,7 +136,7 @@ public class DAGGraph {
                     progress = true;
                 }
             }
-            if (!progress) throw new RuntimeException("\"Cyclic dependency, algorithm stopped!");
+            if (!progress) throw new InvalidGraphException("\"Cyclic dependency, algorithm stopped!");
 
         }
     }

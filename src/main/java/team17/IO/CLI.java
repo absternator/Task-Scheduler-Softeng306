@@ -12,15 +12,13 @@ public class CLI {
     boolean _visualise;
     int _nCores;
     String _output;
-    String[] _args;
     Options _options;
     HelpFormatter _formatter;
     String _cmdLineSyntax;
     String _header;
     String _footer;
 
-    public CLI(String[] args) {
-        _args = args;
+    public CLI() {
 
         _cmdLineSyntax = "java -jar scheduler .jar INPUT.dot P [OPTION]";
 
@@ -45,18 +43,18 @@ public class CLI {
         _footer = "Please enter the appropriate parameters to start the scheduler";
     }
 
-    public void readCLI() throws IncorrectCLIInputException {
+    public void readCLI(String[] args) throws IncorrectCLIInputException {
         // Check first two args, then optional arguments
-        if(_args.length>=2) {
+        if(args.length>=2) {
             // Check INPUT.dot ends in dot file extension
-            if(_args[0].endsWith(".dot")) {
-                _input = _args[0];
+            if(args[0].endsWith(".dot")) {
+                _input = args[0];
             } else {
                 throw new IncorrectCLIInputException("Expected first parameter: INPUT.dot");
             }
             // Check if P is not an integer
             try{
-                _nProcessors = Integer.parseInt(_args[1]);
+                _nProcessors = Integer.parseInt(args[1]);
             } catch (NumberFormatException e) {
                 throw new IncorrectCLIInputException("Expected second parameter: integer P");
             }
@@ -72,7 +70,7 @@ public class CLI {
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd;
         try {
-            cmd = parser.parse(_options, _args);
+            cmd = parser.parse(_options, args);
             _visualise = cmd.hasOption("v");
             // getOptionValue returns 0 if no argument
             if(cmd.getOptionValue("p")!=null) {

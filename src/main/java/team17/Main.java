@@ -13,10 +13,12 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import team17.Algorithm.*;
 import team17.DAG.DAGGraph;
+import team17.DAG.InvalidGraphException;
 import team17.GUI.MainController;
 import team17.IO.CLI;
 import team17.IO.FileReadWriter;
 import team17.IO.IncorrectCLIInputException;
+import team17.IO.InvalidEntryException;
 
 import java.io.IOException;
 import java.util.List;
@@ -37,11 +39,11 @@ public class Main extends Application {
 
         //Run in IDE
 //        args = new String[]{"src/main/resources/INPUT0.dot", "2", "-v"};
-       args = new String[]{"src/main/resources/Nodes_11_OutTree.dot", "2"};
+        args = new String[]{"src/main/resources/Nodes_10_Random.dot", "2"};
 
-        _config = new CLI(args);
+        _config = new CLI();
         try {
-            _config.readCLI();
+            _config.readCLI(args);
         } catch (IncorrectCLIInputException e) {
             System.out.println(e.getMessage());
             System.out.println();
@@ -54,6 +56,12 @@ public class Main extends Application {
             _graph = _frw.readDotFile();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (InvalidGraphException e) {
+            System.out.println(e.getMessage());
+            System.exit(1);
+        } catch (InvalidEntryException e) {
+            System.out.println(e.getMessage());
+            System.exit(1);
         }
 
         if (_config.getVisualise()) {

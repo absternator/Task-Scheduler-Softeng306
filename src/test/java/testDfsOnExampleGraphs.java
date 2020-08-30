@@ -4,8 +4,10 @@ import org.junit.Test;
 import team17.Algorithm.DFS;
 import team17.Algorithm.PartialSolution;
 import team17.DAG.DAGGraph;
+import team17.DAG.InvalidGraphException;
 import team17.IO.CLI;
 import team17.IO.FileReadWriter;
+import team17.IO.InvalidEntryException;
 
 import java.io.IOException;
 
@@ -100,9 +102,15 @@ public class testDfsOnExampleGraphs {
     }
 
     private int getDfsSolutionFor(String[] args) throws IOException {
-        CLI cli = new CLI(args);
+        CLI cli = new CLI();
+        cli.readCLI(args);
         FileReadWriter frw = new FileReadWriter(cli);
-        DAGGraph graph = frw.readDotFile();
+        DAGGraph graph = null;
+        try {
+            graph = frw.readDotFile();
+        } catch (InvalidGraphException | InvalidEntryException e) {
+            e.printStackTrace();
+        }
         DFS dfs = new DFS(graph,null);
         return dfs.getOptimalSchedule(graph).getScheduledTask().getFinishTime();
     }
