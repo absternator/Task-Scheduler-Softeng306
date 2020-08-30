@@ -1,5 +1,8 @@
 package team17.GUI.GanttChart;
 
+/**
+ * This is the representation of tasks that GanttChart refers to
+ */
 public class TaskData {
 
     private int _length;
