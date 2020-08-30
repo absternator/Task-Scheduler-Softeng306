@@ -82,14 +82,7 @@ public class Main extends Application {
     private static void startAlgorithm() {
 
         List<ScheduledTask> schedule;
-        Algorithm algorithm;
-
-        if (true) {
-            algorithm = new DFS(_graph, _algorithmState); //TODO remove graph parameter
-        } else {
-            // For small graphs, use the A* algorithm
-            algorithm = new AStar(_graph, _algorithmState); //TODO remove graph parameter
-        }
+        Algorithm algorithm= new DFS(_graph, _algorithmState);
 
         if (_config.getCores() < 2) {
             schedule = algorithm.getOptimalSchedule(_graph).fullSchedule(); // Returns list of Schedule
