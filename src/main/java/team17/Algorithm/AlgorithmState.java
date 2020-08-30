@@ -15,7 +15,7 @@ public class AlgorithmState {
     public AlgorithmState() {}
 
     public void setCompleteSolution(PartialSolution completeSolution) {
-        this._completeSolution = completeSolution;
+        _completeSolution = completeSolution;
     }
 
     public PartialSolution getCompleteSolution() {
@@ -23,7 +23,7 @@ public class AlgorithmState {
     }
 
     public void setFinished(boolean isFinished) {
-        this._isFinished = isFinished;
+        _isFinished = isFinished;
     }
 
     public boolean isFinished() {

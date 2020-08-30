@@ -51,8 +51,8 @@ public class AStar extends Algorithm {
             }
         }
 
-        System.out.println("left in queue: " + _open.size()); //todo: for testing only(remove later)
-        System.out.println("added to queue: " + _maxOpenCount);
+        System.out.print("A*: left in queue: "+_open.size()); //todo: for testing only(remove later)
+        System.out.print("\t\tadded to queue: "+ _maxOpenCount);
         return _bestCompletePartialSolution;
     }
 
