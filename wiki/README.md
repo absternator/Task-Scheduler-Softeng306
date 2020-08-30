@@ -1,4 +1,4 @@
-# Welcome the 17-Peaches Wiki!
+# Welcome the 17-Peaches 🍑 Wiki!
 The wiki contains information about our algorithm, design decisions, workflow and meeting minutes.  
 #### Take a look around: 
 
