@@ -18,7 +18,7 @@ public class DFS extends Algorithm {
         final PartialSolution _root = new PartialSolution(null, null,0);
         _ls = new ListScheduling(graph);
         _bestSchedule = _ls.getSchedule();
-        _upperBound = _bestSchedule.getCostUnderestimate();
+        _upperBound = _bestSchedule.getScheduledTask().getFinishTime();
         _open.push(_root);
     }
 
@@ -31,16 +31,18 @@ public class DFS extends Algorithm {
     public synchronized PartialSolution getNextPartialSolution() {
         if(!_open.isEmpty()) {
             PartialSolution partialSolution = _open.pop();
-  //          System.out.println(closed.size());
-            if(closed.size() == 100000) {
+//            System.out.println(closed.size());
+            if(closed.size() == 4999999) {
                 System.out.println("hi");
             }
-            int costSoFar = partialSolution.getCostUnderestimate();
-            if (partialSolution.isCompleteSchedule() && costSoFar < _upperBound) { //TODO && !bestSchedule.equals(partialSolution)
-                _upperBound = costSoFar;
-                _bestSchedule = partialSolution;
-                count++;
-                System.out.println(count);
+            if (partialSolution.isCompleteSchedule()) {
+                int costSoFar = partialSolution.getScheduledTask().getFinishTime();
+                if(costSoFar < _upperBound) {//TODO && !bestSchedule.equals(partialSolution)
+                    _upperBound = costSoFar;
+                    _bestSchedule = partialSolution;
+                    count++;
+                    System.out.println(count);
+                }
             }
             return partialSolution;
         } else {
@@ -54,7 +56,9 @@ public class DFS extends Algorithm {
             int cost = child.getCostUnderestimate();
             if (cost < _upperBound && !closed.contains(child)) {
                 _open.push(child);
-                closed.add(child);
+                if(closed.size() < 5000000) {
+                    closed.add(child);
+                }
             }
         }
     }

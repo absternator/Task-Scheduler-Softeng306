@@ -148,8 +148,9 @@ public class AStar extends Algorithm {
     @Override
     public synchronized PartialSolution getNextPartialSolution(){
         PartialSolution partialSolution = _open.poll();
-        System.out.println(_closed.size());
-        if (_closed.size() == 1000000){
+//        System.out.println(_closed.size());
+//      System.out.println((Runtime.getRuntime().maxMemory() - Runtime.getRuntime().freeMemory())/1000000);
+        if (_closed.size() == 100000){
             System.out.println("hi");
         }
         _closed.add(partialSolution);

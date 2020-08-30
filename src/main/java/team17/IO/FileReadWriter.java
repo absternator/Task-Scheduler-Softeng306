@@ -38,12 +38,13 @@ public class FileReadWriter {
                 parse(graph,line);
             }
         }
-        graph.addFinishNode();
+//        graph.addFinishNode();
         graph.setBottomLevel();
         graph.setEquivalentNodes();
         graph.calculateTotalNodeWeight();
         graph.setBottomLoad();
         AlgorithmConfig.setNumOfProcessors(_cli.getProcessors());// Test : number of processors to run on
+        AlgorithmConfig.set_totalNodes(graph.getNodeList().size());
 
         return graph;
     }

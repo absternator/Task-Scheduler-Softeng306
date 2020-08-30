@@ -16,7 +16,7 @@ public class Main {
 
         //Run in IDE
 
-        args = new String[]{"src/main/resources/Nodes_11_OutTree.dot", "2"};
+        args = new String[]{"src/main/resources/Nodes_7_OutTree.dot", "2"};
 
 
         CLI cli = new CLI(args);
@@ -31,7 +31,7 @@ public class Main {
             //graph.getNodeList().size() > 11
             //                    || (graph.getNodeList().size() >10 && graph.getNumOfProcessors() > 3)
             //                    || (graph.getNodeList().size() >9 && graph.getNumOfProcessors() > 6)
-            if (false) {
+            if (true) {
                 algorithm = new DFS(graph); //TODO remove graph parameter
                 if(cli.getCores()<2) {
                     schedule = algorithm.getOptimalSchedule(graph).fullSchedule(); // Returns list of Schedule
