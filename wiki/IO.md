@@ -8,4 +8,4 @@ The Apache Commons Lang library was used to assist in the reading of the graph i
     
                                                                id  [Weight=int]  
                                                                            
-Any other lines in the dot file are ignored. As for outputting the result to the dot files, this is also done through a custom writer with the digraph name is prepended with "output".
+Any other lines in the dot file are ignored. As for outputting the result to a dot file, this is also done through a custom writer with the digraph name prepended with "output".
