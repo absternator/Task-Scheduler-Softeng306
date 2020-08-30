@@ -45,6 +45,11 @@ public class CLI {
         _footer = "Please enter the appropriate parameters to start the scheduler";
     }
 
+    /**
+     * Reads the command line inputs and sets the fields
+     *
+     * @throws IncorrectCLIInputException When inappropriate inputs are detected
+     */
     public void readCLI() throws IncorrectCLIInputException {
         // Check first two args, then optional arguments
         if(_args.length>=2) {

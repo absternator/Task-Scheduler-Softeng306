@@ -5,6 +5,9 @@ import team17.DAG.DAGNode;
 
 import java.util.*;
 
+/**
+ * Class that contains the main skeleton of the DFS algorithm
+ */
 public class DFS extends Algorithm {
     int _upperBound;
     Stack<PartialSolution> _open = new Stack<>();
