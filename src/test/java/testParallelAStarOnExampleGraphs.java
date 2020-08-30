@@ -2,7 +2,7 @@ import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import team17.Algorithm.AStar;
-import team17.DAG.Graph;
+import team17.DAG.DAGGraph;
 import team17.IO.CLI;
 import team17.IO.FileReadWriter;
 
@@ -15,8 +15,6 @@ public class testParallelAStarOnExampleGraphs {
     // *** SET TO TRUE IF YOU WANT TO RUN THESE TESTS ***
     private static boolean _RunThisTestSuite = true;
 
-    private boolean _runNodes10Random = true; // TODO Parse Nodes10
-    private boolean _runNodes11OutTree = true; // May take a long time or run out of memory
     // **************************************************
 
     private String[] _args;
@@ -124,7 +122,6 @@ public class testParallelAStarOnExampleGraphs {
 
     @Test
     public void testNodes10Random_2P_2C() throws IOException {
-        Assume.assumeTrue(_runNodes10Random);
         _args = new String[]{"src/main/resources/Nodes_10_Random.dot", "2", "-p", "2"};
 
 
@@ -133,8 +130,6 @@ public class testParallelAStarOnExampleGraphs {
 
     @Test
     public void testNodes10Random_4P_2C() throws IOException {
-        Assume.assumeTrue(_runNodes10Random);
-
         _args = new String[]{"src/main/resources/Nodes_10_Random.dot", "4", "-p", "2"};
 
 
@@ -143,7 +138,6 @@ public class testParallelAStarOnExampleGraphs {
 
     @Test
     public void testNodes10Random_2P_4C() throws IOException {
-        Assume.assumeTrue(_runNodes10Random);
         _args = new String[]{"src/main/resources/Nodes_10_Random.dot", "2", "-p", "4"};
 
 
@@ -152,8 +146,6 @@ public class testParallelAStarOnExampleGraphs {
 
     @Test
     public void testNodes10Random_4P_4C() throws IOException {
-        Assume.assumeTrue(_runNodes10Random);
-
         _args = new String[]{"src/main/resources/Nodes_10_Random.dot", "4", "-p", "4"};
 
 
@@ -162,7 +154,6 @@ public class testParallelAStarOnExampleGraphs {
 
     @Test
     public void testNodes11OutTree_2P_2C() throws IOException {
-        Assume.assumeTrue(_runNodes11OutTree);
         _args = new String[]{"src/main/resources/Nodes_11_OutTree.dot", "2", "-p", "2"};
 
         assertEquals(350, getAStarSolutionFor(_args));
@@ -170,8 +161,6 @@ public class testParallelAStarOnExampleGraphs {
 
     @Test
     public void testNodes11OutTree_4P_2C() throws IOException {
-        Assume.assumeTrue(_runNodes11OutTree);
-
         _args = new String[]{"src/main/resources/Nodes_11_OutTree.dot", "4", "-p", "2"};
 
         assertEquals(227, getAStarSolutionFor(_args));
@@ -179,7 +168,6 @@ public class testParallelAStarOnExampleGraphs {
 
     @Test
     public void testNodes11OutTree_2P_4C() throws IOException {
-        Assume.assumeTrue(_runNodes11OutTree);
         _args = new String[]{"src/main/resources/Nodes_11_OutTree.dot", "2", "-p", "4"};
 
         assertEquals(350, getAStarSolutionFor(_args));
@@ -187,8 +175,6 @@ public class testParallelAStarOnExampleGraphs {
 
     @Test
     public void testNodes11OutTree_4P_4C() throws IOException {
-        Assume.assumeTrue(_runNodes11OutTree);
-
         _args = new String[]{"src/main/resources/Nodes_11_OutTree.dot", "4", "-p", "4"};
 
         assertEquals(227, getAStarSolutionFor(_args));
@@ -197,8 +183,8 @@ public class testParallelAStarOnExampleGraphs {
     private int getAStarSolutionFor(String[] args) throws IOException {
         CLI cli = new CLI(args);
         FileReadWriter frw = new FileReadWriter(cli);
-        Graph graph = frw.readDotFile();
-        AStar aStar = new AStar(graph);
+        DAGGraph graph = frw.readDotFile();
+        AStar aStar = new AStar(graph, null);
         return aStar.getOptimalScheduleParallel(graph, cli.getCores() - 1).getScheduledTask().getStartTime();
     }
 }
