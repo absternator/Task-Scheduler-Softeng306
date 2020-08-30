@@ -1,0 +1,35 @@
+digraph "graph" {
+    a         [Weight=2];
+    b         [Weight=3];
+    c         [Weight=10];
+    d         [Weight=4];
+    e         [Weight=5];
+    f         [Weight=2];
+    g         [Weight=12];
+    h         [Weight=25];
+    i         [Weight=33];
+    j         [Weight=2];
+    k         [Weight=5];
+    l         [Weight=1];
+    m         [Weight=1];
+    n         [Weight=23];
+    o         [Weight=3];
+    p         [Weight=4];
+    q         [Weight=3];
+    r         [Weight=8];
+    s         [Weight=3];
+    t         [Weight=3];
+    h -> a    [Weight=4];
+    i -> a    [Weight=3];
+    j -> b    [Weight=45];
+    k -> b    [Weight=6];
+    l -> c    [Weight=9];
+    m -> c    [Weight=13];
+    n -> d    [Weight=7];
+    o -> d    [Weight=8];
+    p -> e    [Weight=3];
+    q -> e    [Weight=4];
+    r -> f    [Weight=5];
+    s -> f    [Weight=23];
+    t -> g    [Weight=5];
+}
