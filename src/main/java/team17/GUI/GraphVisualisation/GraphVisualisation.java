@@ -38,7 +38,6 @@ public class GraphVisualisation {
         Viewer viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
         viewer.enableAutoLayout();
 
-//        DefaultView view = new DefaultView(viewer, Viewer.DEFAULT_VIEW_ID, Viewer.newGraphRenderer());
         DefaultView view = (DefaultView) viewer.addDefaultView(false);
         view.setMinimumSize(new Dimension(600,300));
 
@@ -63,6 +62,7 @@ public class GraphVisualisation {
             if(!id.equals("end")) {
                 Node n = graph.addNode(id);
                 n.addAttribute("ui.label", id);
+                n.addAttribute("layout.weight", 0.1);
             }
         }
 
