@@ -44,7 +44,7 @@ public class MainController {
     @FXML
     private Text runningTime;
     @FXML
-    private Pane statusPane;
+    private AnchorPane statusPane;
 
     @FXML
     private Text completeText;
@@ -60,6 +60,9 @@ public class MainController {
 
     @FXML
     private Text bestCostText;
+
+    @FXML
+    private AnchorPane StatusPane;
 
     private Tile _memoryUsageTile;
     private double _maxMemory;
@@ -85,6 +88,7 @@ public class MainController {
      * This method initialise the settings for GUI
      */
     public void init() {
+        setUpStatusPane();
         setUpGanttChart();
 
         //read and set the input and output file names
@@ -110,7 +114,9 @@ public class MainController {
         updateGUI();
     }
 
-
+    private void setUpStatusPane(){
+        StatusPane.setStyle("-fx-background-color: rgb(229, 195, 36);");
+    }
     /**
      * Method to read the memory usage from the system periodically and update the corresponding GUI element
      */
@@ -138,6 +144,7 @@ public class MainController {
                 _algorithmState.setFinished(false);
                 //change the status from "running" to "done"
                 updateStatus();
+
             }
         });
         tm.setCycleCount(Timeline.INDEFINITE);
@@ -213,6 +220,7 @@ public class MainController {
 
     public void updateStatus() {
         statusText.setText("Done");
+        StatusPane.setStyle("-fx-background-color: rgb(36,229,62);");
     }
 
     private void setUpMemoryPane() {

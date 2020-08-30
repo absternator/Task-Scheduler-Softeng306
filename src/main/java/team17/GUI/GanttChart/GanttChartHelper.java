@@ -47,7 +47,7 @@ public class GanttChartHelper {
         _chart.setLegendVisible(false);
         _chart.setBlockHeight(20);
         _chart.setVerticalGridLinesVisible(false);
-        _chart.setPrefHeight(320);
+        _chart.setPrefHeight(330);
         _chart.setPrefWidth(605);
     }
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.embed.swing.SwingNode?>
+
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -78,15 +79,15 @@
                      </font>
                   </Text>
                </children></Pane>
-            <Pane id="statusPane" layoutX="91.0" layoutY="334.0" prefHeight="73.0" prefWidth="172.0">
+            <AnchorPane id="statusPane" fx:id="StatusPane" layoutX="91.0" layoutY="334.0" prefHeight="73.0" prefWidth="172.0">
                <children>
-                  <Text fx:id="statusText" layoutX="14.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Running" textAlignment="CENTER" wrappingWidth="144.9931640625">
+                  <Text fx:id="statusText" layoutX="16.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Running" textAlignment="CENTER" wrappingWidth="144.9931640625">
                      <font>
                         <Font size="32.0" />
                      </font>
                   </Text>
                </children>
-            </Pane>
+            </AnchorPane>
             <AnchorPane layoutX="0.0" layoutY="421.0" prefHeight="315.0" prefWidth="334.0">
                <children>
                   <TextFlow layoutX="9.0" layoutY="40.0" prefHeight="41.0" prefWidth="203.0">
