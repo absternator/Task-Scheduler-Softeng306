@@ -5,9 +5,7 @@ import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.TileBuilder;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-
 import javafx.embed.swing.SwingNode;
-
 import javafx.fxml.FXML;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -17,10 +15,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
-
 import team17.Algorithm.AlgorithmState;
 import team17.DAG.DAGGraph;
-import team17.GUI.GraphVisualisation.GraphVisualisation;
 import team17.GUI.GanttChart.GanttChart;
 import team17.GUI.GanttChart.GanttChartHelper;
 import team17.IO.CLI;
@@ -43,7 +39,7 @@ public class MainController {
     private TextFlow outputText;
 
     @FXML
-    private TextFlow processorsNumberText;
+    private Text processorsNumberText;
 
     @FXML
     private Text statusText;
@@ -53,6 +49,9 @@ public class MainController {
 
     @FXML
     private Text runningTime;
+
+    @FXML
+    private Text coresText;
 
     @FXML
     private Text completeText;
@@ -106,8 +105,10 @@ public class MainController {
         // Embed input graph to GraphPane
         setUpGraphPane();
 
+
         // Read and set the number of processor
         setUpNumberOfProcessors();
+        setUpNumberOfCores();
 
         // Get the max memory that can be used for this computer
         _maxMemory = Runtime.getRuntime().maxMemory() / 1048576; // in bytes
@@ -123,7 +124,7 @@ public class MainController {
     }
 
     private void setUpStatusPane(){
-        StatusPane.setStyle("-fx-background-color: rgb(229, 195, 36);");
+        StatusPane.setStyle("-fx-background-color: rgb(247,173,151);");
     }
     /**
      * Method to read the memory usage from the system periodically and update the corresponding GUI element
@@ -225,16 +226,17 @@ public class MainController {
     public void setUpNumberOfProcessors() {
         int processorsNumber = _config.getProcessors();
         String processorNumberString = String.valueOf(processorsNumber);
-        processorNumberString = "  " + processorNumberString;
-        Text pText = new Text(processorNumberString);
-        pText.setStyle("-fx-font: 20 System;");
-        processorsNumberText.getChildren().add(pText);
+        processorsNumberText.setText(processorNumberString);
+    }
+
+    public void setUpNumberOfCores() {
+        coresText.setText(String.valueOf(_config.getCores()));
     }
 
     public void updateStatus() {
         statusText.setText("Done");
         //change the status bacground color
-        StatusPane.setStyle("-fx-background-color: rgb(205,229,223);");
+        StatusPane.setStyle("-fx-background-color:rgb(201,237,231);");
     }
 
     /**

@@ -50,7 +50,7 @@ public class GanttChartHelper {
         _chart.setLegendVisible(false);
         _chart.setBlockHeight(20);
         _chart.setVerticalGridLinesVisible(false);
-        _chart.setPrefHeight(330);
+        _chart.setPrefHeight(340);
         _chart.setPrefWidth(605);
     }
 
@@ -79,7 +79,7 @@ public class GanttChartHelper {
             XYChart.Series<Number, String> series = new XYChart.Series();
             for (ScheduledTask st : processorTasks.get(i + 1)) {
                 // Create new data object for ech task
-                series.getData().add(new XYChart.Data<Number, String>(st.getStartTime(), processor, new TaskData(st.getNode().getId(), st.getNode().getWeight(), "status-red")));
+                series.getData().add(new XYChart.Data<Number, String>(st.getStartTime(), processor, new TaskData(st.getNode().getId(), st.getNode().getWeight(), "status-rust")));
             }
             _chart.getData().add(series);
         }

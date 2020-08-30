@@ -40,9 +40,9 @@ public class Main extends Application {
         //Run in IDE
 
 
-//        args = new String[]{"src/main/resources/INPUT0.dot", "2", "-v"};
+        args = new String[]{"src/main/resources/INPUT0.dot", "2", "-v"};
 
-       args = new String[]{"src/main/resources/INPUT0.dot", "4"};
+//       args = new String[]{"src/main/resources/INPUT0.dot", "4"};
 
 
         _config = new CLI();
@@ -124,9 +124,10 @@ public class Main extends Application {
             Thread thread = new Thread(Main::startAlgorithm);
             thread.start();
 
-            Scene scene = new Scene(root, 1015, 760);
+            Scene scene = new Scene(root, 990, 740);
             scene.getStylesheets().add(getClass().getResource("view.css").toExternalForm());
             primaryStage.setScene(scene);
+            primaryStage.setResizable(false);
 
             primaryStage.setTitle("17-Peaches\uD83C\uDF51Task Scheduler");
             primaryStage.show();
