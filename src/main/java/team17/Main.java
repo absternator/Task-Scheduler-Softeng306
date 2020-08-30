@@ -36,7 +36,7 @@ public class Main extends Application {
 
         //Run in IDE
 //        args = new String[]{"src/main/resources/INPUT0.dot", "2", "-v"};
-       args = new String[]{"src/main/resources/graph4.dot", "2", "-v"};
+       args = new String[]{"src/main/resources/Nodes_11_OutTree.dot", "2"};
 
         _config = new CLI(args);
 
@@ -51,6 +51,7 @@ public class Main extends Application {
             launch();
         } else {
             startAlgorithm();
+            Platform.exit();
         }
     }
 
@@ -59,7 +60,7 @@ public class Main extends Application {
         List<ScheduledTask> schedule;
         Algorithm algorithm;
 
-        if (true) {
+        if (false) {
             algorithm = new DFS(_graph, _algorithmState); //TODO remove graph parameter
         } else {
             // for small graphs, use the A* algorithm
