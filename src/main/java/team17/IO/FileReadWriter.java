@@ -65,7 +65,7 @@ public class FileReadWriter {
 
         if (!entity.contains("->")) { // this is adding a node
             graph.addNode(entity,Integer.parseInt(weight));
-            //Assume node has been added in graph before adding edge
+            // Assume node has been added in graph before adding edge
         } else {
             String[] nodes = entity.split("->");
             try {
@@ -82,7 +82,7 @@ public class FileReadWriter {
      * @param solution the set of scheduled tasks in the final optimal solution
      */
     public void writeOutput(List<ScheduledTask> solution) throws IOException {
-          //Puts the list in alphabetical order to match the input.
+          // Puts the list in alphabetical order to match the input.
         Collections.sort(solution);
 
         File file = new File(_cli.getOutput());
@@ -93,7 +93,7 @@ public class FileReadWriter {
             DAGNode node = task.getNode();
             pw.printf("\t%-10s[Weight=%d,Start=%d,Processor=%d];\n", node.getId(), node.getWeight(), task.getStartTime(), task.getProcessorNum());
 
-            //Prints out the edges for the node using the dependencies
+            // Prints out the edges for the node using the dependencies
             if (!node.getDependencies().isEmpty()) {
                 for (DAGNode incoming : node.getDependencies()) {
                     String entry = incoming.getId() + " -> " + node.getId();

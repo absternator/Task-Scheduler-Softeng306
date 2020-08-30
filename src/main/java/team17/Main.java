@@ -23,23 +23,27 @@ import team17.IO.InvalidEntryException;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Main class of this program
+ */
 public class Main extends Application {
 
     private static CLI _config;
     private static AlgorithmState _algorithmState;
     private static DAGGraph _graph;
     private static FileReadWriter _frw;
-//    private static volatile boolean _guiActive = false;
-//    private static volatile boolean _algoActive = false;
-
 
     public static void main(String[] args) {
         //Run from command line
 //        args = new String[]{"../../src/main/resources/graph.dot", "2", "-v"};
 
         //Run in IDE
+
+
 //        args = new String[]{"src/main/resources/INPUT0.dot", "2", "-v"};
-       args = new String[]{"src/main/resources/Nodes_11_OutTree.dot", "4"};
+
+       args = new String[]{"src/main/resources/INPUT0.dot", "4"};
+
 
         _config = new CLI();
         try {
@@ -72,15 +76,18 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * This method starts the main algorithm of the program
+     */
     private static void startAlgorithm() {
 
         List<ScheduledTask> schedule;
         Algorithm algorithm;
 
-        if (false) {
+        if (true) {
             algorithm = new DFS(_graph, _algorithmState); //TODO remove graph parameter
         } else {
-            // for small graphs, use the A* algorithm
+            // For small graphs, use the A* algorithm
             algorithm = new AStar(_graph, _algorithmState); //TODO remove graph parameter
         }
 
@@ -121,7 +128,6 @@ public class Main extends Application {
                 System.exit(0);
             });
 
-            // run Astar
             Thread thread = new Thread(Main::startAlgorithm);
             thread.start();
 
@@ -129,7 +135,7 @@ public class Main extends Application {
             scene.getStylesheets().add(getClass().getResource("view.css").toExternalForm());
             primaryStage.setScene(scene);
 
-            //primaryStage.setOnCloseRequest();
+            primaryStage.setTitle("17-Peaches\uD83C\uDF51Task Scheduler");
             primaryStage.show();
 
         } catch (Exception e) {

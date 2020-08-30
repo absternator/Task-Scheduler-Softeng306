@@ -5,12 +5,16 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.paint.Color;
+
 import team17.Algorithm.ScheduledTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Class to set up and update GanttChart
+ */
 public class GanttChartHelper {
 
     private int _numProcessors;
@@ -30,7 +34,6 @@ public class GanttChartHelper {
             processors[i] = "Processor " + String.valueOf(i + 1);
         }
 
-
         NumberAxis xAxis = (NumberAxis) _chart.getXAxis();
         xAxis.setLabel("");
         xAxis.setTickLabelFill(Color.CHOCOLATE);
@@ -43,12 +46,12 @@ public class GanttChartHelper {
         yAxis.setTickLabelGap(10);
         yAxis.setCategories(FXCollections.<String>observableArrayList(processors));
 
-        _chart.setTitle("Current Best Schedule"); //Remove if not necessary
+
         _chart.setLegendVisible(false);
         _chart.setBlockHeight(20);
         _chart.setVerticalGridLinesVisible(false);
-        _chart.setPrefHeight(340);
-        _chart.setPrefWidth(490);
+        _chart.setPrefHeight(330);
+        _chart.setPrefWidth(605);
     }
 
     /**
@@ -56,10 +59,10 @@ public class GanttChartHelper {
      * @param solution
      */
     public void updateGanttChart(List<ScheduledTask> solution) {
-        //clear the original data
+        // Clear the original data
         _chart.getData().clear();
 
-        // loop through the schedule and group tasks by processor number
+        // Loop through the schedule and group tasks by processor number
         HashMap<Integer, List<ScheduledTask>> processorTasks = new HashMap<>();
         for (ScheduledTask st : solution) {
             if (processorTasks.containsKey(st.getProcessorNum())) {

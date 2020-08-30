@@ -3,6 +3,9 @@ package team17.Algorithm;
 import java.util.Set;
 import team17.DAG.DAGGraph;
 
+/**
+ * Class that is used for multithreading in the algorithm
+ */
 public class NThreads extends Thread{
     private final Algorithm _algo;
     private final DAGGraph _graph;

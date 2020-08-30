@@ -75,6 +75,9 @@ public class DAGGraph {
         setBottomLoad();
     }
 
+    /**
+     * Add node "end" to the end of the _nodeList
+     */
     public void addFinishNode() {
         DAGNode finish = new DAGNode("end", 0);
         _nodeList.add(finish);
@@ -88,17 +91,20 @@ public class DAGGraph {
         }
     }
 
+    /**
+     * Checks if nodes are equivalent and assigns the same eqId
+     */
     public void setEquivalentNodes() {
-        int eqId = 1; // the equivalence id
-        ArrayList<DAGNode> unset = new ArrayList<>(_nodeList); // the nodes that haven't had their eqId set
+        int eqId = 1; // The equivalence id
+        ArrayList<DAGNode> unset = new ArrayList<>(_nodeList); // The nodes that haven't had their eqId set
         ArrayList<DAGNode> remove = new ArrayList<>();
 
         for (DAGNode node : _nodeList) {
-            if (node.getEquivalenceId() == 0) { // only set the eqId if it has not already been set
+            if (node.getEquivalenceId() == 0) { // Only set the eqId if it has not already been set
                 node.setEquivalenceId(eqId);
                 unset.remove(node);
 
-                // check all unset nodes for equivalence
+                // Check all unset nodes for equivalence
                 for (DAGNode other : unset) {
                     if (node.isEquivalent(other)) {
                         other.setEquivalenceId(eqId);
@@ -106,7 +112,7 @@ public class DAGGraph {
                     }
                 }
 
-                // remove set nodes from unset
+                // Remove set nodes from unset
                 unset.removeAll(remove);
                 remove.clear();
                 eqId++;

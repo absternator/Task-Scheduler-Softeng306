@@ -5,10 +5,14 @@ import team17.DAG.DAGNode;
 
 import java.util.*;
 
+/**
+ * Class that contains the main skeleton of the DFS algorithm
+ */
 public class DFS extends Algorithm {
     int _upperBound;
     Stack<PartialSolution> _open = new Stack<>();
     Set<PartialSolution> _closed = new HashSet<>();
+
 
     public DFS(DAGGraph graph, AlgorithmState algorithmState) {
         super(algorithmState);
@@ -112,6 +116,7 @@ public class DFS extends Algorithm {
     public synchronized PartialSolution getNextPartialSolution() {
         if (!_open.isEmpty()) {
             PartialSolution partialSolution = _open.pop();
+
             if (_algorithmState != null) {
                 _algorithmState.updateNumExpandedPartialSolutions(1);
             }
@@ -142,7 +147,7 @@ public class DFS extends Algorithm {
             int cost = child.getCostUnderestimate();
             if (cost < _upperBound && !_closed.contains(child)) {
                 _open.push(child);
-                if(_closed.size() < 5000000){
+                if(_closed.size() < 2500000){
                     _closed.add(child);
                 }
                 if (_algorithmState != null) {
