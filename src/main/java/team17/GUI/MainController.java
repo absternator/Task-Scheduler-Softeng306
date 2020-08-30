@@ -43,8 +43,7 @@ public class MainController {
     private SwingNode graphPane;
     @FXML
     private Text runningTime;
-    @FXML
-    private AnchorPane statusPane;
+    
 
     @FXML
     private Text completeText;
