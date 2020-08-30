@@ -102,12 +102,31 @@ public class CompareAlgorithms {
 
     @Test
     public void compareINPUT2_8P() throws IOException {
-        _args = new String[]{"src/main/resources/INPUT2.dot", "8"};
+        _args = new String[]{"src/main/resources/INPUT0.dot", "2"};
+        compareAlgorithmsFor(_args);
+    }
+
+    @Test
+    public void compare20ind_8P() throws IOException {
+        _args = new String[]{"src/main/resources/20ind.dot", "8"};
+        compareAlgorithmsFor(_args);
+    }
+
+    @Test
+    public void compareForky_2P() throws IOException {
+        _args = new String[]{"src/main/resources/forky.dot", "3"};
+        compareAlgorithmsFor(_args);
+    }
+
+    @Test
+    public void compareIntree_2P() throws IOException {
+        _args = new String[]{"src/main/resources/intree.dot", "3"};
         compareAlgorithmsFor(_args);
     }
 
     private void compareAlgorithmsFor(String[] args) throws IOException {
         CLI cli = new CLI(args);
+        cli.readCLI();
         FileReadWriter frw = new FileReadWriter(cli);
         DAGGraph graph = frw.readDotFile();
         AStar aStar = new AStar(graph, new AlgorithmState());
@@ -118,13 +137,13 @@ public class CompareAlgorithms {
         aStar.getOptimalSchedule(graph);
         long end = System.nanoTime();
         long aTimeElapsed = end - start;
-        System.out.println("\t\tA* time: " + aTimeElapsed + " ns");
+        System.out.println("\t\tA* time: " + aTimeElapsed + " ns = " + aTimeElapsed / 1000000 + " ms");
 
         start = System.nanoTime();
         dfs.getOptimalSchedule(graph);
         end = System.nanoTime();
         long dfsTimeElapsed = end - start;
-        System.out.println("\t\tDFS time: " + dfsTimeElapsed + " ns");
+        System.out.println("\t\tDFS time: " + dfsTimeElapsed + " ns = " + dfsTimeElapsed / 1000000 + " ms");
         String result = (dfsTimeElapsed < aTimeElapsed) ? "Dfs was faster" : "A* was faster";
         System.out.println(result + "\n");
     }
