@@ -5,6 +5,7 @@ import team17.Algorithm.AlgorithmConfig;
 import team17.Algorithm.ScheduledTask;
 import team17.DAG.DAGGraph;
 import team17.DAG.DAGNode;
+import team17.DAG.InvalidGraphException;
 
 import java.io.*;
 import java.util.Collections;
@@ -24,10 +25,11 @@ public class FileReadWriter {
 
     /**
      * This method reads in the dot file to set up the graph object
-     *
+     * @return The corresponding DAG graph to the file
      * @throws IOException Throw IO exception if file does not exist.
+     * @throws InvalidGraphException Throw invalid graph exception
      */
-    public DAGGraph readDotFile() throws IOException {
+    public DAGGraph readDotFile() throws IOException, InvalidGraphException, InvalidEntryException {
         DAGGraph graph = new DAGGraph();
         File file = new File(_cli.getInput());
         BufferedReader br = new BufferedReader(new FileReader(file));
@@ -49,15 +51,16 @@ public class FileReadWriter {
     /**
      * This parses the information in the input dot file to adds tasks to graph.
      * @param line Each line of the dot file is passed in.
+     * @throws InvalidEntryException Throw if entry for the graph is not valid
      */
-    private void parse(DAGGraph graph, String line) throws IOException {
+    private void parse(DAGGraph graph, String line) throws InvalidEntryException {
         String entity = StringUtils.deleteWhitespace(StringUtils.substringBefore(line,"["));
         String weight = StringUtils.substringBetween(line,"Weight=","]");
 
         if (weight == null) { // Not an entry for a node/edge
             return;
         } else if (entity.isEmpty() || weight.isEmpty()) { // Not a valid entry for the graph
-            throw new IOException("Invalid graph entry: Entity = " + entity + ", Weight = " + weight );
+            throw new InvalidEntryException("Invalid graph entry: Entity = " + entity + ", Weight = " + weight );
         }
 
         if (!entity.contains("->")) { // this is adding a node

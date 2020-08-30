@@ -4,8 +4,11 @@ import org.junit.Test;
 import team17.Algorithm.AStar;
 import team17.Algorithm.AlgorithmState;
 import team17.DAG.DAGGraph;
+import team17.DAG.InvalidGraphException;
 import team17.IO.CLI;
 import team17.IO.FileReadWriter;
+import team17.IO.IncorrectCLIInputException;
+import team17.IO.InvalidEntryException;
 
 import java.io.IOException;
 
@@ -126,9 +129,19 @@ public class testAStarOnExampleGraphs {
     }
 
     private int getAStarSolutionFor(String[] args) throws IOException {
-        CLI cli = new CLI(args);
+        CLI cli = new CLI();
+        try {
+            cli.readCLI(args);
+        } catch (IncorrectCLIInputException e) {
+            e.printStackTrace();
+        }
         FileReadWriter frw = new FileReadWriter(cli);
-        DAGGraph graph = frw.readDotFile();
+        DAGGraph graph = null;
+        try {
+            graph = frw.readDotFile();
+        } catch (InvalidGraphException | InvalidEntryException e) {
+            e.printStackTrace();
+        }
         AStar aStar = new AStar(graph, new AlgorithmState());
         return aStar.getOptimalSchedule(graph).getScheduledTask().getStartTime();
     }

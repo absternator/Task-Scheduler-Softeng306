@@ -1,8 +1,11 @@
 import org.junit.BeforeClass;
 import org.junit.Test;
 import team17.DAG.DAGGraph;
+import team17.DAG.InvalidGraphException;
 import team17.IO.CLI;
 import team17.IO.FileReadWriter;
+import team17.IO.IncorrectCLIInputException;
+import team17.IO.InvalidEntryException;
 
 import java.io.IOException;
 
@@ -13,10 +16,11 @@ public class testNode {
     private static FileReadWriter _frw;
 
     @BeforeClass
-    public static void setUp() throws IOException {
+    public static void setUp() throws IOException, InvalidGraphException, InvalidEntryException, IncorrectCLIInputException {
         String[] args = new String[]{"src/main/resources/testNode.dot", "2"};
 
-        CLI cli = new CLI(args);
+        CLI cli = new CLI();
+        cli.readCLI(args);
         _frw = new FileReadWriter(cli);
         _graph = _frw.readDotFile();
     }
@@ -57,14 +61,14 @@ public class testNode {
     }
 
     @Test
-    public void testIsEquivalentSameEqId() throws IOException {
+    public void testIsEquivalentSameEqId() throws IOException, InvalidGraphException, InvalidEntryException {
         DAGGraph graph = _frw.readDotFile();
         graph.setEquivalentNodes();
         assertTrue(graph.getNode("b").isEquivalent(graph.getNode("c")));
     }
 
     @Test
-    public void testIsEquivalentDifferentEqId() throws IOException {
+    public void testIsEquivalentDifferentEqId() throws IOException, InvalidGraphException, InvalidEntryException {
         DAGGraph graph = _frw.readDotFile();
         graph.setEquivalentNodes();
         assertFalse(graph.getNode("b").isEquivalent(graph.getNode("d")));
