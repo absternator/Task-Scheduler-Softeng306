@@ -167,8 +167,6 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
         }
         return this.getCostUnderestimate() - other.getCostUnderestimate();
     }
-// TODO: 26/08/20 Still will update futher 
-
     /**
      * This method checks if two partial solutions are equal
      *
@@ -178,7 +176,6 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
     @Override
     public boolean equals(Object other) {
         Set<ScheduledTask> thisSolution = new HashSet<>();
-        // TODO: 26/08/20  get proc end times(hard coded to 4 atm) ALgoConfig.getProcNum
         int[] thisProcessorEndTimes = new int[AlgorithmConfig.getNumOfProcessors()];
         int[] otherProcessorEndTimes = new int[AlgorithmConfig.getNumOfProcessors()];
         for (ScheduledTask task : this) {

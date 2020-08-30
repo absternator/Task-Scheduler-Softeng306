@@ -6,7 +6,7 @@ import team17.DAG.DAGNode;
 import java.util.Objects;
 
 /**
- * This Represents each task scheduled on a processor.
+ * This Represents each task scheduled on a processor at a particular start time.
  */
 public class ScheduledTask implements Comparable<ScheduledTask> {
     private final int _processorNum;

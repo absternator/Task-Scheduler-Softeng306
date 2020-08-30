@@ -12,7 +12,7 @@ public class AStar extends Algorithm {
     private final Queue<PartialSolution> _open;
     private final Set<PartialSolution> _closed;
     private final int _upperBound;
-    private int _maxOpenCount = 0; // todo: this is for testing only(remove later)
+    private int _maxOpenCount = 0;
 
     private boolean _foundComplete = false;
 
@@ -51,7 +51,7 @@ public class AStar extends Algorithm {
             }
         }
 
-        System.out.print("A*: left in queue: "+_open.size()); //todo: for testing only(remove later)
+        System.out.print("A*: left in queue: "+_open.size());
         System.out.print("\t\tadded to queue: "+ _maxOpenCount);
         return _bestCompletePartialSolution;
     }
@@ -160,11 +160,13 @@ public class AStar extends Algorithm {
 
     @Override
     public synchronized PartialSolution getNextPartialSolution() {
+        //remove from open and place in closed set
         PartialSolution partialSolution = _open.poll();
         _closed.add(partialSolution);
         if (_algorithmState != null) {
             _algorithmState.updateNumExpandedPartialSolutions(1);
         }
+        //if found a complete solution, return null
         if (_foundComplete) {
             return null;
         }
@@ -189,10 +191,6 @@ public class AStar extends Algorithm {
      */
     @Override
     public synchronized void openAddChildren(Set<PartialSolution> children) {
-        // TODO: 26/08/20 will be updated further
-        // This is to add all children at once(not preferred)
-//        maxOpenCount += children.size();
-//        _open.addAll(children);
         for (PartialSolution child : children) {
             if (!_closed.contains(child) && child.getCostUnderestimate() < _upperBound) {
                 _maxOpenCount++;
