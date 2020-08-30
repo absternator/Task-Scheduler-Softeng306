@@ -12,6 +12,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
@@ -223,9 +224,10 @@ public class MainController {
                 .unit("MB")
                 .startFromZero(true)
                 .animated(true)
-                //.backgroundColor(Color.WHITE)
-                .prefWidth(memoryPane.getWidth())
-                .prefHeight(memoryPane.getHeight())
+                .foregroundBaseColor(Color.BLACK)
+                .backgroundColor(Color.GREEN)
+                .prefWidth(250)
+                .prefHeight(300)
                 .build();
         _memoryUsageTile.setValue(0);
         memoryPane.getChildren().addAll(_memoryUsageTile);

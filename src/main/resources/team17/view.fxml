@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane id="GanttChartPane" fx:id="ganttChartPane" layoutX="5" layoutY="360.0" prefHeight="380.0" prefWidth="635.0">
+      <AnchorPane id="GanttChartPane" fx:id="ganttChartPane" layoutX="5" layoutY="365.0" prefHeight="380.0" prefWidth="635.0">
          <children>
             <AnchorPane fx:id="ganttChartContainer" prefHeight="320.0" prefWidth="600.0" />
             <TextFlow layoutX="160.0" layoutY="340.0" prefHeight="30.0" prefWidth="300.0" textAlignment="CENTER">
@@ -127,9 +127,9 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <AnchorPane id="graphPane" layoutX="5.0" layoutY="10.0" prefHeight="300.0" prefWidth="365.0">
+      <AnchorPane id="graphPane" layoutX="5.0" layoutY="8.0" prefHeight="340.0" prefWidth="355.0">
          <children>
-            <SwingNode id="GraphPane" fx:id="graphPane" layoutX="20.0" layoutY="10.0" />
+            <SwingNode id="GraphPane" fx:id="graphPane" layoutX="8.0" layoutY="8.0" />
          </children>
       </AnchorPane>
       <Pane fx:id="memoryPane" layoutX="376.0" prefHeight="258.0" prefWidth="261.0" />
