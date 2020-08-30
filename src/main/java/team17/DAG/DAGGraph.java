@@ -67,7 +67,7 @@ public class DAGGraph {
     /**
      * Set up necessary heuristic values and finish node
      */
-    public void initialise() {
+    public void initialise() throws InvalidGraphException {
         addFinishNode();
         setBottomLevel();
         setEquivalentNodes();

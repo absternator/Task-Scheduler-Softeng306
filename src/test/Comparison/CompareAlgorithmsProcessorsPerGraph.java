@@ -15,7 +15,7 @@ import java.io.IOException;
 
 public class CompareAlgorithmsProcessorsPerGraph {
     // ******************** SET TO TRUE IF YOU WANNA RUN THIS ***********************
-    private static boolean _runComparisons = true;
+    private static boolean _runComparisons = false;
     // ******************************************************************************
 
     private String[] _args;

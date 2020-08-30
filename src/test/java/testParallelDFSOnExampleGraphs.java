@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 public class testParallelDFSOnExampleGraphs {
 
     // *** SET TO TRUE IF YOU WANT TO RUN THESE TESTS ***
-    private static boolean _RunThisTestSuite = true;
+    private static boolean _RunThisTestSuite = false;
 
     // **************************************************
 
@@ -30,7 +30,7 @@ public class testParallelDFSOnExampleGraphs {
     @Test
     public void testNodes7OutTree_2P_2C() throws IOException {
 
-        _args = new String[]{"src/main/resources/Nodes_7_OutTree.dot", "2", "-p", "2"};
+        _args = new String[]{"src/test/resources/Nodes_7_OutTree.dot", "2", "-p", "2"};
 
         assertEquals(28, getDFSSolutionFor(_args));
     }
@@ -38,7 +38,7 @@ public class testParallelDFSOnExampleGraphs {
     @Test
     public void testNodes7OutTree_4P_2C() throws IOException {
 
-        _args = new String[]{"src/main/resources/Nodes_7_OutTree.dot", "4", "-p", "2"};
+        _args = new String[]{"src/test/resources/Nodes_7_OutTree.dot", "4", "-p", "2"};
 
         assertEquals(22, getDFSSolutionFor(_args));
     }
@@ -46,7 +46,7 @@ public class testParallelDFSOnExampleGraphs {
     @Test
     public void testNodes7OutTree_2P_4C() throws IOException {
 
-        _args = new String[]{"src/main/resources/Nodes_7_OutTree.dot", "2", "-p", "4"};
+        _args = new String[]{"src/test/resources/Nodes_7_OutTree.dot", "2", "-p", "4"};
 
         assertEquals(28, getDFSSolutionFor(_args));
     }
@@ -54,7 +54,7 @@ public class testParallelDFSOnExampleGraphs {
     @Test
     public void testNodes7OutTree_4P_4C() throws IOException {
 
-        _args = new String[]{"src/main/resources/Nodes_7_OutTree.dot", "4", "-p", "4"};
+        _args = new String[]{"src/test/resources/Nodes_7_OutTree.dot", "4", "-p", "4"};
 
         assertEquals(22, getDFSSolutionFor(_args));
     }
@@ -62,7 +62,7 @@ public class testParallelDFSOnExampleGraphs {
     @Test
     public void testNodes8Random_2P_2C() throws IOException {
 
-        _args = new String[]{"src/main/resources/Nodes_8_Random.dot", "2", "-p", "2"};
+        _args = new String[]{"src/test/resources/Nodes_8_Random.dot", "2", "-p", "2"};
 
         assertEquals(581, getDFSSolutionFor(_args));
     }
@@ -70,7 +70,7 @@ public class testParallelDFSOnExampleGraphs {
     @Test
     public void testNodes8Random_4P_2C() throws IOException {
 
-        _args = new String[]{"src/main/resources/Nodes_8_Random.dot", "4", "-p", "2"};
+        _args = new String[]{"src/test/resources/Nodes_8_Random.dot", "4", "-p", "2"};
 
         assertEquals(581, getDFSSolutionFor(_args));
     }
@@ -78,7 +78,7 @@ public class testParallelDFSOnExampleGraphs {
     @Test
     public void testNodes8Random_2P_4C() throws IOException {
 
-        _args = new String[]{"src/main/resources/Nodes_8_Random.dot", "2", "-p", "4"};
+        _args = new String[]{"src/test/resources/Nodes_8_Random.dot", "2", "-p", "4"};
 
         assertEquals(581, getDFSSolutionFor(_args));
     }
@@ -86,7 +86,7 @@ public class testParallelDFSOnExampleGraphs {
     @Test
     public void testNodes8Random_4P_4C() throws IOException {
 
-        _args = new String[]{"src/main/resources/Nodes_8_Random.dot", "4", "-p", "4"};
+        _args = new String[]{"src/test/resources/Nodes_8_Random.dot", "4", "-p", "4"};
 
         assertEquals(581, getDFSSolutionFor(_args));
     }
@@ -94,7 +94,7 @@ public class testParallelDFSOnExampleGraphs {
     @Test
     public void testNodes9SeriesParallel_2P_2C() throws IOException {
 
-        _args = new String[]{"src/main/resources/Nodes_9_SeriesParallel.dot", "2", "-p", "2"};
+        _args = new String[]{"src/test/resources/Nodes_9_SeriesParallel.dot", "2", "-p", "2"};
 
         assertEquals(55, getDFSSolutionFor(_args));
     }
@@ -102,7 +102,7 @@ public class testParallelDFSOnExampleGraphs {
     @Test
     public void testNodes9SeriesParallel_4P_2C() throws IOException {
 
-        _args = new String[]{"src/main/resources/Nodes_9_SeriesParallel.dot", "4", "-p", "2"};
+        _args = new String[]{"src/test/resources/Nodes_9_SeriesParallel.dot", "4", "-p", "2"};
 
         assertEquals(55, getDFSSolutionFor(_args));
     }
@@ -110,7 +110,7 @@ public class testParallelDFSOnExampleGraphs {
     @Test
     public void testNodes9SeriesParallel_2P_4C() throws IOException {
 
-        _args = new String[]{"src/main/resources/Nodes_9_SeriesParallel.dot", "2", "-p", "4"};
+        _args = new String[]{"src/test/resources/Nodes_9_SeriesParallel.dot", "2", "-p", "4"};
 
         assertEquals(55, getDFSSolutionFor(_args));
     }
@@ -118,14 +118,14 @@ public class testParallelDFSOnExampleGraphs {
     @Test
     public void testNodes9SeriesParallel_4P_4C() throws IOException {
 
-        _args = new String[]{"src/main/resources/Nodes_9_SeriesParallel.dot", "4", "-p", "4"};
+        _args = new String[]{"src/test/resources/Nodes_9_SeriesParallel.dot", "4", "-p", "4"};
 
         assertEquals(55, getDFSSolutionFor(_args));
     }
 
     @Test
     public void testNodes10Random_2P_2C() throws IOException {
-        _args = new String[]{"src/main/resources/Nodes_10_Random.dot", "2", "-p", "2"};
+        _args = new String[]{"src/test/resources/Nodes_10_Random.dot", "2", "-p", "2"};
 
 
         assertEquals(50, getDFSSolutionFor(_args));
@@ -133,7 +133,7 @@ public class testParallelDFSOnExampleGraphs {
 
     @Test
     public void testNodes10Random_4P_2C() throws IOException {
-        _args = new String[]{"src/main/resources/Nodes_10_Random.dot", "4", "-p", "2"};
+        _args = new String[]{"src/test/resources/Nodes_10_Random.dot", "4", "-p", "2"};
 
 
         assertEquals(50, getDFSSolutionFor(_args));
@@ -141,7 +141,7 @@ public class testParallelDFSOnExampleGraphs {
 
     @Test
     public void testNodes10Random_2P_4C() throws IOException {
-        _args = new String[]{"src/main/resources/Nodes_10_Random.dot", "2", "-p", "4"};
+        _args = new String[]{"src/test/resources/Nodes_10_Random.dot", "2", "-p", "4"};
 
 
         assertEquals(50, getDFSSolutionFor(_args));
@@ -149,7 +149,7 @@ public class testParallelDFSOnExampleGraphs {
 
     @Test
     public void testNodes10Random_4P_4C() throws IOException {
-         _args = new String[]{"src/main/resources/Nodes_10_Random.dot", "4", "-p", "4"};
+         _args = new String[]{"src/test/resources/Nodes_10_Random.dot", "4", "-p", "4"};
 
 
         assertEquals(50, getDFSSolutionFor(_args));
@@ -157,28 +157,28 @@ public class testParallelDFSOnExampleGraphs {
 
     @Test
     public void testNodes11OutTree_2P_2C() throws IOException {
-        _args = new String[]{"src/main/resources/Nodes_11_OutTree.dot", "2", "-p", "2"};
+        _args = new String[]{"src/test/resources/Nodes_11_OutTree.dot", "2", "-p", "2"};
 
         assertEquals(350, getDFSSolutionFor(_args));
     }
 
     @Test
     public void testNodes11OutTree_4P_2C() throws IOException {
-        _args = new String[]{"src/main/resources/Nodes_11_OutTree.dot", "4", "-p", "2"};
+        _args = new String[]{"src/test/resources/Nodes_11_OutTree.dot", "4", "-p", "2"};
 
         assertEquals(227, getDFSSolutionFor(_args));
     }
 
     @Test
     public void testNodes11OutTree_2P_4C() throws IOException {
-        _args = new String[]{"src/main/resources/Nodes_11_OutTree.dot", "2", "-p", "4"};
+        _args = new String[]{"src/test/resources/Nodes_11_OutTree.dot", "2", "-p", "4"};
 
         assertEquals(350, getDFSSolutionFor(_args));
     }
 
     @Test
     public void testNodes11OutTree_4P_4C() throws IOException {
-        _args = new String[]{"src/main/resources/Nodes_11_OutTree.dot", "4", "-p", "4"};
+        _args = new String[]{"src/test/resources/Nodes_11_OutTree.dot", "4", "-p", "4"};
 
         assertEquals(227, getDFSSolutionFor(_args));
     }

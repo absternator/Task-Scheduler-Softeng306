@@ -5,14 +5,17 @@ import team17.Algorithm.AStar;
 import team17.Algorithm.AlgorithmState;
 import team17.Algorithm.DFS;
 import team17.DAG.DAGGraph;
+import team17.DAG.InvalidGraphException;
 import team17.IO.CLI;
 import team17.IO.FileReadWriter;
+import team17.IO.IncorrectCLIInputException;
+import team17.IO.InvalidEntryException;
 
 import java.io.IOException;
 
 public class CompareAlgorithms {
     // ******************** SET TO TRUE IF YOU WANNA RUN THIS ***********************
-    private static boolean _runComparisons = true;
+    private static boolean _runComparisons = false;
     private boolean _runSlowGraphs = false; // these graphs are pretty slow, run at own risk
     // ******************************************************************************
 
@@ -107,9 +110,21 @@ public class CompareAlgorithms {
     }
 
     private void compareAlgorithmsFor(String[] args) throws IOException {
-        CLI cli = new CLI(args);
+        CLI cli = new CLI();
+        try {
+            cli.readCLI(args);
+        } catch (IncorrectCLIInputException e) {
+            e.printStackTrace();
+        }
         FileReadWriter frw = new FileReadWriter(cli);
-        DAGGraph graph = frw.readDotFile();
+        DAGGraph graph = null;
+        try {
+            graph = frw.readDotFile();
+        } catch (InvalidGraphException e) {
+            e.printStackTrace();
+        } catch (InvalidEntryException e) {
+            e.printStackTrace();
+        }
         AStar aStar = new AStar(graph, new AlgorithmState());
         DFS dfs = new DFS(graph, new AlgorithmState());
 
