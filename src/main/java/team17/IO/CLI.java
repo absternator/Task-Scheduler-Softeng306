@@ -12,11 +12,19 @@ public class CLI {
     boolean _visualise;
     int _nCores;
     String _output;
+    String[] _args;
+    Options _options;
+    HelpFormatter _formatter;
+    String _cmdLineSyntax;
+    String _header;
+    String _footer;
 
     public CLI(String[] args) {
-        String cmdLineSyntax = "java -jar scheduler .jar INPUT.dot P [OPTION]";
+        _args = args;
 
-        Options options = new Options();
+        _cmdLineSyntax = "java -jar scheduler .jar INPUT.dot P [OPTION]";
+
+        _options = new Options();
 
         Option parallelCoresOpt = new Option("p", true, "use N cores for execution in parallel (default is sequential)");
         Option visualiseOpt = new Option("v", false, "visualise the search");
@@ -25,50 +33,73 @@ public class CLI {
         parallelCoresOpt.setArgName("N");
         outputOpt.setArgName("OUTPUT");
 
-        options.addOption(parallelCoresOpt);
-        options.addOption(visualiseOpt);
-        options.addOption(outputOpt);
+        _options.addOption(parallelCoresOpt);
+        _options.addOption(visualiseOpt);
+        _options.addOption(outputOpt);
 
-        HelpFormatter formatter = new HelpFormatter();
+        _formatter = new HelpFormatter();
 
-        String header = "Parameters:\n <INPUT.dot>   a task graph with integer weights in dot format\n" +
+        _header = "Parameters:\n <INPUT.dot>   a task graph with integer weights in dot format\n" +
                 " <P>           number of processors to schedule the INPUT graph on\nOptional:";
 
-        String footer = "Please enter the appropriate parameters to start the scheduler";
+        _footer = "Please enter the appropriate parameters to start the scheduler";
+    }
 
+    public void readCLI() throws IncorrectCLIInputException {
         // Check first two args, then optional arguments
-        if(args.length>=2) {
-            if(args[0].endsWith(".dot")) {
-                _input = args[0];
+        if(_args.length>=2) {
+            // Check INPUT.dot ends in dot file extension
+            if(_args[0].endsWith(".dot")) {
+                _input = _args[0];
             } else {
-                formatter.printHelp(cmdLineSyntax, header, options, footer);
-                System.exit(1);
+                throw new IncorrectCLIInputException("Expected first parameter: INPUT.dot");
             }
-            _nProcessors = Integer.parseInt(args[1]);
+            // Check if P is not an integer
+            try{
+                _nProcessors = Integer.parseInt(_args[1]);
+            } catch (NumberFormatException e) {
+                throw new IncorrectCLIInputException("Expected second parameter: integer P");
+            }
+
+            // Check if number of processors is greater than 0
+            if(_nProcessors < 1) {
+                throw new IncorrectCLIInputException("Expected second parameter: integer P where P > 0");
+            }
         } else {
-            formatter.printHelp(cmdLineSyntax, header, options, footer);
-            System.exit(1);
+            throw new IncorrectCLIInputException("Expected two parameters: INPUT.dot, P");
         }
 
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd;
         try {
-            cmd = parser.parse(options, args);
+            cmd = parser.parse(_options, _args);
             _visualise = cmd.hasOption("v");
             // getOptionValue returns 0 if no argument
             if(cmd.getOptionValue("p")!=null) {
-                _nCores = Integer.parseInt(cmd.getOptionValue("p"));
-                if(_nCores==0) {
-                    formatter.printHelp(cmdLineSyntax, header, options, footer);
-                    System.exit(1);
+                // Check if N is not an integer
+                try {
+                    _nCores = Integer.parseInt(cmd.getOptionValue("p"));
+                } catch (NumberFormatException e) {
+                    throw new IncorrectCLIInputException("Expected option: integer N");
+                }
+                // Check if number of cores is greater than 0
+                if(_nCores < 1) {
+                    throw new IncorrectCLIInputException("Expected option: integer N where N > 0");
                 }
             }
             _output = cmd.getOptionValue("o");
         } catch (ParseException e) {
             e.printStackTrace();
-            formatter.printHelp(cmdLineSyntax, header, options, footer);
+            printHelpFormatter();
             System.exit(1);
         }
+    }
+
+    /**
+     * This method prints out the help
+     */
+    public void printHelpFormatter() {
+        _formatter.printHelp(_cmdLineSyntax, _header, _options, _footer);
     }
 
     /**
