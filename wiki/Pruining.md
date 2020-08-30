@@ -1,8 +1,8 @@
-#Pruning
-##Duplication Detection
+# Pruning
+## Duplication Detection
 Duplicate partial solutions are handled by using a CLOSED set.
 Before adding to the data structure of choice for A* or DFS, the partial solution is checked if in CLOSED set. 
-##Heuristics
+## Heuristics
 Heuristics are utilised for both DFS and A*.They represent the cost underestimate from a partial solution to the full solution. Once again a partial solution is checked to ensure the cost underestimate is lower than the upper bound.
 The cost underestimate is also used to determine Priority in the A* priority queue OPEN.
 The heuristics used are as follows:
