@@ -36,8 +36,12 @@ public class Main extends Application {
 //        args = new String[]{"../../src/main/resources/graph.dot", "2", "-v"};
 
         //Run in IDE
+
+
 //        args = new String[]{"src/main/resources/INPUT0.dot", "2", "-v"};
+
        args = new String[]{"src/main/resources/INPUT0.dot", "4"};
+
 
         _config = new CLI(args);
         try {
@@ -116,7 +120,6 @@ public class Main extends Application {
                 System.exit(0);
             });
 
-            // run Astar
             Thread thread = new Thread(Main::startAlgorithm);
             thread.start();
 
@@ -124,6 +127,7 @@ public class Main extends Application {
             scene.getStylesheets().add(getClass().getResource("view.css").toExternalForm());
             primaryStage.setScene(scene);
 
+            primaryStage.setTitle("17-Peaches\uD83C\uDF51Task Scheduler");
             primaryStage.show();
 
         } catch (Exception e) {

@@ -39,7 +39,7 @@ public class GraphVisualisation {
         viewer.enableAutoLayout();
 
         DefaultView view = (DefaultView) viewer.addDefaultView(false);
-        view.setMinimumSize(new Dimension(600,300));
+        view.setMinimumSize(new Dimension(340,320));
 
         SwingUtilities.invokeLater(() -> sn.setContent(view));
     }
