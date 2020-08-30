@@ -22,7 +22,7 @@ It shows the current best schedule that the algorithm generated.
 This is the visualisation of the input dot file. Users can easily drag the node to view the details of the graph.
  
 ## Design decision
-- Instead of using different tabs, we decide to include all the information on one screen so that the user can easily compare them and do not need to switch between tabs.
+- Instead of using different scenes, we decide to include all the information on one screen so that the user can easily compare them and do not need to switch between scenes.
  
 - Several rounded rectangular is used to group related elements together.
  
