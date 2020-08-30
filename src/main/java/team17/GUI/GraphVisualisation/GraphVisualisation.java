@@ -5,9 +5,6 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
-import org.graphstream.ui.layout.Layout;
-import org.graphstream.ui.layout.springbox.implementations.LinLog;
-import org.graphstream.ui.layout.springbox.implementations.SpringBox;
 import org.graphstream.ui.swingViewer.DefaultView;
 import org.graphstream.ui.view.Viewer;
 import team17.DAG.DAGGraph;
@@ -41,7 +38,6 @@ public class GraphVisualisation {
         Viewer viewer = new Viewer(graph, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
         viewer.enableAutoLayout();
 
-//        DefaultView view = new DefaultView(viewer, Viewer.DEFAULT_VIEW_ID, Viewer.newGraphRenderer());
         DefaultView view = (DefaultView) viewer.addDefaultView(false);
         view.setMinimumSize(new Dimension(600,300));
 
