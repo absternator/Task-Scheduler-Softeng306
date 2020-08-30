@@ -2,15 +2,16 @@
 
 graph {
     text-size: 10px;
+    fill-color: ghostwhite;
 }
 
 node {
     text-style: bold;
     text-alignment: center;
     size: 25px, 25px;
-    fill-color: lightgrey;
     stroke-mode: plain;
-    stroke-color: darkgrey;
+    fill-color: #badecc;
+    stroke-color: #86c5a6;
 }
 
 edge {

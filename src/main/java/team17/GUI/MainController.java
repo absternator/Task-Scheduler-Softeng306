@@ -112,7 +112,7 @@ public class MainController {
     }
 
     private void setUpStatusPane(){
-        StatusPane.setStyle("-fx-background-color: rgb(229, 195, 36);");
+        StatusPane.setStyle("-fx-background-color: rgb(247,173,151);");
     }
     /**
      * Method to read the memory usage from the system periodically and update the corresponding GUI element
@@ -218,7 +218,7 @@ public class MainController {
     public void updateStatus() {
         statusText.setText("Done");
         //change the status bacground color
-        StatusPane.setStyle("-fx-background-color: rgb(205,229,223);");
+        StatusPane.setStyle("-fx-background-color:rgb(201,237,231);");
     }
 
     private void setUpMemoryPane() {

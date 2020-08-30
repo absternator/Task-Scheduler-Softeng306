@@ -1,8 +1,8 @@
 #background{
-    -fx-background-color: #e2e5e5;
+    -fx-background-color: rgb(201,237,231);
 }
 #statisticsPane{
-    -fx-background-color: cadetblue;
+    -fx-background-color: ghostwhite;
     -fx-background-radius: 20 20 20 20;
     -fx-opacity: 1.0;
     -fx-effect: dropshadow(three-pass-box, rgba(106, 104, 104, 0.2), 2, 2, 2, 2);
@@ -17,19 +17,19 @@
 
 
 #GanttChartPane{
-    -fx-background-color: rgb(255, 255, 255);
+    -fx-background-color: ghostwhite;
     -fx-background-radius: 20 20 20 20;
     -fx-effect: dropshadow(three-pass-box, rgba(106, 104, 104, 0.20), 2, 2, 2, 2);
 }
 
 #MemoryPane{
-    -fx-background-color: rgb(255, 255, 255);
+    -fx-background-color: ghostwhite;
     -fx-background-radius: 20 20 20 20;
     -fx-effect: dropshadow(three-pass-box, rgba(106, 104, 104, 0.20), 2, 2, 2, 2);
 }
 
 #graphPane{
-    -fx-background-color: rgb(255, 255, 255);
+    -fx-background-color: ghostwhite;
     -fx-background-radius: 20 20 20 20;
     -fx-effect: dropshadow(three-pass-box, rgba(106, 104, 104, 0.20), 2, 2, 2, 2);
 }

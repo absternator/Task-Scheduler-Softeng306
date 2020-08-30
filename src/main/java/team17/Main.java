@@ -38,9 +38,9 @@ public class Main extends Application {
         //Run in IDE
 
 
-//        args = new String[]{"src/main/resources/INPUT0.dot", "2", "-v"};
+        args = new String[]{"src/main/resources/INPUT0.dot", "2", "-v"};
 
-       args = new String[]{"src/main/resources/INPUT0.dot", "4"};
+//       args = new String[]{"src/main/resources/INPUT0.dot", "4"};
 
 
         _config = new CLI(args);

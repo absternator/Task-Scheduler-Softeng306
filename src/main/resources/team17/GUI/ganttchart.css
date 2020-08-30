@@ -1,21 +1,16 @@
-.status-red {
-    -fx-background-color: rgb(71, 177, 240);
-    -fx-border-color: cornflowerblue;
-}
-.status-green {
-    -fx-background-color: rgb(147, 208, 81);
-    -fx-border-color: cornflowerblue;
-}
-.status-blue {
-    -fx-background-color: rgb(238, 152, 160);
-    -fx-border-color: cornflowerblue;
+.status-rust {
+    -fx-background-color: rgb(248, 196, 180);
+    -fx-border-color: rgb(247,173,151);
 }
 
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
 /*to style the axis*/
 .axis:left {
-    -fx-border-color: transparent orange transparent transparent;
+    -fx-border-color: transparent rgb(247,173,151) transparent transparent;
 }
 
 .axis:bottom{
-    -fx-border-color: orange transparent transparent;
+    -fx-border-color: rgb(247,173,151) transparent transparent;
 }
