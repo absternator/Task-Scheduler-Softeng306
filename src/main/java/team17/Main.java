@@ -111,7 +111,7 @@ public class Main extends Application {
             scene.getStylesheets().add(getClass().getResource("view.css").toExternalForm());
             primaryStage.setScene(scene);
 
-            primaryStage.setTitle("17-Peaches\uD83C\uDF51 Task Scheduler");
+            primaryStage.setTitle("17-Peaches\uD83C\uDF51Task Scheduler");
             primaryStage.show();
 
         } catch (Exception e) {
