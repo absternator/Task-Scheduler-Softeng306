@@ -4,7 +4,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import team17.Algorithm.PartialSolution;
 import team17.Algorithm.ScheduledTask;
-import team17.DAG.Graph;
+import team17.DAG.DAGGraph;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -17,7 +17,7 @@ public class TestPartialSolution {
 
     private PartialSolution _ps;
     private PartialSolution _root;
-    private Graph _graph;
+    private DAGGraph _graph;
     private ScheduledTask _st;
 
     @BeforeClass
@@ -27,7 +27,7 @@ public class TestPartialSolution {
 
     @Before
     public void setUp() throws Exception {
-        _graph = new Graph();
+        _graph = new DAGGraph();
         _graph.addNode("A", 3);
         _graph.addNode("B", 2);
         _graph.addNode("C", 4);

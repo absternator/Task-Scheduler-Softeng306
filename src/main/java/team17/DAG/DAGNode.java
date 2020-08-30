@@ -2,14 +2,15 @@ package team17.DAG;
 
 import java.util.*;
 
-public class Node {
+public class DAGNode {
     private final String _id;
     private final int _weight;
     private int _bottomLevel;
-    private Map<Node,Integer> _incomingEdges;
-    private Set<Node> _dependencies;
-    private Set<Node> _dependants;
+    private Map<DAGNode,Integer> _incomingEdges;
+    private Set<DAGNode> _dependencies;
+    private Set<DAGNode> _dependants;
     private int _eqId;
+    private int _bottomLoad;
 
     /**
      * This is a Node constructor which adds weight and id.
@@ -17,7 +18,7 @@ public class Node {
      * @param id     This is the id of the task
      * @param weight This is the weight of the task
      */
-    public Node(String id, int weight) {
+    public DAGNode(String id, int weight) {
         _id = id;
         _weight = weight;
         _incomingEdges = new HashMap<>();
@@ -26,7 +27,7 @@ public class Node {
         _dependencies = new HashSet<>();
     }
 
-    public Node(Node node) {
+    public DAGNode(DAGNode node) {
         _id = node._id;
         _weight = node._weight;
         _dependencies = new HashSet<>(node._dependencies);
@@ -48,16 +49,16 @@ public class Node {
         return _bottomLevel;
     }
 
-    public Map<Node, Integer> getIncomingEdges() {
+    public Map<DAGNode, Integer> getIncomingEdges() {
         return _incomingEdges;
     }
 
 
-    public Set<Node> getDependencies() {
+    public Set<DAGNode> getDependencies() {
         return _dependencies;
     }
 
-    public Set<Node> getDependants() {
+    public Set<DAGNode> getDependants() {
         return _dependants;
     }
 
@@ -69,16 +70,16 @@ public class Node {
         this._bottomLevel = bottomLevel;
     }
 
-    public void setIncomingEdges(Node edge, int edgeWeight) {
+    public void setIncomingEdges(DAGNode edge, int edgeWeight) {
         _incomingEdges.put(edge, edgeWeight);
     }
 
 
-    public void setDependencies(Node dependency) {
+    public void setDependencies(DAGNode dependency) {
         _dependencies.add(dependency);
     }
 
-    public void setDependants(Node dependant) {
+    public void setDependants(DAGNode dependant) {
         _dependants.add(dependant);
     }
 
@@ -86,12 +87,40 @@ public class Node {
         _eqId = eqId;
     }
 
-    @Override
-    public boolean equals(Object other) {
-        return _id.equals(((Node) other)._id);
+    /**
+     * This method calculates the sum of weights of the node's children
+     */
+    public void setBottomLoad() {
+        _bottomLoad = 0;
+        Set<DAGNode> children = getChildren();
+        for(DAGNode child: children) {
+            _bottomLoad += child.getWeight();
+        }
     }
 
-    public boolean isEquivalent(Node other) {
+    /**
+     * Gets the children of the node without duplicate
+     * @return Set of child nodes
+     */
+    public Set<DAGNode> getChildren() {
+        Set<DAGNode> children = new HashSet<>();
+        children.addAll(_dependants);
+        for(DAGNode child: _dependants) {
+            children.addAll(child.getChildren());
+        }
+        return children;
+    }
+
+    public int getBottomLoad() {
+        return _bottomLoad;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return _id.equals(((DAGNode) other)._id);
+    }
+
+    public boolean isEquivalent(DAGNode other) {
         // if eqId has been set in both nodes, check if they are the same
         if (_eqId != 0 && other._eqId != 0) {
             return _eqId == other._eqId;
@@ -103,7 +132,7 @@ public class Node {
         }
 
         // check if the weights of the outgoing edges are the same
-        for (Node dependant : _dependants) {
+        for (DAGNode dependant : _dependants) {
             // for each dependent check that the weight of the incoming edge is the same for this node and other node
             if (!dependant._incomingEdges.get(this).equals(dependant._incomingEdges.get(other))) {
                 return false;

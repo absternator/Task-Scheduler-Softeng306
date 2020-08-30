@@ -1,6 +1,6 @@
 package team17.Algorithm;
 
-import team17.DAG.Node;
+import team17.DAG.DAGNode;
 
 import java.util.Objects;
 
@@ -9,10 +9,10 @@ import java.util.Objects;
  */
 public class ScheduledTask implements Comparable<ScheduledTask> {
     private final int _processorNum;
-    private final Node _node;
+    private final DAGNode _node;
     private final int _startTime;
 
-    public ScheduledTask(int processorNum, Node node, int startTime){
+    public ScheduledTask(int processorNum, DAGNode node, int startTime){
         _processorNum = processorNum;
         _node = node;
         _startTime = startTime;
@@ -26,18 +26,20 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
         return _processorNum;
     }
 
-    public Node getNode() {
+    public DAGNode getNode() {
         return _node;
     }
 
+    /**
+     * Gets the finish time for the scheduled task for this particular partial solution
+     * NOTE: This is not the finish time of the partial solution, unless the partial solution is complete
+     */
     public int getFinishTime(){
         return _startTime + _node.getWeight();
     }
 
     @Override
     public boolean equals(Object other) {
-        
-        
         ScheduledTask that = (ScheduledTask) other;
         return _startTime == that._startTime &&
                 Objects.equals(_node, that._node);

@@ -54,12 +54,14 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
      * @return The underestimate cost to finish the schedule
      */
     public int getCostUnderestimate() {
+        int bottomLoad = 0;
         int costUnderestimate = 0;
         int loadBalance = ((AlgorithmConfig.getTotalNodeWeight() + getIdleTime()) / AlgorithmConfig.getNumOfProcessors());
         for (ScheduledTask scheduledTask : this) {
             costUnderestimate = Math.max(costUnderestimate, scheduledTask.getStartTime() + scheduledTask.getNode().getBottomLevel());
+            bottomLoad = Math.max(bottomLoad, scheduledTask.getNode().getBottomLoad()/AlgorithmConfig.getNumOfProcessors() + scheduledTask.getFinishTime());
         }
-        return Math.max(costUnderestimate, loadBalance);
+        return Math.max(costUnderestimate, Math.max(loadBalance, bottomLoad));
     }
 
     public int getIdleTime() {
@@ -183,7 +185,7 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
             if(task.getFinishTime() > otherProcessorEndTimes[task.getProcessorNum()-1]){
                 otherProcessorEndTimes[task.getProcessorNum() - 1] = task.getFinishTime();
             }
-            //while building other solution if if adding task is in THIS solution,return false if not else keep adding.
+            //while building other solution if adding task is in THIS solution,return false else keep adding.
             if (!thisSolution.contains(task)){
                 return false;
             }

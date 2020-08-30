@@ -1,6 +1,7 @@
 package team17.IO;
 
 import org.apache.commons.cli.*;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * This class contains the command line configuration parsing logic
@@ -53,7 +54,7 @@ public class CLI {
         try {
             cmd = parser.parse(options, args);
             _visualise = cmd.hasOption("v");
-            // getOptionValue returns null if no argument
+            // getOptionValue returns 0 if no argument
             if(cmd.getOptionValue("p")!=null) {
                 _nCores = Integer.parseInt(cmd.getOptionValue("p"));
             }
@@ -78,7 +79,8 @@ public class CLI {
      * @return a string of the output file name, null if default
      */
     public String getOutput() {
-        return _output;
+        String fileName = StringUtils.isBlank(_output) ? StringUtils.substringBefore(_input, ".dot") + "-output" : _output;
+        return fileName +".dot";
     }
 
     /**

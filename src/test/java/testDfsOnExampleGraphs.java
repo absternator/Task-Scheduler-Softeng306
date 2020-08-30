@@ -1,9 +1,12 @@
 import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import team17.Algorithm.AlgorithmState;
 import team17.Algorithm.DFS;
 import team17.Algorithm.PartialSolution;
-import team17.DAG.Graph;
+
+import team17.DAG.DAGGraph;
+
 import team17.IO.CLI;
 import team17.IO.FileReadWriter;
 
@@ -14,9 +17,8 @@ import static org.junit.Assert.assertEquals;
 public class testDfsOnExampleGraphs {
 
     // *** SET TO TRUE IF YOU WANT TO RUN THESE TESTS ***
-    private static boolean _RunThisTestSuite = true;
+    private static boolean _RunThisTestSuite = false;
 
-    private boolean _runNodes10Random = true;
     // **************************************************
 
     private String[] _args;
@@ -76,7 +78,6 @@ public class testDfsOnExampleGraphs {
 
     @Test
     public void testNodes10Random_2P() throws IOException {
-        Assume.assumeTrue(_runNodes10Random);
         _args = new String[]{"src/main/resources/Nodes_10_Random.dot", "2"};
 
         assertEquals(50, getDfsSolutionFor(_args));
@@ -84,8 +85,6 @@ public class testDfsOnExampleGraphs {
 
     @Test
     public void testNodes10Random_4P() throws IOException {
-        Assume.assumeTrue(_runNodes10Random);
-
         _args = new String[]{"src/main/resources/Nodes_10_Random.dot", "4"};
         assertEquals(50, getDfsSolutionFor(_args));
     }
@@ -104,11 +103,20 @@ public class testDfsOnExampleGraphs {
         assertEquals(227, getDfsSolutionFor(_args));
     }
 
+    @Test
+    public void testInput1_2P() throws IOException {
+
+        _args = new String[]{"src/main/resources/INPUT1.dot", "8"};
+
+        assertEquals(119, getDfsSolutionFor(_args));
+
+    }
+
     private int getDfsSolutionFor(String[] args) throws IOException {
         CLI cli = new CLI(args);
         FileReadWriter frw = new FileReadWriter(cli);
-        Graph graph = frw.readDotFile();
-        DFS dfs = new DFS(graph);
+        DAGGraph graph = frw.readDotFile();
+        DFS dfs = new DFS(graph,new AlgorithmState());
         return dfs.getOptimalSchedule(graph).getScheduledTask().getFinishTime();
     }
 }

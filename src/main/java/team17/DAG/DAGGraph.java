@@ -7,24 +7,24 @@ import java.util.*;
 /**
  * This represents the input dot file in a graph to be used to schedule.
  */
-public class Graph {
-    private List<Node> _nodeList;
-    private Map<String, Node> _nodeLookup;
+public class DAGGraph {
+    private List<DAGNode> _nodeList;
+    private Map<String, DAGNode> _nodeLookup;
 
-    public Graph() {
+    public DAGGraph() {
         _nodeList = new ArrayList<>();
         _nodeLookup = new HashMap<>();
     }
 
-    public Node getNode(String id) {
+    public DAGNode getNode(String id) {
         return _nodeLookup.get(id);
     }
 
-    public List<Node> getNodeList() {
+    public List<DAGNode> getNodeList() {
         return _nodeList;
     }
 
-    public Map<String, Node> getNodeLookup() {
+    public Map<String, DAGNode> getNodeLookup() {
         return _nodeLookup;
     }
 
@@ -35,7 +35,7 @@ public class Graph {
      * @param weight weight of node to be added
      */
     public void addNode(String id, int weight) {
-        Node node = new Node(id, weight);
+        DAGNode node = new DAGNode(id, weight);
         _nodeList.add(node);
         _nodeLookup.put(id, node);
 
@@ -53,8 +53,8 @@ public class Graph {
         if (!_nodeLookup.containsKey(from) || !_nodeLookup.containsKey(to)) {
             throw new Exception("ERROR: Node has to be instantiated before adding edge!");
         }
-        Node fromNode = _nodeLookup.get(from);
-        Node toNode = _nodeLookup.get(to);
+        DAGNode fromNode = _nodeLookup.get(from);
+        DAGNode toNode = _nodeLookup.get(to);
 
         // Set outgoing from - > to node edge
         fromNode.setDependants(toNode);
@@ -64,13 +64,23 @@ public class Graph {
         toNode.setDependencies(fromNode);
     }
 
+    /**
+     * Set up necessary heuristic values and finish node
+     */
+    public void initialise() {
+        addFinishNode();
+        setBottomLevel();
+        setEquivalentNodes();
+        calculateTotalNodeWeight();
+        setBottomLoad();
+    }
+
     public void addFinishNode() {
-        Node finish = new Node("end", 0);
+        DAGNode finish = new DAGNode("end", 0);
         _nodeList.add(finish);
         _nodeLookup.put("end", finish);
-        for (Node node : _nodeList) {
+        for (DAGNode node : _nodeList) {
             if (node.getDependants().size() == 0 && !node.equals(finish)) {
-
                 node.setDependants(finish);
                 finish.setIncomingEdges(node, 0);
                 finish.setDependencies(node);
@@ -80,16 +90,16 @@ public class Graph {
 
     public void setEquivalentNodes() {
         int eqId = 1; // the equivalence id
-        ArrayList<Node> unset = new ArrayList<>(_nodeList); // the nodes that haven't had their eqId set
-        ArrayList<Node> remove = new ArrayList<>();
+        ArrayList<DAGNode> unset = new ArrayList<>(_nodeList); // the nodes that haven't had their eqId set
+        ArrayList<DAGNode> remove = new ArrayList<>();
 
-        for (Node node : _nodeList) {
+        for (DAGNode node : _nodeList) {
             if (node.getEquivalenceId() == 0) { // only set the eqId if it has not already been set
                 node.setEquivalenceId(eqId);
                 unset.remove(node);
 
                 // check all unset nodes for equivalence
-                for (Node other : unset) {
+                for (DAGNode other : unset) {
                     if (node.isEquivalent(other)) {
                         other.setEquivalenceId(eqId);
                         remove.add(other);
@@ -117,14 +127,14 @@ public class Graph {
      */
     public void setBottomLevel() {
         boolean progress = false;
-        HashSet<Node> completed = new HashSet<>();
-        LinkedList<Node> remaining = new LinkedList<>(_nodeList);
+        HashSet<DAGNode> completed = new HashSet<>();
+        LinkedList<DAGNode> remaining = new LinkedList<>(_nodeList);
         while (!remaining.isEmpty()) {
-            for (Iterator<Node> it = remaining.descendingIterator(); it.hasNext(); ) {
-                Node node = it.next();
+            for (Iterator<DAGNode> it = remaining.descendingIterator(); it.hasNext(); ) {
+                DAGNode node = it.next();
                 if (completed.containsAll(node.getDependants())) {
                     int bottomLevel = 0;
-                    for (Node task : node.getDependants()) {
+                    for (DAGNode task : node.getDependants()) {
                         if (task.getBottomLevel() > bottomLevel) {
                             bottomLevel = task.getBottomLevel();
                         }
@@ -141,13 +151,23 @@ public class Graph {
     }
 
     /**
+     * Calculates the weight of the node's child - the bottom load for the heuristic
+     */
+    public void setBottomLoad() {
+        for(DAGNode node: _nodeList) {
+            node.setBottomLoad();
+        }
+    }
+
+    /**
      * This calculates the total weight of all the nodes in the graph and sets it in AlgorithmConfig
      */
     public void calculateTotalNodeWeight() {
         int totalWeight = 0;
-        for (Node node : _nodeList) {
+        for (DAGNode node : _nodeList) {
             totalWeight += node.getWeight();
         }
         AlgorithmConfig.setTotalNodeWeight(totalWeight);
     }
+
 }
