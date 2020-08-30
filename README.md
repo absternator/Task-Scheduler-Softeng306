@@ -24,15 +24,17 @@ On command line: run `.\gradlew build`
 ## To run the project
  
 *Make sure to have initially built the project first*
- 
- In Intellij (for development)
- - Go to the gradle tab
- - Go to the application folder and double click the run command, 
- with the temp args code uncommented
- 
+  
  On command line: run `.\gradlew run --args "<input.dot> <num of processors> <options>"`
  
  ## Running the jar file
  
  `java -jar scheduler.jar <input.dot> <num of processors> <options>`
  
+## Options
+
+|  Options |Argument | Description  |
+|---|---|---|
+|  `-p` |&lt;number of cores> |  use N cores for execution in parallel (default is sequential) |
+|  `-v`| | visualise the search  |
+|  `-o` |&lt;OUTPUT> |  output file is named OUTPUT (default is INPUT-output.dot) |
