@@ -1,11 +1,12 @@
 package team17.Algorithm;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import team17.DAG.DAGNode;
 
 import java.util.Objects;
 
 /**
- * This Represents each task scheduled on a processor.
+ * This Represents each task scheduled on a processor at a particular start time.
  */
 public class ScheduledTask implements Comparable<ScheduledTask> {
     private final int _processorNum;
@@ -47,7 +48,7 @@ public class ScheduledTask implements Comparable<ScheduledTask> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(_node, _startTime);
+        return new HashCodeBuilder().append(_node).append(_startTime).toHashCode();
     }
 
     @Override

@@ -3,8 +3,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import team17.Algorithm.DFS;
 import team17.DAG.DAGGraph;
+import team17.DAG.InvalidGraphException;
 import team17.IO.CLI;
 import team17.IO.FileReadWriter;
+import team17.IO.IncorrectCLIInputException;
+import team17.IO.InvalidEntryException;
 
 import java.io.IOException;
 
@@ -181,9 +184,21 @@ public class testParallelDFSOnExampleGraphs {
     }
 
     private int getDFSSolutionFor(String[] args) throws IOException {
-        CLI cli = new CLI(args);
+        CLI cli = new CLI();
+        try {
+            cli.readCLI(args);
+        } catch (IncorrectCLIInputException e) {
+            e.printStackTrace();
+        }
         FileReadWriter frw = new FileReadWriter(cli);
-        DAGGraph graph = frw.readDotFile();
+        DAGGraph graph = null;
+        try {
+            graph = frw.readDotFile();
+        } catch (InvalidGraphException e) {
+            e.printStackTrace();
+        } catch (InvalidEntryException e) {
+            e.printStackTrace();
+        }
         DFS dfs = new DFS(graph, null);
         return dfs.getOptimalScheduleParallel(graph, cli.getCores() - 1).getScheduledTask().getStartTime();
     }

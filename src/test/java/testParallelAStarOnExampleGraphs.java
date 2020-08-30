@@ -3,8 +3,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import team17.Algorithm.AStar;
 import team17.DAG.DAGGraph;
+import team17.DAG.InvalidGraphException;
 import team17.IO.CLI;
 import team17.IO.FileReadWriter;
+import team17.IO.IncorrectCLIInputException;
+import team17.IO.InvalidEntryException;
 
 import java.io.IOException;
 
@@ -13,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 public class testParallelAStarOnExampleGraphs {
 
     // *** SET TO TRUE IF YOU WANT TO RUN THESE TESTS ***
-    private static boolean _RunThisTestSuite = true;
+    private static boolean _RunThisTestSuite = false;
 
     // **************************************************
 
@@ -181,9 +184,21 @@ public class testParallelAStarOnExampleGraphs {
     }
 
     private int getAStarSolutionFor(String[] args) throws IOException {
-        CLI cli = new CLI(args);
+        CLI cli = new CLI();
+        try {
+            cli.readCLI(args);
+        } catch (IncorrectCLIInputException e) {
+            e.printStackTrace();
+        }
         FileReadWriter frw = new FileReadWriter(cli);
-        DAGGraph graph = frw.readDotFile();
+        DAGGraph graph = null;
+        try {
+            graph = frw.readDotFile();
+        } catch (InvalidGraphException e) {
+            e.printStackTrace();
+        } catch (InvalidEntryException e) {
+            e.printStackTrace();
+        }
         AStar aStar = new AStar(graph, null);
         return aStar.getOptimalScheduleParallel(graph, cli.getCores() - 1).getScheduledTask().getStartTime();
     }

@@ -5,8 +5,11 @@ import team17.Algorithm.AStar;
 import team17.Algorithm.AlgorithmState;
 import team17.Algorithm.DFS;
 import team17.DAG.DAGGraph;
+import team17.DAG.InvalidGraphException;
 import team17.IO.CLI;
 import team17.IO.FileReadWriter;
+import team17.IO.IncorrectCLIInputException;
+import team17.IO.InvalidEntryException;
 
 import java.io.IOException;
 
@@ -81,10 +84,22 @@ public class CompareAlgorithmsProcessorsPerGraph {
     }
 
      private void compareAlgorithmsFor(String[] args) throws IOException {
-        CLI cli = new CLI(args);
-        FileReadWriter frw = new FileReadWriter(cli);
-        DAGGraph graph = frw.readDotFile();
-        AStar aStar = new AStar(graph, new AlgorithmState());
+        CLI cli = new CLI();
+         try {
+             cli.readCLI(args);
+         } catch (IncorrectCLIInputException e) {
+             e.printStackTrace();
+         }
+         FileReadWriter frw = new FileReadWriter(cli);
+         DAGGraph graph = null;
+         try {
+             graph = frw.readDotFile();
+         } catch (InvalidGraphException e) {
+             e.printStackTrace();
+         } catch (InvalidEntryException e) {
+             e.printStackTrace();
+         }
+         AStar aStar = new AStar(graph, new AlgorithmState());
         DFS dfs = new DFS(graph, new AlgorithmState());
 
         System.out.println("Starting test for: " + args[0] + " on " + args[1]);
@@ -127,9 +142,21 @@ public class CompareAlgorithmsProcessorsPerGraph {
 
     public DAGGraph readGraph(String[] args) throws IOException {
         System.out.println("Starting test for: " + args[0] + " on " + args[1]);
-        CLI cli = new CLI(args);
+        CLI cli = new CLI();
+        try {
+            cli.readCLI(args);
+        } catch (IncorrectCLIInputException e) {
+            e.printStackTrace();
+        }
         FileReadWriter frw = new FileReadWriter(cli);
-        DAGGraph graph = frw.readDotFile();
+        DAGGraph graph = null;
+        try {
+            graph = frw.readDotFile();
+        } catch (InvalidGraphException e) {
+            e.printStackTrace();
+        } catch (InvalidEntryException e) {
+            e.printStackTrace();
+        }
         return graph;
     }
 }

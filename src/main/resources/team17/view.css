@@ -8,13 +8,21 @@
     -fx-effect: dropshadow(three-pass-box, rgba(106, 104, 104, 0.2), 2, 2, 2, 2);
 
 }
+
+
 #statusPane{
-    -fx-background-color: rgb(229, 195, 36);
     -fx-background-radius: 7 7 7 7;
     -fx-effect: dropshadow(three-pass-box, rgba(106, 104, 104, 0.30), 2, 2, 2, 2);
 }
 
-#ganttChartPane{
+
+#GanttChartPane{
+    -fx-background-color: rgb(255, 255, 255);
+    -fx-background-radius: 20 20 20 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(106, 104, 104, 0.20), 2, 2, 2, 2);
+}
+
+#MemoryPane{
     -fx-background-color: rgb(255, 255, 255);
     -fx-background-radius: 20 20 20 20;
     -fx-effect: dropshadow(three-pass-box, rgba(106, 104, 104, 0.20), 2, 2, 2, 2);

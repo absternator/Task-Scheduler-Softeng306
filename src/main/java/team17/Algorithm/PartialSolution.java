@@ -1,5 +1,7 @@
 package team17.Algorithm;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import java.util.*;
 
 /**
@@ -55,20 +57,25 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
      */
     public int getCostUnderestimate() {
         int bottomLoad = 0;
-        int costUnderestimate = 0;
+        int bottomLevel = 0;
         int loadBalance = ((AlgorithmConfig.getTotalNodeWeight() + getIdleTime()) / AlgorithmConfig.getNumOfProcessors());
         for (ScheduledTask scheduledTask : this) {
-            costUnderestimate = Math.max(costUnderestimate, scheduledTask.getStartTime() + scheduledTask.getNode().getBottomLevel());
+            bottomLevel = Math.max(bottomLevel, scheduledTask.getStartTime() + scheduledTask.getNode().getBottomLevel());
             bottomLoad = Math.max(bottomLoad, scheduledTask.getNode().getBottomLoad()/AlgorithmConfig.getNumOfProcessors() + scheduledTask.getFinishTime());
         }
-        return Math.max(costUnderestimate, Math.max(loadBalance, bottomLoad));
+        return Math.max(bottomLevel, Math.max(loadBalance, bottomLoad));
     }
 
+    /**
+     * This method calculates and returns the total idle time for each processor
+     *
+     * @return Total idle time
+     */
     public int getIdleTime() {
         int[] processorFinishTimes = new int[AlgorithmConfig.getNumOfProcessors()];
         int[] processorWeights = new int[AlgorithmConfig.getNumOfProcessors()];
         int processor;
-        // find the end time and weight of each processor
+        // Find the end time and weight of each processor
         for (ScheduledTask task : this) {
             processor = task.getProcessorNum() - 1;
             if (task.getFinishTime() > processorFinishTimes[processor]) {
@@ -76,7 +83,7 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
             }
             processorWeights[processor] += task.getNode().getWeight();
         }
-        // calculate the idle time
+        // Calculate the idle time
         int idleTime = 0;
         for (int i = 0; i < AlgorithmConfig.getNumOfProcessors(); i++) {
             idleTime += processorFinishTimes[i] - processorWeights[i];
@@ -160,19 +167,15 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
         }
         return this.getCostUnderestimate() - other.getCostUnderestimate();
     }
-// TODO: 26/08/20 Still will update futher 
-
     /**
      * This method checks if two partial solutions are equal
      *
      * @param other The other partial solution being checked
      * @return Boolean to indicate if both partial solutions are equal
      */
-    // go through each one and check
     @Override
     public boolean equals(Object other) {
         Set<ScheduledTask> thisSolution = new HashSet<>();
-        // TODO: 26/08/20  get proc end times(hard coded to 4 atm) ALgoConfig.getProcNum
         int[] thisProcessorEndTimes = new int[AlgorithmConfig.getNumOfProcessors()];
         int[] otherProcessorEndTimes = new int[AlgorithmConfig.getNumOfProcessors()];
         for (ScheduledTask task : this) {
@@ -185,19 +188,23 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
             if(task.getFinishTime() > otherProcessorEndTimes[task.getProcessorNum()-1]){
                 otherProcessorEndTimes[task.getProcessorNum() - 1] = task.getFinishTime();
             }
-            //while building other solution if adding task is in THIS solution,return false else keep adding.
+            // While building other solution if adding task is in THIS solution,return false else keep adding.
             if (!thisSolution.contains(task)){
                 return false;
             }
         }
         Arrays.sort(thisProcessorEndTimes);
         Arrays.sort(otherProcessorEndTimes);
-//        Checks if each processor length is equal
+        // Checks if each processor length is equal
         return Arrays.equals(thisProcessorEndTimes, otherProcessorEndTimes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_scheduledTask, _parent);
+        Set<ScheduledTask> tasks = new HashSet<>();
+        for (ScheduledTask scheduledTask : this) {
+            tasks.add(scheduledTask);
+        }
+        return new HashCodeBuilder().append(tasks).toHashCode();
     }
 }

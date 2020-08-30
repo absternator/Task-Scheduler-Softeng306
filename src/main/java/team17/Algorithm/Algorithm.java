@@ -5,6 +5,9 @@ import team17.DAG.DAGNode;
 
 import java.util.*;
 
+/**
+ * Abstract class for the algorithms
+ */
 public abstract class Algorithm {
 
     protected AlgorithmState _algorithmState;
@@ -47,7 +50,7 @@ public abstract class Algorithm {
      * Method to return the optimal solution for a given graph input for multiple cores
      *
      * @param graph  The whole graph
-     * @param nCores Number of cores specified for parallelisation
+     * @param nCores Number of cores specified for parallelization
      * @return The complete partial solution which is optimal
      */
     public PartialSolution getOptimalScheduleParallel(DAGGraph graph, int nCores) {
@@ -131,6 +134,12 @@ public abstract class Algorithm {
         }
     }
 
+    /**
+     * This method checks if criteria are met for forks and joins. If yes nodes can be ordered.
+     * @param freeNodes The nodes that are eligible to be added to a partial solution
+     * @param partialSolution The parent partial solution
+     * @return Returns first node to be scheduled if criteria met. Else return null/
+     */
     protected static DAGNode forkJoin(List<DAGNode> freeNodes, PartialSolution partialSolution) {
         if (freeNodes.isEmpty()) return null;
         Set<DAGNode> sameChild = new HashSet<>();

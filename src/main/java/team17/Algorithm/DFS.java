@@ -5,9 +5,14 @@ import team17.DAG.DAGNode;
 
 import java.util.*;
 
+/**
+ * Class that contains the main skeleton of the DFS algorithm
+ */
 public class DFS extends Algorithm {
     int _upperBound;
     Stack<PartialSolution> _open = new Stack<>();
+    Set<PartialSolution> _closed = new HashSet<>();
+
 
     public DFS(DAGGraph graph, AlgorithmState algorithmState) {
         super(algorithmState);
@@ -110,15 +115,17 @@ public class DFS extends Algorithm {
     @Override
     public synchronized PartialSolution getNextPartialSolution() {
         if (!_open.isEmpty()) {
+            //Remove from top of stack
             PartialSolution partialSolution = _open.pop();
+
             if (_algorithmState != null) {
                 _algorithmState.updateNumExpandedPartialSolutions(1);
             }
-
-            if (partialSolution.isCompleteSchedule()) { //TODO && !bestSchedule.equals(partialSolution)
-                int costSoFar = partialSolution.getScheduledTask().getStartTime();
-                if (costSoFar < _upperBound) {
-                    _upperBound = costSoFar;
+                //If complete schedule then check if solution < upper bound. if true make solution upper bound.
+            if (partialSolution.isCompleteSchedule()) {
+                int fullSolutionCost = partialSolution.getScheduledTask().getStartTime();
+                if (fullSolutionCost < _upperBound) {
+                    _upperBound = fullSolutionCost;
                     _bestCompletePartialSolution = partialSolution;
                     if (_algorithmState != null) {
                         _algorithmState.setCompleteSolution(_bestCompletePartialSolution);
@@ -137,10 +144,15 @@ public class DFS extends Algorithm {
 
     @Override
     public synchronized void openAddChildren(Set<PartialSolution> children) {
+        //For each child, add to stack if child cost underestimate < upper bound and child not in closed already , add to stack and closed list.
         for (PartialSolution child : children) {
             int cost = child.getCostUnderestimate();
-            if (cost < _upperBound) {
+            if (cost < _upperBound && !_closed.contains(child)) {
                 _open.push(child);
+//                max closed list size is 2.5 milliom
+                if(_closed.size() < 2500000){
+                    _closed.add(child);
+                }
                 if (_algorithmState != null) {
                     _algorithmState.updateNumUnexpandedPartialSolutions(1);
                 }
