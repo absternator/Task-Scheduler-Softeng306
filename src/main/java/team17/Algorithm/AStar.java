@@ -9,16 +9,15 @@ import java.util.*;
  * Class that contains the main skeleton of the A* algorithm
  */
 public class AStar extends Algorithm {
-    private final  Queue<PartialSolution> _open;
-    private final  Set<PartialSolution> _closed;
+    private final Queue<PartialSolution> _open;
+    private final Set<PartialSolution> _closed;
     private final int _upperBound;
     private int _maxOpenCount = 0; // todo: this is for testing only(remove later)
 
-    private PartialSolution _completePartialSolution;
     private boolean _foundComplete = false;
-    private AlgorithmState _algorithmState;
 
     public AStar(DAGGraph graph, AlgorithmState algorithmState) {
+        super(algorithmState);
         final PartialSolution _root = new PartialSolution(null, null);
         _open = new PriorityQueue<>(expandRoot(_root, graph));
         _closed = new HashSet<>();
@@ -26,13 +25,12 @@ public class AStar extends Algorithm {
         ListScheduling ls = new ListScheduling(graph);
         PartialSolution upperBoundListSchedule = ls.getSchedule();
         _open.add(upperBoundListSchedule);
-        _upperBound = upperBoundListSchedule.getScheduledTask().getStartTime();
-        _algorithmState = algorithmState;
-    }
-
-    @Override
-    public PartialSolution getSolution(){
-        return _completePartialSolution;
+        _upperBound = upperBoundListSchedule.getScheduledTask().getFinishTime();
+        if (_algorithmState != null) {
+            _algorithmState.setCompleteSolution(upperBoundListSchedule);
+            _algorithmState.updateNumCompleteSolutions(1);
+            _algorithmState.updateNumUnexpandedPartialSolutions(1);
+        }
     }
 
     @Override
@@ -54,8 +52,8 @@ public class AStar extends Algorithm {
         }
 
         System.out.print("A*: left in queue: "+_open.size()); //todo: for testing only(remove later)
-        System.out.print("\t\tadded to queue: "+maxOpenCount);
-        return _completePartialSolution;
+        System.out.print("\t\tadded to queue: "+ _maxOpenCount);
+        return _bestCompletePartialSolution;
     }
 
     @Override
@@ -64,11 +62,13 @@ public class AStar extends Algorithm {
         Set<DAGNode> nodesInSchedule = new HashSet<>();
         List<DAGNode> freeNodes = new ArrayList<>(graph.getNodeList()); //nodes that are eligible to be scheduled
         Set<DAGNode> notEligible = new HashSet<>();
+
         //Go through and remove indelible nodes
         for (ScheduledTask scheduledTask : partialSolution) {
             nodesInSchedule.add(scheduledTask.getNode());
             freeNodes.remove(scheduledTask.getNode());
         }
+
         for (DAGNode node : freeNodes) {
             for (DAGNode dependency : node.getDependencies()) {
                 if (!nodesInSchedule.contains(dependency)) {
@@ -89,8 +89,11 @@ public class AStar extends Algorithm {
         for (DAGNode node : freeNodes) {
 
             // if a sibling has already scheduled an equivalent node
-            for (PartialSolution child:children){
-                if(child.getScheduledTask().getNode().isEquivalent(node)){
+            for (PartialSolution child : children) {
+                if (child.getScheduledTask().getNode().isEquivalent(node)) {
+                    if (_algorithmState != null) {
+                        _algorithmState.updateNumPruned(1);
+                    }
                     continue AddNode;
                 }
             }
@@ -144,6 +147,10 @@ public class AStar extends Algorithm {
                     _open.offer(partialSolution);
                     _closed.remove(partialSolution);
 
+                    if (_algorithmState != null) {
+                        _algorithmState.updateNumExpandedPartialSolutions(-1);
+                    }
+
                     return children;
                 }
             }
@@ -152,18 +159,21 @@ public class AStar extends Algorithm {
     }
 
     @Override
-    public synchronized PartialSolution getNextPartialSolution(){
+    public synchronized PartialSolution getNextPartialSolution() {
         PartialSolution partialSolution = _open.poll();
         _closed.add(partialSolution);
+        if (_algorithmState != null) {
+            _algorithmState.updateNumExpandedPartialSolutions(1);
+        }
         if (_foundComplete) {
             return null;
         }
         if (partialSolution != null) {
             if (partialSolution.isCompleteSchedule()) {
                 _foundComplete = true;
-                _completePartialSolution = partialSolution;
+                _bestCompletePartialSolution = partialSolution;
                 if (_algorithmState != null) {
-                    _algorithmState.setCompleteSolution(_completePartialSolution);
+                    _algorithmState.setCompleteSolution(_bestCompletePartialSolution);
                 }
                 return null;
             }
@@ -177,6 +187,7 @@ public class AStar extends Algorithm {
      *
      * @param children Set of partial solution children not in closed
      */
+    @Override
     public synchronized void openAddChildren(Set<PartialSolution> children) {
         // TODO: 26/08/20 will be updated further
         // This is to add all children at once(not preferred)
@@ -186,6 +197,17 @@ public class AStar extends Algorithm {
             if (!_closed.contains(child) && child.getCostUnderestimate() < _upperBound) {
                 _maxOpenCount++;
                 _open.offer(child);
+                if (_algorithmState != null) {
+                    _algorithmState.updateNumUnexpandedPartialSolutions(1);
+                    if (child.isCompleteSchedule()) {
+                        _algorithmState.updateNumCompleteSolutions(1);
+                    }
+                }
+            } else if (_algorithmState != null) {
+                _algorithmState.updateNumPruned(1);
+                if (child.isCompleteSchedule()) {
+                    _algorithmState.updateNumCompleteSolutions(1);
+                }
             }
         }
     }
