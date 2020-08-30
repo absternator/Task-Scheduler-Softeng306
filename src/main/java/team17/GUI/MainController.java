@@ -220,7 +220,7 @@ public class MainController {
 
     public void updateStatus() {
         statusText.setText("Done");
-        StatusPane.setStyle("-fx-background-color: rgb(36,229,62);");
+        StatusPane.setStyle("-fx-background-color: rgb(205,229,223);");
     }
 
     private void setUpMemoryPane() {
