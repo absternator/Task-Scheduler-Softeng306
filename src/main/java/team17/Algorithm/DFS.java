@@ -31,6 +31,7 @@ public class DFS extends Algorithm {
 
     @Override
     public PartialSolution getOptimalSchedule(DAGGraph graph) {
+        long startTime = System.nanoTime();
         while (true) {
             PartialSolution partialSolution = this.getNextPartialSolution();
             if (partialSolution == null) {
@@ -38,6 +39,11 @@ public class DFS extends Algorithm {
             } else {
                 Set<PartialSolution> children = expandSearch(partialSolution, graph);
                 this.openAddChildren(children);
+            }
+            // timeout after 25 minutes
+            long elapsedTime = System.nanoTime() - startTime;
+            if (elapsedTime > 25 * 60000000000L ){
+                break;
             }
         }
         return _bestCompletePartialSolution;
