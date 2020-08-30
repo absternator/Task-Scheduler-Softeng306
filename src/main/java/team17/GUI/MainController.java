@@ -115,7 +115,7 @@ public class MainController {
      */
     private void updateGUI() {
         Timeline tm = new Timeline();
-        KeyFrame frame = new KeyFrame(Duration.millis(300), event -> {
+        KeyFrame frame = new KeyFrame(Duration.millis(1000), event -> {
             _usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
             _usedMemory = _usedMemory / 1000000;
             _memoryUsageTile.setValue(_usedMemory);
@@ -241,9 +241,7 @@ public class MainController {
         final CategoryAxis yAxis = new CategoryAxis();
 
         final GanttChart<Number, String> chart = new GanttChart<>(xAxis, yAxis);
-
         _gch = new GanttChartHelper(chart, _config.getProcessors());
-
         //Set up axis, title and other details of the chart
         _gch.initialise();
 
