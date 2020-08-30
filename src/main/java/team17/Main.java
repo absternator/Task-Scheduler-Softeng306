@@ -43,7 +43,8 @@ public class Main extends Application {
         try {
             _config.readCLI();
         } catch (IncorrectCLIInputException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
+            System.out.println();
             _config.printHelpFormatter();
             System.exit(1);
         }

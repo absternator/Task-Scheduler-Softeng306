@@ -77,11 +77,8 @@ public class CLI {
             // getOptionValue returns 0 if no argument
             if(cmd.getOptionValue("p")!=null) {
                 // Check if N is not an integer
-                try {
-                    _nCores = Integer.parseInt(cmd.getOptionValue("p"));
-                } catch (NumberFormatException e) {
-                    throw new IncorrectCLIInputException("Expected option: integer N");
-                }
+                _nCores = Integer.parseInt(cmd.getOptionValue("p"));
+
                 // Check if number of cores is greater than 0
                 if(_nCores < 1) {
                     throw new IncorrectCLIInputException("Expected option: integer N where N > 0");
@@ -92,6 +89,8 @@ public class CLI {
             e.printStackTrace();
             printHelpFormatter();
             System.exit(1);
+        } catch (NumberFormatException e) {
+            throw new IncorrectCLIInputException("Expected option: integer N");
         }
     }
 
