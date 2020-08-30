@@ -120,11 +120,12 @@ public class CompareAlgorithms {
 
     @Test
     public void compareIntree_2P() throws IOException {
+        Assume.assumeTrue(_runSlowGraphs);
         _args = new String[]{"src/main/resources/intree.dot", "3"};
         compareAlgorithmsFor(_args);
     }
 
-    private void compareAlgorithmsFor(String[] args) throws IOException {
+    public static void compareAlgorithmsFor(String[] args) throws IOException {
         CLI cli = new CLI(args);
         cli.readCLI();
         FileReadWriter frw = new FileReadWriter(cli);
