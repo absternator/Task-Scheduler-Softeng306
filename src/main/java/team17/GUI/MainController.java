@@ -225,7 +225,7 @@ public class MainController {
                 .startFromZero(true)
                 .animated(true)
                 .foregroundBaseColor(Color.BLACK)
-                .backgroundColor(Color.GREEN)
+                .backgroundColor(Color.TRANSPARENT)
                 .prefWidth(250)
                 .prefHeight(300)
                 .build();

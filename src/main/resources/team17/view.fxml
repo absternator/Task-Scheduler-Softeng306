@@ -13,14 +13,20 @@
       <AnchorPane id="GanttChartPane" fx:id="ganttChartPane" layoutX="5" layoutY="365.0" prefHeight="380.0" prefWidth="635.0">
          <children>
             <AnchorPane fx:id="ganttChartContainer" prefHeight="320.0" prefWidth="600.0" />
-            <TextFlow layoutX="160.0" layoutY="340.0" prefHeight="30.0" prefWidth="300.0" textAlignment="CENTER">
+            <TextFlow layoutX="160.0" layoutY="340.0" prefHeight="30.0" prefWidth="350.0" textAlignment="CENTER">
                <children>
                   <Label text="Current Schedule Length:">
                      <padding>
                         <Insets right="10.0" />
                      </padding>
+                     <font>
+                        <Font size="20.0" />
+                     </font>
                   </Label>
-                  <Text fx:id="bestCostText" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                  <Text fx:id="bestCostText" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                     <font>
+                        <Font size="20.0" />
+                     </font></Text>
                </children>
             </TextFlow>
          </children>
@@ -127,11 +133,15 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <AnchorPane id="graphPane" layoutX="5.0" layoutY="8.0" prefHeight="340.0" prefWidth="355.0">
+      <AnchorPane id="graphPane" layoutX="5.0" layoutY="9.0" prefHeight="343.0" prefWidth="355.0">
          <children>
             <SwingNode id="GraphPane" fx:id="graphPane" layoutX="8.0" layoutY="8.0" />
          </children>
       </AnchorPane>
-      <Pane fx:id="memoryPane" layoutX="376.0" prefHeight="258.0" prefWidth="261.0" />
+      <AnchorPane id="MemoryPane" layoutX="371.0" layoutY="9.0" prefHeight="343.0" prefWidth="270.0">
+         <children>
+            <Pane fx:id="memoryPane" layoutX="10.0" layoutY="35.0" prefHeight="300.0" prefWidth="260.0" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
