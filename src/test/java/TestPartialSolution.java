@@ -2,6 +2,7 @@ import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import team17.Algorithm.AlgorithmConfig;
 import team17.Algorithm.PartialSolution;
 import team17.Algorithm.ScheduledTask;
 import team17.DAG.DAGGraph;
@@ -12,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 public class TestPartialSolution {
 
     // *** SET TO TRUE IF YOU WANT TO RUN THESE TESTS ***
-    private static boolean _RunThisTestSuite = true;
+    private static boolean _RunThisTestSuite = false;
     // **************************************************
 
     private PartialSolution _ps;
@@ -35,6 +36,7 @@ public class TestPartialSolution {
         _graph.addEdge("A", "C", 5);
         _graph.addFinishNode();
         _graph.setBottomLevel();
+        AlgorithmConfig.setNumOfProcessors(3);
         _root = new PartialSolution(null, null);
 
         _st = new ScheduledTask(1, _graph.getNode("A"), 0);
