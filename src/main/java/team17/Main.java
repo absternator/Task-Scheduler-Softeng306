@@ -1,17 +1,15 @@
 package team17;
 
-import team17.Algorithm.Algorithm;
-import team17.Algorithm.AStar;
-import team17.Algorithm.DFS;
-
 import javafx.application.Application;
 import javafx.application.Platform;
-
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import team17.Algorithm.*;
+import team17.Algorithm.Algorithm;
+import team17.Algorithm.AlgorithmState;
+import team17.Algorithm.DFS;
+import team17.Algorithm.ScheduledTask;
 import team17.DAG.DAGGraph;
 import team17.DAG.InvalidGraphException;
 import team17.GUI.MainController;
@@ -34,17 +32,6 @@ public class Main extends Application {
     private static FileReadWriter _frw;
 
     public static void main(String[] args) {
-        //Run from command line
-//        args = new String[]{"../../src/main/resources/graph.dot", "2", "-v"};
-
-        //Run in IDE
-
-
-        args = new String[]{"src/test/resources/INPUT0.dot", "2", "-v"};
-
-//       args = new String[]{"src/main/resources/INPUT0.dot", "4"};
-
-
         _config = new CLI();
         try {
             _config.readCLI(args);

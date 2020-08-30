@@ -17,7 +17,7 @@ public class testNode {
 
     @BeforeClass
     public static void setUp() throws IOException, InvalidGraphException, InvalidEntryException, IncorrectCLIInputException {
-        String[] args = new String[]{"src/main/resources/testNode.dot", "2"};
+        String[] args = new String[]{"src/test/resources/testNode.dot", "2"};
 
         CLI cli = new CLI();
         cli.readCLI(args);
