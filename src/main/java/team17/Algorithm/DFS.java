@@ -20,25 +20,29 @@ public class DFS extends Algorithm {
         if (_algorithmState != null) {
             _algorithmState.setCompleteSolution(_bestSchedule);
         }
-        _upperBound = _bestSchedule.getCostUnderestimate();
+        _upperBound = _bestSchedule.getScheduledTask().getStartTime();
         _open.push(_root);
     }
 
     @Override
-    public PartialSolution getSolution(){
+    public PartialSolution getSolution() {
         return _bestSchedule;
     }
 
     @Override
     public synchronized PartialSolution getNextPartialSolution() {
-        if(!_open.isEmpty()) {
+        if (!_open.isEmpty()) {
             PartialSolution partialSolution = _open.pop();
-            int costSoFar = partialSolution.getCostUnderestimate();
-            if (partialSolution.isCompleteSchedule() && costSoFar < _upperBound) { //TODO && !bestSchedule.equals(partialSolution)
-                _upperBound = costSoFar;
-                _bestSchedule = partialSolution;
-                if (_algorithmState != null) {
-                    _algorithmState.setCompleteSolution(_bestSchedule);
+
+            if (partialSolution.isCompleteSchedule()) { //TODO && !bestSchedule.equals(partialSolution)
+                int costSoFar = partialSolution.getScheduledTask().getStartTime();
+                if (costSoFar < _upperBound) {
+                    _upperBound = costSoFar;
+                    _bestSchedule = partialSolution;
+                    if (_algorithmState != null) {
+                        _algorithmState.setCompleteSolution(_bestSchedule);
+                    }
+
                 }
             }
             return partialSolution;
@@ -49,7 +53,7 @@ public class DFS extends Algorithm {
 
     @Override
     public synchronized void openAddChildren(Set<PartialSolution> children) {
-        for (PartialSolution child:children) {
+        for (PartialSolution child : children) {
             int cost = child.getCostUnderestimate();
             if (cost < _upperBound) {
                 _open.push(child);
