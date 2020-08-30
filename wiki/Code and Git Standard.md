@@ -27,6 +27,6 @@ Create pull requests if your branch is ready to be mergyed into the master branc
 You need to get at least two peer review approvals
 
 - ### Issues
-We use the issues function on github as a to-do list for everyone.
+We use the issues function on GitHub as a to-do list for everyone.
 
 (┛ಠ_ಠ)┛彡┻━┻
