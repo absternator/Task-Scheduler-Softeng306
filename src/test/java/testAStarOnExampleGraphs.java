@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 public class testAStarOnExampleGraphs {
 
     // *** SET TO TRUE IF YOU WANT TO RUN THESE TESTS ***
-    private static boolean _RunThisTestSuite = false;
+    private static boolean _RunThisTestSuite = true;
     // **************************************************
 
     private String[] _args;
@@ -127,6 +127,7 @@ public class testAStarOnExampleGraphs {
 
     private int getAStarSolutionFor(String[] args) throws IOException {
         CLI cli = new CLI(args);
+        cli.readCLI();
         FileReadWriter frw = new FileReadWriter(cli);
         DAGGraph graph = frw.readDotFile();
         AStar aStar = new AStar(graph, new AlgorithmState());
