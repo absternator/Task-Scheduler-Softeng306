@@ -1,5 +1,7 @@
 package team17.Algorithm;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import java.util.*;
 
 /**
@@ -54,12 +56,14 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
      * @return The underestimate cost to finish the schedule
      */
     public int getCostUnderestimate() {
-        int costUnderestimate = 0;
+        int bottomLoad = 0;
+        int bottomLevel = 0;
         int loadBalance = ((AlgorithmConfig.getTotalNodeWeight() + getIdleTime()) / AlgorithmConfig.getNumOfProcessors());
         for (ScheduledTask scheduledTask : this) {
-            costUnderestimate = Math.max(costUnderestimate, scheduledTask.getStartTime() + scheduledTask.getNode().getBottomLevel());
+            bottomLevel = Math.max(bottomLevel, scheduledTask.getStartTime() + scheduledTask.getNode().getBottomLevel());
+            bottomLoad = Math.max(bottomLoad, scheduledTask.getNode().getBottomLoad()/AlgorithmConfig.getNumOfProcessors() + scheduledTask.getFinishTime());
         }
-        return Math.max(costUnderestimate, loadBalance);
+        return Math.max(bottomLevel, Math.max(loadBalance, bottomLoad));
     }
 
     public int getIdleTime() {
@@ -196,6 +200,10 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
 
     @Override
     public int hashCode() {
-        return Objects.hash(_scheduledTask, _parent);
+        Set<ScheduledTask> tasks = new HashSet<>();
+        for (ScheduledTask scheduledTask : this) {
+            tasks.add(scheduledTask);
+        }
+        return new HashCodeBuilder().append(tasks).toHashCode();
     }
 }

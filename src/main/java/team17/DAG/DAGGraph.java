@@ -64,13 +64,23 @@ public class DAGGraph {
         toNode.setDependencies(fromNode);
     }
 
+    /**
+     * Set up necessary heuristic values and finish node
+     */
+    public void initialise() {
+        addFinishNode();
+        setBottomLevel();
+        setEquivalentNodes();
+        calculateTotalNodeWeight();
+        setBottomLoad();
+    }
+
     public void addFinishNode() {
         DAGNode finish = new DAGNode("end", 0);
         _nodeList.add(finish);
         _nodeLookup.put("end", finish);
         for (DAGNode node : _nodeList) {
             if (node.getDependants().size() == 0 && !node.equals(finish)) {
-
                 node.setDependants(finish);
                 finish.setIncomingEdges(node, 0);
                 finish.setDependencies(node);
@@ -142,6 +152,15 @@ public class DAGGraph {
     }
 
     /**
+     * Calculates the weight of the node's child - the bottom load for the heuristic
+     */
+    public void setBottomLoad() {
+        for(DAGNode node: _nodeList) {
+            node.setBottomLoad();
+        }
+    }
+
+    /**
      * This calculates the total weight of all the nodes in the graph and sets it in AlgorithmConfig
      */
     public void calculateTotalNodeWeight() {
@@ -151,4 +170,5 @@ public class DAGGraph {
         }
         AlgorithmConfig.setTotalNodeWeight(totalWeight);
     }
+
 }

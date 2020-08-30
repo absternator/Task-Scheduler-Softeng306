@@ -39,7 +39,7 @@ public class Main extends Application {
 
         //Run in IDE
 //        args = new String[]{"src/main/resources/INPUT0.dot", "2", "-v"};
-        args = new String[]{"src/main/resources/Nodes_10_Random.dot", "2"};
+       args = new String[]{"src/main/resources/Nodes_11_OutTree.dot", "4"};
 
         _config = new CLI();
         try {
@@ -125,7 +125,7 @@ public class Main extends Application {
             Thread thread = new Thread(Main::startAlgorithm);
             thread.start();
 
-            Scene scene = new Scene(root, 1010, 750);
+            Scene scene = new Scene(root, 1015, 760);
             scene.getStylesheets().add(getClass().getResource("view.css").toExternalForm());
             primaryStage.setScene(scene);
 

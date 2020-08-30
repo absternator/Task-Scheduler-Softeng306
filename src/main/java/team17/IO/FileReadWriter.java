@@ -40,11 +40,10 @@ public class FileReadWriter {
                 parse(graph,line);
             }
         }
-        graph.addFinishNode();
-        graph.setBottomLevel();
-        graph.setEquivalentNodes();
-        graph.calculateTotalNodeWeight();
-        AlgorithmConfig.setNumOfProcessors(_cli.getProcessors());// Test : number of processors to run on
+
+        graph.initialise();
+
+        AlgorithmConfig.setNumOfProcessors(_cli.getProcessors());
 
         return graph;
     }
