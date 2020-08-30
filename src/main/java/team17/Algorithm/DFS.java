@@ -9,7 +9,7 @@ public class DFS extends Algorithm {
     int _upperBound;
     Stack<PartialSolution> _open = new Stack<>();
     Set<PartialSolution> _closed = new HashSet<>();
-    int foundfull;
+
 
     public DFS(DAGGraph graph, AlgorithmState algorithmState) {
         super(algorithmState);
@@ -113,7 +113,7 @@ public class DFS extends Algorithm {
     public synchronized PartialSolution getNextPartialSolution() {
         if (!_open.isEmpty()) {
             PartialSolution partialSolution = _open.pop();
-            System.out.println(_closed.size());
+
             if (_algorithmState != null) {
                 _algorithmState.updateNumExpandedPartialSolutions(1);
             }
