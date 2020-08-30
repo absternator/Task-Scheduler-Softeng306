@@ -14,6 +14,7 @@ public class CLI {
     String _output;
 
     public CLI(String[] args) {
+        String cmdLineSyntax = "java -jar scheduler .jar INPUT.dot P [OPTION]";
 
         Options options = new Options();
 
@@ -40,12 +41,12 @@ public class CLI {
             if(args[0].endsWith(".dot")) {
                 _input = args[0];
             } else {
-                formatter.printHelp("scheduler", header, options, footer);
+                formatter.printHelp(cmdLineSyntax, header, options, footer);
                 System.exit(1);
             }
             _nProcessors = Integer.parseInt(args[1]);
         } else {
-            formatter.printHelp("scheduler", header, options, footer);
+            formatter.printHelp(cmdLineSyntax, header, options, footer);
             System.exit(1);
         }
 
@@ -57,11 +58,15 @@ public class CLI {
             // getOptionValue returns 0 if no argument
             if(cmd.getOptionValue("p")!=null) {
                 _nCores = Integer.parseInt(cmd.getOptionValue("p"));
+                if(_nCores==0) {
+                    formatter.printHelp(cmdLineSyntax, header, options, footer);
+                    System.exit(1);
+                }
             }
             _output = cmd.getOptionValue("o");
         } catch (ParseException e) {
             e.printStackTrace();
-            formatter.printHelp("scheduler", header, options, footer);
+            formatter.printHelp(cmdLineSyntax, header, options, footer);
             System.exit(1);
         }
     }
