@@ -1,5 +1,7 @@
 package team17.Algorithm;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import java.util.*;
 
 /**
@@ -55,13 +57,13 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
      */
     public int getCostUnderestimate() {
         int bottomLoad = 0;
-        int costUnderestimate = 0;
+        int bottomLevel = 0;
         int loadBalance = ((AlgorithmConfig.getTotalNodeWeight() + getIdleTime()) / AlgorithmConfig.getNumOfProcessors());
         for (ScheduledTask scheduledTask : this) {
-            costUnderestimate = Math.max(costUnderestimate, scheduledTask.getStartTime() + scheduledTask.getNode().getBottomLevel());
+            bottomLevel = Math.max(bottomLevel, scheduledTask.getStartTime() + scheduledTask.getNode().getBottomLevel());
             bottomLoad = Math.max(bottomLoad, scheduledTask.getNode().getBottomLoad()/AlgorithmConfig.getNumOfProcessors() + scheduledTask.getFinishTime());
         }
-        return Math.max(costUnderestimate, Math.max(loadBalance, bottomLoad));
+        return Math.max(bottomLevel, Math.max(loadBalance, bottomLoad));
     }
 
     public int getIdleTime() {
@@ -171,12 +173,11 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
     // go through each one and check
     @Override
     public boolean equals(Object other) {
-        Set<ScheduledTask> thisSolution = new HashSet<>();
+
         // TODO: 26/08/20  get proc end times(hard coded to 4 atm) ALgoConfig.getProcNum
         int[] thisProcessorEndTimes = new int[AlgorithmConfig.getNumOfProcessors()];
         int[] otherProcessorEndTimes = new int[AlgorithmConfig.getNumOfProcessors()];
         for (ScheduledTask task : this) {
-            thisSolution.add(task);
             if(task.getFinishTime() > thisProcessorEndTimes[task.getProcessorNum()-1]){
                 thisProcessorEndTimes[task.getProcessorNum() - 1] = task.getFinishTime();
             }
@@ -186,9 +187,7 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
                 otherProcessorEndTimes[task.getProcessorNum() - 1] = task.getFinishTime();
             }
             //while building other solution if adding task is in THIS solution,return false else keep adding.
-            if (!thisSolution.contains(task)){
-                return false;
-            }
+
         }
         Arrays.sort(thisProcessorEndTimes);
         Arrays.sort(otherProcessorEndTimes);
@@ -198,6 +197,10 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
 
     @Override
     public int hashCode() {
-        return Objects.hash(_scheduledTask, _parent);
+        Set<ScheduledTask> tasks = new HashSet<>();
+        for (ScheduledTask scheduledTask : this) {
+            tasks.add(scheduledTask);
+        }
+        return new HashCodeBuilder().append(tasks).toHashCode();
     }
 }

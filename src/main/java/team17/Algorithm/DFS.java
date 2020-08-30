@@ -8,6 +8,7 @@ import java.util.*;
 public class DFS extends Algorithm {
     int _upperBound;
     Stack<PartialSolution> _open = new Stack<>();
+    Set<PartialSolution> _closed = new HashSet<>();
 
     public DFS(DAGGraph graph, AlgorithmState algorithmState) {
         super(algorithmState);
@@ -139,8 +140,11 @@ public class DFS extends Algorithm {
     public synchronized void openAddChildren(Set<PartialSolution> children) {
         for (PartialSolution child : children) {
             int cost = child.getCostUnderestimate();
-            if (cost < _upperBound) {
+            if (cost < _upperBound && !_closed.contains(child)) {
                 _open.push(child);
+                if(_closed.size() < 5000000){
+                    _closed.add(child);
+                }
                 if (_algorithmState != null) {
                     _algorithmState.updateNumUnexpandedPartialSolutions(1);
                 }
