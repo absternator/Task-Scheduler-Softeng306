@@ -48,7 +48,7 @@ public class CLI {
      *
      * @throws IncorrectCLIInputException When inappropriate inputs are detected
      */
-    public void readCLI() throws IncorrectCLIInputException {
+    public void readCLI(String[] args) throws IncorrectCLIInputException {
         // Check first two args, then optional arguments
         if(args.length>=2) {
             // Check INPUT.dot ends in dot file extension

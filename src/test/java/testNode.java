@@ -4,6 +4,7 @@ import team17.DAG.DAGGraph;
 import team17.DAG.InvalidGraphException;
 import team17.IO.CLI;
 import team17.IO.FileReadWriter;
+import team17.IO.IncorrectCLIInputException;
 import team17.IO.InvalidEntryException;
 
 import java.io.IOException;
@@ -15,7 +16,7 @@ public class testNode {
     private static FileReadWriter _frw;
 
     @BeforeClass
-    public static void setUp() throws IOException, InvalidGraphException, InvalidEntryException {
+    public static void setUp() throws IOException, InvalidGraphException, InvalidEntryException, IncorrectCLIInputException {
         String[] args = new String[]{"src/main/resources/testNode.dot", "2"};
 
         CLI cli = new CLI();
