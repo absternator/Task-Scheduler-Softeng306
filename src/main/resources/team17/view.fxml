@@ -10,9 +10,19 @@
 
 <AnchorPane prefHeight="750.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane id="GanttChartPane" fx:id="ganttChartPane" layoutY="339.0" prefHeight="400.0" prefWidth="469.0">
+      <AnchorPane id="GanttChartPane" fx:id="ganttChartPane" layoutX="5" layoutY="360.0" prefHeight="380.0" prefWidth="635.0">
          <children>
-            <AnchorPane fx:id="ganttChartContainer" layoutY="36.0" prefHeight="340.0" prefWidth="460.0" />
+            <AnchorPane fx:id="ganttChartContainer" prefHeight="320.0" prefWidth="600.0" />
+            <TextFlow layoutX="160.0" layoutY="340.0" prefHeight="30.0" prefWidth="300.0" textAlignment="CENTER">
+               <children>
+                  <Label text="Current Schedule Length:">
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding>
+                  </Label>
+                  <Text fx:id="bestCostText" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+               </children>
+            </TextFlow>
          </children>
       </AnchorPane>
       <AnchorPane id="statisticsPane" layoutX="655.0" layoutY="6.0" prefHeight="745.0" prefWidth="344.0">
@@ -62,7 +72,7 @@
                      </font>
                   </Text>
                </children></Pane>
-            <Pane id="statusPane" layoutX="94.0" layoutY="376.0" prefHeight="73.0" prefWidth="172.0">
+            <Pane id="statusPane" layoutX="94.0" layoutY="305.0" prefHeight="73.0" prefWidth="172.0">
                <children>
                   <Text fx:id="statusText" layoutX="14.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Running" textAlignment="CENTER" wrappingWidth="144.9931640625">
                      <font>
@@ -71,72 +81,57 @@
                   </Text>
                </children>
             </Pane>
-            <Pane fx:id="memoryPane" layoutX="52.0" layoutY="470.0" prefHeight="269.0" prefWidth="287.0" />
+            <AnchorPane layoutX="63.0" layoutY="412.0" prefHeight="310.0" prefWidth="175.0">
+               <children>
+                  <TextFlow layoutY="40.0" prefHeight="27.0" prefWidth="200.0" textAlignment="CENTER">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="# Complete" />
+                     </children>
+                  </TextFlow>
+                  <TextFlow layoutY="60.0" prefHeight="31.0" prefWidth="200.0" textAlignment="CENTER">
+                     <children>
+                        <Text fx:id="completeText" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                     </children>
+                  </TextFlow>
+                  <TextFlow layoutY="70.0" prefHeight="31.0" prefWidth="200.0" textAlignment="CENTER">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="# Expanded" />
+                     </children>
+                  </TextFlow>
+                  <TextFlow layoutY="90.0" prefHeight="31.0" prefWidth="200.0" textAlignment="CENTER">
+                     <children>
+                        <Text fx:id="expandedText" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                     </children>
+                  </TextFlow>
+                  <TextFlow layoutY="110.0" prefHeight="200.0" prefWidth="200.0" textAlignment="CENTER">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="# Unexpanded" />
+                     </children>
+                  </TextFlow>
+                  <TextFlow layoutY="130.0" prefHeight="27.0" prefWidth="200.0" textAlignment="CENTER">
+                     <children>
+                        <Text fx:id="unexpandedText" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                     </children>
+                  </TextFlow>
+                  <TextFlow layoutY="150.0" prefHeight="27.0" prefWidth="200.0" textAlignment="CENTER">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="# Pruned" />
+                     </children>
+                  </TextFlow>
+                  <TextFlow layoutY="180.0" prefHeight="31.0" prefWidth="200.0" textAlignment="CENTER">
+                     <children>
+                        <Text fx:id="prunedText" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                     </children>
+                  </TextFlow>
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
-      <AnchorPane id="graphPane" layoutX="5.0" layoutY="10.0" prefHeight="296.0" prefWidth="629.0">
+      <AnchorPane id="graphPane" layoutX="5.0" layoutY="10.0" prefHeight="300.0" prefWidth="365.0">
          <children>
-            <SwingNode id="GraphPane" fx:id="graphPane" layoutX="34.0" layoutY="29.0" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node Tree" x="200.0" y="40.0">
-               <font>
-                  <Font size="38.0" />
-               </font>
-            </Text>
+            <SwingNode id="GraphPane" fx:id="graphPane" layoutX="20.0" layoutY="10.0" />
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="440.0" layoutY="405.0" prefHeight="310.0" prefWidth="175.0">
-         <children>
-            <TextFlow layoutY="40.0" prefHeight="27.0" prefWidth="200.0" textAlignment="CENTER">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="# Complete" />
-               </children>
-            </TextFlow>
-            <TextFlow prefHeight="50.0" prefWidth="156.0" textAlignment="CENTER">
-               <children>
-                  <Label text="Current Schedule Length:">
-                     <padding>
-                        <Insets right="10.0" />
-                     </padding>
-                  </Label>
-                  <Text fx:id="bestCostText" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-               </children>
-            </TextFlow>
-            <TextFlow layoutY="60.0" prefHeight="31.0" prefWidth="200.0" textAlignment="CENTER">
-               <children>
-                  <Text fx:id="completeText" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-               </children>
-            </TextFlow>
-            <TextFlow layoutY="70.0" prefHeight="31.0" prefWidth="200.0" textAlignment="CENTER">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="# Expanded" />
-               </children>
-            </TextFlow>
-            <TextFlow layoutY="90.0" prefHeight="31.0" prefWidth="200.0" textAlignment="CENTER">
-               <children>
-                  <Text fx:id="expandedText" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-               </children>
-            </TextFlow>
-            <TextFlow layoutY="110.0" prefHeight="200.0" prefWidth="200.0" textAlignment="CENTER">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="# Unexpanded" />
-               </children>
-            </TextFlow>
-            <TextFlow layoutY="130.0" prefHeight="27.0" prefWidth="200.0" textAlignment="CENTER">
-               <children>
-                  <Text fx:id="unexpandedText" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-               </children>
-            </TextFlow>
-            <TextFlow layoutY="150.0" prefHeight="27.0" prefWidth="200.0" textAlignment="CENTER">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="# Pruned" />
-               </children>
-            </TextFlow>
-            <TextFlow layoutY="180.0" prefHeight="31.0" prefWidth="200.0" textAlignment="CENTER">
-               <children>
-                  <Text fx:id="prunedText" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-               </children>
-            </TextFlow>
-         </children>
-      </AnchorPane>
+      <Pane fx:id="memoryPane" layoutX="376.0" prefHeight="258.0" prefWidth="261.0" />
    </children>
 </AnchorPane>
