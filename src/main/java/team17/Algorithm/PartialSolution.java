@@ -173,11 +173,12 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
     // go through each one and check
     @Override
     public boolean equals(Object other) {
-
+        Set<ScheduledTask> thisSolution = new HashSet<>();
         // TODO: 26/08/20  get proc end times(hard coded to 4 atm) ALgoConfig.getProcNum
         int[] thisProcessorEndTimes = new int[AlgorithmConfig.getNumOfProcessors()];
         int[] otherProcessorEndTimes = new int[AlgorithmConfig.getNumOfProcessors()];
         for (ScheduledTask task : this) {
+            thisSolution.add(task);
             if(task.getFinishTime() > thisProcessorEndTimes[task.getProcessorNum()-1]){
                 thisProcessorEndTimes[task.getProcessorNum() - 1] = task.getFinishTime();
             }
@@ -187,7 +188,9 @@ public class PartialSolution implements Iterable<ScheduledTask>, Comparable<Part
                 otherProcessorEndTimes[task.getProcessorNum() - 1] = task.getFinishTime();
             }
             //while building other solution if adding task is in THIS solution,return false else keep adding.
-
+            if (!thisSolution.contains(task)){
+                return false;
+            }
         }
         Arrays.sort(thisProcessorEndTimes);
         Arrays.sort(otherProcessorEndTimes);
