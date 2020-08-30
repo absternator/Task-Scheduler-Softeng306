@@ -5,12 +5,16 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.paint.Color;
+
 import team17.Algorithm.ScheduledTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Class to set up and update GanttChart
+ */
 public class GanttChartHelper {
 
     private int _numProcessors;
@@ -29,7 +33,6 @@ public class GanttChartHelper {
         for (int i = 0; i < _numProcessors; i++) {
             processors[i] = "Processor " + String.valueOf(i + 1);
         }
-
 
         NumberAxis xAxis = (NumberAxis) _chart.getXAxis();
         xAxis.setLabel("");
@@ -56,10 +59,10 @@ public class GanttChartHelper {
      * @param solution
      */
     public void updateGanttChart(List<ScheduledTask> solution) {
-        //clear the original data
+        // Clear the original data
         _chart.getData().clear();
 
-        // loop through the schedule and group tasks by processor number
+        // Loop through the schedule and group tasks by processor number
         HashMap<Integer, List<ScheduledTask>> processorTasks = new HashMap<>();
         for (ScheduledTask st : solution) {
             if (processorTasks.containsKey(st.getProcessorNum())) {

@@ -21,15 +21,15 @@ import team17.IO.IncorrectCLIInputException;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Main class of this program
+ */
 public class Main extends Application {
 
     private static CLI _config;
     private static AlgorithmState _algorithmState;
     private static DAGGraph _graph;
     private static FileReadWriter _frw;
-//    private static volatile boolean _guiActive = false;
-//    private static volatile boolean _algoActive = false;
-
 
     public static void main(String[] args) {
         //Run from command line
@@ -64,6 +64,9 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * This method starts the main algorithm of the program
+     */
     private static void startAlgorithm() {
 
         List<ScheduledTask> schedule;
@@ -72,7 +75,7 @@ public class Main extends Application {
         if (true) {
             algorithm = new DFS(_graph, _algorithmState); //TODO remove graph parameter
         } else {
-            // for small graphs, use the A* algorithm
+            // For small graphs, use the A* algorithm
             algorithm = new AStar(_graph, _algorithmState); //TODO remove graph parameter
         }
 
@@ -121,7 +124,6 @@ public class Main extends Application {
             scene.getStylesheets().add(getClass().getResource("view.css").toExternalForm());
             primaryStage.setScene(scene);
 
-            //primaryStage.setOnCloseRequest();
             primaryStage.show();
 
         } catch (Exception e) {

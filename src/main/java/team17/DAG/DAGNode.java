@@ -4,6 +4,9 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import java.util.*;
 
+/**
+ * This is a representation of the nodes in the graph
+ */
 public class DAGNode {
     private final String _id;
     private final int _weight;
@@ -122,8 +125,14 @@ public class DAGNode {
         return _id.equals(((DAGNode) other)._id);
     }
 
+    /**
+     * Checks whether two nodes are equivalent
+     *
+     * @param other The other node to compare against
+     * @return True if the two nodes are equivalent, else false
+     */
     public boolean isEquivalent(DAGNode other) {
-        // if eqId has been set in both nodes, check if they are the same
+        // If eqId has been set in both nodes, check if they are the same
         if (_eqId != 0 && other._eqId != 0) {
             return _eqId == other._eqId;
         }
@@ -133,9 +142,9 @@ public class DAGNode {
             return false;
         }
 
-        // check if the weights of the outgoing edges are the same
+        // Check if the weights of the outgoing edges are the same
         for (DAGNode dependant : _dependants) {
-            // for each dependent check that the weight of the incoming edge is the same for this node and other node
+            // For each dependent check that the weight of the incoming edge is the same for this node and other node
             if (!dependant._incomingEdges.get(this).equals(dependant._incomingEdges.get(other))) {
                 return false;
             }

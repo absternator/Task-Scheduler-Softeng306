@@ -23,6 +23,9 @@ import team17.GUI.GanttChart.GanttChart;
 import team17.GUI.GanttChart.GanttChartHelper;
 import team17.IO.CLI;
 
+/**
+ * Class that sets up the GUI elements
+ */
 public class MainController {
 
     @FXML
@@ -30,18 +33,25 @@ public class MainController {
 
     @FXML
     private Pane memoryPane;
+
     @FXML
     private TextFlow inputText;
+
     @FXML
     private TextFlow outputText;
+
     @FXML
     private TextFlow processorsNumberText;
+
     @FXML
     private Text statusText;
+
     @FXML
     private SwingNode graphPane;
+
     @FXML
     private Text runningTime;
+
     @FXML
     private Pane statusPane;
 
@@ -86,23 +96,23 @@ public class MainController {
     public void init() {
         setUpGanttChart();
 
-        //read and set the input and output file names
+        // Read and set the input and output file names
         setUpInputFileName();
         setUpOutputFileName();
 
-        //embed input graph to GraphPane
+        // Embed input graph to GraphPane
         setUpGraphPane();
 
-        //read and set the number of processor
+        // Read and set the number of processor
         setUpNumberOfProcessors();
 
-        //Get the max memory that can be used for this computer
+        // Get the max memory that can be used for this computer
         _maxMemory = Runtime.getRuntime().maxMemory() / 1048576; // in bytes
 
-        //set up the memory usage tile pane
+        // Set up the memory usage tile pane
         setUpMemoryPane();
 
-        //start polling
+        // Start polling
         _timing=true;
         _startTime = System.currentTimeMillis();
         startTiming();
@@ -119,13 +129,13 @@ public class MainController {
             _usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
             _usedMemory = _usedMemory / 1000000;
             _memoryUsageTile.setValue(_usedMemory);
-            //update the timer in the GUI
+            // Update the timer in the GUI
             int min = (int) (_duration /60);
             double sec = _duration -min*60;
             sec = Math.round(sec * 100.0) / 100.0;
             String str = min + "m" + sec + "s";
             runningTime.setText(str);
-            //update gantt chart
+            // Update gantt chart
             if (_algorithmState.getCompleteSolution() != null) {
                 _gch.updateGanttChart(_algorithmState.getCompleteSolution().fullSchedule());
                 bestCostText.setText(String.valueOf(_algorithmState.getCompleteSolution().getScheduledTask().getFinishTime()));
@@ -135,7 +145,7 @@ public class MainController {
 
             if (_algorithmState.isFinished()) {
                 _algorithmState.setFinished(false);
-                //change the status from "running" to "done"
+                // Change the status from "running" to "done"
                 updateStatus();
             }
         });
@@ -147,14 +157,14 @@ public class MainController {
     private void startTiming() {
         Timeline tm = new Timeline();
         KeyFrame frame = new KeyFrame(Duration.millis(1), event -> {
-            //check whether the sorting is finished
+            // Check whether the sorting is finished
             if (_timing) {
-                // the sort is still running so keep updating the timer
+                // The sort is still running so keep updating the timer
                 double currentTime =  System.currentTimeMillis();
-                _duration = (currentTime - _startTime)/1000; // in second
+                _duration = (currentTime - _startTime)/1000; // In seconds
             }
             if (_algorithmState.isFinished()) {
-                //stop timing
+                // Stop timing
                 _timing=false;
             }
         });
@@ -178,7 +188,7 @@ public class MainController {
      */
     public void setUpInputFileName() {
         String inputFile = _config.getInput();
-        // remove the path "src/main..."
+        // Remove the path "src/main..."
         if(inputFile.contains("/")){
             inputFile = inputFile.substring(inputFile.lastIndexOf('/') + 1);
         }
@@ -188,19 +198,24 @@ public class MainController {
         inputText.getChildren().add(iText);
     }
 
+    /**
+     * Method to get the output file name and update the corresponding GUI element
+     */
     public void setUpOutputFileName() {
         String outputFile = _config.getOutput();
-        // remove the path "src/main..."
+        // Remove the path "src/main..."
         if(outputFile.contains("/")){
             outputFile = outputFile.substring(outputFile.lastIndexOf('/') + 1);
         }
-
         outputFile = "  " + outputFile;
         Text oText = new Text(outputFile);
         oText.setStyle("-fx-font: 20 System;");
         outputText.getChildren().add(oText);
     }
 
+    /**
+     * Method to get the number of processors and update the corresponding GUI element
+     */
     public void setUpNumberOfProcessors() {
         int processorsNumber = _config.getProcessors();
         String processorNumberString = String.valueOf(processorsNumber);
@@ -214,6 +229,9 @@ public class MainController {
         statusText.setText("Done");
     }
 
+    /**
+     * Reads the memory and updates the corresponding GUI element
+     */
     private void setUpMemoryPane() {
         _memoryUsageTile = TileBuilder.create()
                 .skinType(Tile.SkinType.GAUGE)
@@ -231,18 +249,24 @@ public class MainController {
         memoryPane.getChildren().addAll(_memoryUsageTile);
     }
 
+    /**
+     * Generate graph visualisation and sets up the graph pane GUI element
+     */
     private void setUpGraphPane() {
         GraphVisualisation gv = new GraphVisualisation(_graph);
         gv.createSwingGraph(graphPane);
     }
 
+    /**
+     * Generate grantt chart and sets up the corresponding GUI element
+     */
     private void setUpGanttChart() {
         final NumberAxis xAxis = new NumberAxis();
         final CategoryAxis yAxis = new CategoryAxis();
 
         final GanttChart<Number, String> chart = new GanttChart<>(xAxis, yAxis);
         _gch = new GanttChartHelper(chart, _config.getProcessors());
-        //Set up axis, title and other details of the chart
+        // Set up axis, title and other details of the chart
         _gch.initialise();
 
         chart.getStylesheets().add(getClass().getResource("ganttchart.css").toExternalForm());
