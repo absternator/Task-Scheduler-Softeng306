@@ -10,7 +10,7 @@ public class CLI {
     String _input = "";
     int _nProcessors;
     boolean _visualise;
-    int _nCores;
+    int _nCores = 1;
     String _output;
     String[] _args;
     Options _options;

@@ -5,9 +5,7 @@ import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.TileBuilder;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-
 import javafx.embed.swing.SwingNode;
-
 import javafx.fxml.FXML;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -17,10 +15,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
-
 import team17.Algorithm.AlgorithmState;
 import team17.DAG.DAGGraph;
-import team17.GUI.GraphVisualisation.GraphVisualisation;
 import team17.GUI.GanttChart.GanttChart;
 import team17.GUI.GanttChart.GanttChartHelper;
 import team17.IO.CLI;
@@ -37,15 +33,15 @@ public class MainController {
     @FXML
     private TextFlow outputText;
     @FXML
-    private TextFlow processorsNumberText;
+    private Text processorsNumberText;
     @FXML
     private Text statusText;
     @FXML
     private SwingNode graphPane;
     @FXML
     private Text runningTime;
-    
-
+    @FXML
+    private Text coresText;
     @FXML
     private Text completeText;
 
@@ -98,8 +94,9 @@ public class MainController {
         //embed input graph to GraphPane
         setUpGraphPane();
 
-        //read and set the number of processor
+        //read and set the number of processor and cores
         setUpNumberOfProcessors();
+        setUpNumberOfCores();
 
         //Get the max memory that can be used for this computer
         _maxMemory = Runtime.getRuntime().maxMemory() / 1048576; // in bytes
@@ -202,7 +199,6 @@ public class MainController {
         if(outputFile.contains("/")){
             outputFile = outputFile.substring(outputFile.lastIndexOf('/') + 1);
         }
-
         outputFile = "  " + outputFile;
         Text oText = new Text(outputFile);
         oText.setStyle("-fx-font: 20 System;");
@@ -212,10 +208,11 @@ public class MainController {
     public void setUpNumberOfProcessors() {
         int processorsNumber = _config.getProcessors();
         String processorNumberString = String.valueOf(processorsNumber);
-        processorNumberString = "  " + processorNumberString;
-        Text pText = new Text(processorNumberString);
-        pText.setStyle("-fx-font: 20 System;");
-        processorsNumberText.getChildren().add(pText);
+        processorsNumberText.setText(processorNumberString);
+    }
+
+    public void setUpNumberOfCores() {
+        coresText.setText(String.valueOf(_config.getCores()));
     }
 
     public void updateStatus() {
