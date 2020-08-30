@@ -29,4 +29,4 @@ You need to get at least two peer review approvals
 - ### Issues
 We use the issues function on GitHub as a to-do list for everyone.
 
-(┛ಠ_ಠ)┛彡┻━┻
+
