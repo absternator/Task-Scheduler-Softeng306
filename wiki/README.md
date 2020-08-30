@@ -8,3 +8,4 @@ The wiki contains information about our algorithm, design decisions, workflow an
 * [IO](https://github.com/SoftEng306-2020/project-1-17-peaches/blob/master/wiki/IO.md)
 * [Parallelisation](https://github.com/SoftEng306-2020/project-1-17-peaches/blob/master/wiki/Parallelisation.md)
 * [Visualisation](https://github.com/SoftEng306-2020/project-1-17-peaches/blob/master/wiki/Visualisation.md)
+* [Workflow](https://github.com/SoftEng306-2020/project-1-17-peaches/blob/master/wiki/Workflow.md)
