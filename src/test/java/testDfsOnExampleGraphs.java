@@ -4,8 +4,10 @@ import org.junit.Test;
 import team17.Algorithm.AlgorithmState;
 import team17.Algorithm.DFS;
 import team17.Algorithm.PartialSolution;
+
 import team17.DAG.DAGGraph;
 import team17.DAG.InvalidGraphException;
+
 import team17.IO.CLI;
 import team17.IO.FileReadWriter;
 import team17.IO.IncorrectCLIInputException;
@@ -19,6 +21,7 @@ public class testDfsOnExampleGraphs {
 
     // *** SET TO TRUE IF YOU WANT TO RUN THESE TESTS ***
     private static boolean _RunThisTestSuite = false;
+
     // **************************************************
 
     private String[] _args;

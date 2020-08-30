@@ -2,8 +2,10 @@ import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import team17.Algorithm.AStar;
+
 import team17.Algorithm.AlgorithmState;
 import team17.DAG.DAGGraph;
+
 import team17.DAG.InvalidGraphException;
 import team17.IO.CLI;
 import team17.IO.FileReadWriter;
@@ -18,6 +20,7 @@ public class testAStarOnExampleGraphs {
 
     // *** SET TO TRUE IF YOU WANT TO RUN THESE TESTS ***
     private static boolean _RunThisTestSuite = false;
+
     // **************************************************
 
     private String[] _args;
