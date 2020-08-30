@@ -1,5 +1,7 @@
 package team17.DAG;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import java.util.*;
 
 public class DAGNode {
@@ -143,7 +145,7 @@ public class DAGNode {
 
     @Override
     public int hashCode() {
-        return _id.hashCode();
+        return new HashCodeBuilder().append(_id).toHashCode();
     }
 
     @Override
