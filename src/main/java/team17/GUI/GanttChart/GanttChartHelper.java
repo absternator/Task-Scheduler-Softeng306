@@ -43,12 +43,12 @@ public class GanttChartHelper {
         yAxis.setTickLabelGap(10);
         yAxis.setCategories(FXCollections.<String>observableArrayList(processors));
 
-        _chart.setTitle("Current Best Schedule"); //Remove if not necessary
+
         _chart.setLegendVisible(false);
         _chart.setBlockHeight(20);
         _chart.setVerticalGridLinesVisible(false);
-        _chart.setPrefHeight(340);
-        _chart.setPrefWidth(490);
+        _chart.setPrefHeight(330);
+        _chart.setPrefWidth(605);
     }
 
     /**

@@ -1,3 +1,4 @@
+
 package team17.GUI;
 
 import eu.hansolo.tilesfx.Tile;
@@ -12,6 +13,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
@@ -42,8 +44,7 @@ public class MainController {
     private SwingNode graphPane;
     @FXML
     private Text runningTime;
-    @FXML
-    private Pane statusPane;
+    
 
     @FXML
     private Text completeText;
@@ -59,6 +60,9 @@ public class MainController {
 
     @FXML
     private Text bestCostText;
+
+    @FXML
+    private AnchorPane StatusPane;
 
     private Tile _memoryUsageTile;
     private double _maxMemory;
@@ -84,6 +88,7 @@ public class MainController {
      * This method initialise the settings for GUI
      */
     public void init() {
+        setUpStatusPane();
         setUpGanttChart();
 
         //read and set the input and output file names
@@ -109,7 +114,9 @@ public class MainController {
         updateGUI();
     }
 
-
+    private void setUpStatusPane(){
+        StatusPane.setStyle("-fx-background-color: rgb(229, 195, 36);");
+    }
     /**
      * Method to read the memory usage from the system periodically and update the corresponding GUI element
      */
@@ -135,8 +142,9 @@ public class MainController {
 
             if (_algorithmState.isFinished()) {
                 _algorithmState.setFinished(false);
-                //change the status from "running" to "done"
+                //change the status text and color
                 updateStatus();
+
             }
         });
         tm.setCycleCount(Timeline.INDEFINITE);
@@ -212,6 +220,8 @@ public class MainController {
 
     public void updateStatus() {
         statusText.setText("Done");
+        //change the status bacground color
+        StatusPane.setStyle("-fx-background-color: rgb(205,229,223);");
     }
 
     private void setUpMemoryPane() {
@@ -223,9 +233,10 @@ public class MainController {
                 .unit("MB")
                 .startFromZero(true)
                 .animated(true)
-                //.backgroundColor(Color.WHITE)
-                .prefWidth(memoryPane.getWidth())
-                .prefHeight(memoryPane.getHeight())
+                .foregroundBaseColor(Color.BLACK)
+                .backgroundColor(Color.TRANSPARENT)
+                .prefWidth(250)
+                .prefHeight(300)
                 .build();
         _memoryUsageTile.setValue(0);
         memoryPane.getChildren().addAll(_memoryUsageTile);
