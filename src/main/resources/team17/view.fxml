@@ -33,14 +33,14 @@
       </AnchorPane>
       <AnchorPane id="statisticsPane" layoutX="655.0" layoutY="6.0" prefHeight="745.0" prefWidth="344.0">
          <children>
-            <Text fill="#0d0d0d" fontSmoothingType="LCD" layoutX="80.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Statistics" textAlignment="CENTER">
+            <Text fill="#0d0d0d" fontSmoothingType="LCD" layoutX="98.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Statistics" textAlignment="CENTER">
                <font>
                   <Font size="38.0" />
                </font>
             </Text>
-            <Pane layoutY="90.0" prefHeight="185.0" prefWidth="334.0">
+            <Pane layoutY="90.0" prefHeight="214.0" prefWidth="334.0">
                <children>
-                  <TextFlow fx:id="inputText" layoutX="9.0" prefHeight="50.0" prefWidth="334.0">
+                  <TextFlow fx:id="inputText" layoutX="9.0" layoutY="1.0" prefHeight="50.0" prefWidth="334.0">
                      <children>
                         <Text layoutX="5.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Input:" wrappingWidth="63.00390625">
                            <font>
@@ -49,7 +49,7 @@
                         </Text>
                      </children>
                   </TextFlow>
-                  <TextFlow fx:id="outputText" layoutX="8.0" layoutY="50.0" prefHeight="53.0" prefWidth="345.0">
+                  <TextFlow fx:id="outputText" layoutX="8.0" layoutY="56.0" prefHeight="53.0" prefWidth="345.0">
                      <children>
                         <Text layoutX="5.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Output:">
                            <font>
@@ -58,7 +58,7 @@
                         </Text>
                      </children>
                   </TextFlow>
-                  <TextFlow fx:id="processorsNumberText" layoutX="9.0" layoutY="101.0" prefHeight="50.0" prefWidth="345.0">
+                  <TextFlow fx:id="processorsNumberText" layoutX="9.0" layoutY="112.0" prefHeight="50.0" prefWidth="345.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Processors:">
                            <font>
@@ -67,18 +67,18 @@
                         </Text>
                      </children>
                   </TextFlow>
-                  <Text layoutX="8.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time Elapsed:" wrappingWidth="196.9848632812501">
+                  <Text layoutX="8.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time Elapsed:" wrappingWidth="196.9848632812501">
                      <font>
                         <Font size="26.0" />
                      </font>
                   </Text>
-                  <Text fx:id="runningTime" layoutX="162.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0m00s" textAlignment="CENTER" wrappingWidth="172.0">
+                  <Text fx:id="runningTime" layoutX="162.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0m00s" textAlignment="CENTER" wrappingWidth="172.0">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Text>
                </children></Pane>
-            <Pane id="statusPane" layoutX="94.0" layoutY="305.0" prefHeight="73.0" prefWidth="172.0">
+            <Pane id="statusPane" layoutX="91.0" layoutY="334.0" prefHeight="73.0" prefWidth="172.0">
                <children>
                   <Text fx:id="statusText" layoutX="14.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Running" textAlignment="CENTER" wrappingWidth="144.9931640625">
                      <font>
@@ -87,46 +87,70 @@
                   </Text>
                </children>
             </Pane>
-            <AnchorPane layoutX="63.0" layoutY="412.0" prefHeight="310.0" prefWidth="175.0">
+            <AnchorPane layoutX="0.0" layoutY="421.0" prefHeight="315.0" prefWidth="334.0">
                <children>
-                  <TextFlow layoutY="40.0" prefHeight="27.0" prefWidth="200.0" textAlignment="CENTER">
+                  <TextFlow layoutX="9.0" layoutY="40.0" prefHeight="41.0" prefWidth="203.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="# Complete" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="# Complete:" wrappingWidth="162.23394775390625">
+                           <font>
+                              <Font size="26.0" />
+                           </font></Text>
                      </children>
                   </TextFlow>
-                  <TextFlow layoutY="60.0" prefHeight="31.0" prefWidth="200.0" textAlignment="CENTER">
+                  <TextFlow layoutX="177.0" layoutY="43.0" prefHeight="31.0" prefWidth="158.0">
                      <children>
-                        <Text fx:id="completeText" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                        <Text fx:id="completeText" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="34.6961669921875">
+                           <font>
+                              <Font size="23.0" />
+                           </font></Text>
                      </children>
                   </TextFlow>
-                  <TextFlow layoutY="70.0" prefHeight="31.0" prefWidth="200.0" textAlignment="CENTER">
+                  <TextFlow layoutX="9.0" layoutY="104.0" prefHeight="34.0" prefWidth="172.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="# Expanded" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="# Expanded:">
+                           <font>
+                              <Font size="26.0" />
+                           </font></Text>
                      </children>
                   </TextFlow>
-                  <TextFlow layoutY="90.0" prefHeight="31.0" prefWidth="200.0" textAlignment="CENTER">
+                  <TextFlow layoutX="180.0" layoutY="107.0" prefHeight="29.0" prefWidth="172.0">
                      <children>
-                        <Text fx:id="expandedText" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                        <Text fx:id="expandedText" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                           <font>
+                              <Font size="23.0" />
+                           </font></Text>
                      </children>
                   </TextFlow>
-                  <TextFlow layoutY="110.0" prefHeight="200.0" prefWidth="200.0" textAlignment="CENTER">
+                  <TextFlow layoutX="9.0" layoutY="170.0" prefHeight="33.0" prefWidth="200.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="# Unexpanded" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="# Unexpanded:">
+                           <font>
+                              <Font size="26.0" />
+                           </font></Text>
                      </children>
                   </TextFlow>
-                  <TextFlow layoutY="130.0" prefHeight="27.0" prefWidth="200.0" textAlignment="CENTER">
+                  <TextFlow layoutX="210.0" layoutY="172.0" prefHeight="26.0" prefWidth="139.0">
                      <children>
-                        <Text fx:id="unexpandedText" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                        <Text fx:id="unexpandedText" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                           <font>
+                              <Font size="23.0" />
+                           </font></Text>
                      </children>
                   </TextFlow>
-                  <TextFlow layoutY="150.0" prefHeight="27.0" prefWidth="200.0" textAlignment="CENTER">
+                  <TextFlow layoutX="9.0" layoutY="234.0" prefHeight="27.0" prefWidth="200.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="# Pruned" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="# Pruned:">
+                           <font>
+                              <Font size="26.0" />
+                           </font></Text>
                      </children>
                   </TextFlow>
-                  <TextFlow layoutY="180.0" prefHeight="31.0" prefWidth="200.0" textAlignment="CENTER">
+                  <TextFlow layoutX="147.0" layoutY="237.0" prefHeight="31.0" prefWidth="206.0">
                      <children>
-                        <Text fx:id="prunedText" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                        <Text fx:id="prunedText" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                           <font>
+                              <Font size="23.0" />
+                           </font></Text>
                      </children>
                   </TextFlow>
                </children>
