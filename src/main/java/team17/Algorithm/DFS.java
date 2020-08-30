@@ -114,16 +114,20 @@ public class DFS extends Algorithm {
             if (_algorithmState != null) {
                 _algorithmState.updateNumExpandedPartialSolutions(1);
             }
-            int costSoFar = partialSolution.getScheduledTask().getFinishTime();
-            if (partialSolution.isCompleteSchedule() && costSoFar < _upperBound && !_bestCompletePartialSolution.equals(partialSolution)) {
-                _upperBound = costSoFar;
-                _bestCompletePartialSolution = partialSolution;
-                if (_algorithmState != null) {
-                    _algorithmState.setCompleteSolution(_bestCompletePartialSolution);
-                    _algorithmState.updateNumCompleteSolutions(1);
+
+            if (partialSolution.isCompleteSchedule()) { //TODO && !bestSchedule.equals(partialSolution)
+                int costSoFar = partialSolution.getScheduledTask().getStartTime();
+                if (costSoFar < _upperBound) {
+                    _upperBound = costSoFar;
+                    _bestCompletePartialSolution = partialSolution;
+                    if (_algorithmState != null) {
+                        _algorithmState.setCompleteSolution(_bestCompletePartialSolution);
+                    }
                 }
-            } else if (partialSolution.isCompleteSchedule() && _algorithmState != null) {
-                _algorithmState.updateNumCompleteSolutions(1);
+                if (_algorithmState != null) {
+                    _algorithmState.updateNumCompleteSolutions(1);
+
+                }
             }
             return partialSolution;
         } else {
