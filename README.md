@@ -1,4 +1,4 @@
-# Hi we are team 17-peaches
+# Team 17 Peaches Group Project 🍑
 
 ## Team
 | GitHub Username | Full Name | UPI |
