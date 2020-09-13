@@ -38,3 +38,5 @@ On command line: run `.\gradlew build`
 |  `-p` |&lt;number of cores> |  use N cores for execution in parallel (default is sequential) |
 |  `-v`| | visualise the search  |
 |  `-o` |&lt;OUTPUT> |  output file is named OUTPUT (default is INPUT-output.dot) |
+
+![](/Cover-img.png)
